@@ -270,7 +270,7 @@
     "A floating companion that works alongside any bar layout": "Un compagno fluttante che funziona insieme a qualsiasi stile della barra"
   },
   "A modern desktop shell for Wayland": {
-    "A modern desktop shell for Wayland": ""
+    "A modern desktop shell for Wayland": "Una shell desktop moderna per Wayland"
   },
   "A newer dms binary is installed.": {
     "A newer dms binary is installed.": "È installato un binario dms più recente."
@@ -2064,7 +2064,7 @@
     "DMS chooser": "Selettore DMS"
   },
   "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": {
-    "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": ""
+    "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": "DMS è una shell desktop moderna e altamente personalizzabile, bella già di default, senza rinunciare alla libertà di renderla davvero tua.<br/><br/>Realizzata con %1 e %2, riunisce pannelli, widget, controlli di sistema e altro in un’esperienza desktop coerente."
   },
   "DMS out of date": {
     "DMS out of date": "Versione di DMS obsoleta"
@@ -2865,7 +2865,7 @@
     "Expressive": "Espressivo"
   },
   "Extend %1 with powerful plugins for widgets, launchers, and more": {
-    "Extend %1 with powerful plugins for widgets, launchers, and more": ""
+    "Extend %1 with powerful plugins for widgets, launchers, and more": "Estendi %1 con potenti plugin per widget, launcher e altro"
   },
   "Extend battery life": {
     "Extend battery life": "Prolunga la durata della batteria"
@@ -3768,7 +3768,7 @@
     "Hide installed": "Nascondi installati"
   },
   "Hide on last display": {
-    "Hide on last display": ""
+    "Hide on last display": "Nascondi sull’ultimo schermo"
   },
   "Hide until typing": {
     "Hide until typing": "Nascondi finché non si digita"
@@ -6956,6 +6956,9 @@
   "Root Filesystem": {
     "Root Filesystem": "Filesystem root"
   },
+  "Rotating Cookie": {
+    "Rotating Cookie": ""
+  },
   "Rounded": {
     "Rounded": "Arrotondato"
   },
@@ -8331,7 +8334,7 @@
     "Third-party plugins": "Plugin di terze parti"
   },
   "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": {
-    "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": ""
+    "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": "I plugin di terze parti sono creati dalla community e non sono supportati ufficialmente da %1. \n\nQuesti plugin potrebbero comportare rischi per la sicurezza e la privacy: installali a tuo rischio."
   },
   "This bar is the Island": {
     "This bar is the Island": "Questa barra è l’Isola"
@@ -9117,13 +9120,13 @@
     "Welcome": "Benvenuto"
   },
   "Welcome to %1": {
-    "Welcome to %1": ""
+    "Welcome to %1": "Benvenuto in %1"
   },
   "What changed": {
     "What changed": "Cosa è cambiato"
   },
   "What's New": {
-    "What's New": ""
+    "What's New": "Novità"
   },
   "When locked": {
     "When locked": "Quando bloccato"

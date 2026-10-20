@@ -147,7 +147,7 @@
     "%1 ms": "%1 مللي ثانية"
   },
   "%1 not found": {
-    "%1 not found": ""
+    "%1 not found": "%1 غير موجود"
   },
   "%1 notifications": {
     "%1 notifications": "%1 إشعارات"
@@ -156,7 +156,7 @@
     "%1 online": "%1 متصل"
   },
   "%1 only": {
-    "%1 only": ""
+    "%1 only": "%1 فقط"
   },
   "%1 other": {
     "%1 other": "%1 أخرى"
@@ -186,7 +186,7 @@
     "%1 tasks": "%1 مهام"
   },
   "%1 uninstalled": {
-    "%1 uninstalled": ""
+    "%1 uninstalled": "تم إلغاء تثبيت %1"
   },
   "%1 update": {
     "%1 update": "%1 تحديث"
@@ -270,7 +270,7 @@
     "A floating companion that works alongside any bar layout": "رفيق عائم يعمل جنبًا إلى جنب مع أي تخطيط شريط"
   },
   "A modern desktop shell for Wayland": {
-    "A modern desktop shell for Wayland": ""
+    "A modern desktop shell for Wayland": "واجهة سطح مكتب حديثة لـ Wayland"
   },
   "A newer dms binary is installed.": {
     "A newer dms binary is installed.": "تم تثبيت ملف ثنائي (binary) أحدث لـ dms."
@@ -510,7 +510,7 @@
     "All displays": "جميع الشاشات"
   },
   "All plugins": {
-    "All plugins": ""
+    "All plugins": "جميع الإضافات"
   },
   "All settings": {
     "All settings": "كل الإعدادات"
@@ -543,7 +543,7 @@
     "Already on that session": "أنت بالفعل في تلك الجلسة"
   },
   "Already upvoted, click again to remove": {
-    "Already upvoted, click again to remove": ""
+    "Already upvoted, click again to remove": "تم التصويت بالفعل، اضغط مرة أخرى للإزالة"
   },
   "Also runs the templates in your matugen config.toml": {
     "Also runs the templates in your matugen config.toml": "يقوم أيضاً بتشغيل القوالب الموجودة في ملف matugen config.toml الخاص بك"
@@ -1380,7 +1380,7 @@
     "Changes save to %1": "يتم حفظ التغييرات في %1"
   },
   "Changes volume and audio devices": {
-    "Changes volume and audio devices": ""
+    "Changes volume and audio devices": "يغير مستوى الصوت وأجهزة الصوت"
   },
   "Channel": {
     "Channel": "القناة"
@@ -1800,7 +1800,7 @@
     "Connections and autoconnect": "الاتصالات والاتصال التلقائي"
   },
   "Connects to the internet": {
-    "Connects to the internet": ""
+    "Connects to the internet": "يتصل بالإنترنت"
   },
   "Consumes the key only when a dispatcher runs": {
     "Consumes the key only when a dispatcher runs": "يستهلك المفتاح فقط عند تشغيل مرسل"
@@ -1827,7 +1827,7 @@
     "Controls": "عناصر التحكم"
   },
   "Controls media players": {
-    "Controls media players": ""
+    "Controls media players": "يتحكم في مشغلات الوسائط"
   },
   "Convert to DMS": {
     "Convert to DMS": "تحويل إلى DMS"
@@ -2064,7 +2064,7 @@
     "DMS chooser": "مُختار DMS"
   },
   "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": {
-    "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": ""
+    "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": "DMS هي واجهة سطح مكتب حديثة وقابلة للتخصيص بدرجة عالية، تبدو رائعة بمجرد تشغيلها، دون التضحية بحرية جعلها خاصة بك.<br/><br/>مبنية باستخدام %1 و %2، وتجمع بين اللوحات، والأدوات المصغرة (widgets)، وعناصر التحكم في النظام، والمزيد في تجربة سطح مكتب متماسكة."
   },
   "DMS out of date": {
     "DMS out of date": "نسخة DMS غير محدثة"
@@ -2310,7 +2310,7 @@
     "Dew point %1": "نقطة الندى %1"
   },
   "Did you mean": {
-    "Did you mean": ""
+    "Did you mean": "هل تقصد"
   },
   "Digital": {
     "Digital": "رقمي"
@@ -2865,7 +2865,7 @@
     "Expressive": "تعبيري"
   },
   "Extend %1 with powerful plugins for widgets, launchers, and more": {
-    "Extend %1 with powerful plugins for widgets, launchers, and more": ""
+    "Extend %1 with powerful plugins for widgets, launchers, and more": "وسع %1 بإضافات قوية للأدوات المصغرة، والمشغلات، والمزيد"
   },
   "Extend battery life": {
     "Extend battery life": "إطالة عمر البطارية"
@@ -3156,7 +3156,7 @@
     "Family": "العائلة"
   },
   "Featured plugin": {
-    "Featured plugin": ""
+    "Featured plugin": "إضافة مميزة"
   },
   "Feels Like %1°": {
     "Feels Like %1°": "تبدو كـ %1°"
@@ -3255,7 +3255,7 @@
     "Fits the song title instead of keeping a fixed width": "يُلائم عنوان الأغنية بدلاً من الحفاظ على عرض ثابت"
   },
   "Fits your setup": {
-    "Fits your setup": ""
+    "Fits your setup": "يناسب إعداداتك"
   },
   "Fixed": {
     "Fixed": "ثابت"
@@ -3402,7 +3402,7 @@
     "For %1": "لـ %1"
   },
   "For you": {
-    "For you": ""
+    "For you": "لك"
   },
   "Force HDR": {
     "Force HDR": "فرض HDR"
@@ -3768,7 +3768,7 @@
     "Hide installed": "إخفاء المثبتة"
   },
   "Hide on last display": {
-    "Hide on last display": ""
+    "Hide on last display": "إخفاء على آخر شاشة"
   },
   "Hide until typing": {
     "Hide until typing": "إخفاء حتى الكتابة"
@@ -4503,7 +4503,7 @@
     "Lightest": "الأكثر سطوعاً"
   },
   "Like your plugins": {
-    "Like your plugins": ""
+    "Like your plugins": "أعجب بإضافاتك"
   },
   "Limit": {
     "Limit": "حد"
@@ -4524,7 +4524,7 @@
     "Lines: %1": "الأسطر: %1"
   },
   "Link copied": {
-    "Link copied": ""
+    "Link copied": "تم نسخ الرابط"
   },
   "Link your DMS settings so the login screen follows them.": {
     "Link your DMS settings so the login screen follows them.": "اربط إعدادات DMS الخاصة بك لكي تتبعها شاشة تسجيل الدخول."
@@ -5118,7 +5118,7 @@
     "Near island": "الجزيرة القريبة"
   },
   "Needs": {
-    "Needs": ""
+    "Needs": "يحتاج"
   },
   "Nested chip": {
     "Nested chip": "شريحة متداخلة"
@@ -5163,7 +5163,7 @@
     "New": "جديد"
   },
   "New & updated": {
-    "New & updated": ""
+    "New & updated": "جديد ومحدث"
   },
   "New Session": {
     "New Session": "جلسة جديدة"
@@ -5724,7 +5724,7 @@
     "Office": "المكتب"
   },
   "Official only": {
-    "Official only": ""
+    "Official only": "رسمي فقط"
   },
   "Offline Report": {
     "Offline Report": "تقرير عدم الاتصال"
@@ -5820,10 +5820,10 @@
     "Open with": "فتح باستخدام"
   },
   "Opening GitHub to remove the upvote": {
-    "Opening GitHub to remove the upvote": ""
+    "Opening GitHub to remove the upvote": "فتح GitHub لإزالة التصويت"
   },
   "Opening GitHub to upvote": {
-    "Opening GitHub to upvote": ""
+    "Opening GitHub to upvote": "فتح GitHub للتصويت"
   },
   "Opening terminal: ": {
     "Opening terminal: ": "فتح الطرفيّة: "
@@ -6132,10 +6132,10 @@
     "Pick how long to stay awake": "اختر المدة التي تريد البقاء فيها مستيقظاً"
   },
   "Pick of the day": {
-    "Pick of the day": ""
+    "Pick of the day": "اختيار اليوم"
   },
   "Pick of the week": {
-    "Pick of the week": ""
+    "Pick of the week": "اختيار الأسبوع"
   },
   "Pill": {
     "Pill": "قرص"
@@ -6243,7 +6243,7 @@
     "Plugins": "الملحقات"
   },
   "Plugins by %1": {
-    "Plugins by %1": ""
+    "Plugins by %1": "إضافات بواسطة %1"
   },
   "Plugins shown in All mode without a trigger. Drag to reorder": {
     "Plugins shown in All mode without a trigger. Drag to reorder": "الملحقات المعروضة في وضع الكل بدون مشغل. اسحب لإعادة الترتيب"
@@ -6270,7 +6270,7 @@
     "Popouts and modals use the main animation duration": "تستخدم النوافذ المنبثقة والنماذج مدة الرسوم المتحركة الرئيسية"
   },
   "Popular": {
-    "Popular": ""
+    "Popular": "شائع"
   },
   "Popular Plugins": {
     "Popular Plugins": "الملحقات الشائعة"
@@ -6612,22 +6612,22 @@
     "Read:": "قراءة:"
   },
   "Reads audio devices and volume": {
-    "Reads audio devices and volume": ""
+    "Reads audio devices and volume": "يقرأ أجهزة الصوت ومستوى الصوت"
   },
   "Reads its own settings": {
-    "Reads its own settings": ""
+    "Reads its own settings": "يقرأ إعداداته الخاصة"
   },
   "Reads its saved state": {
-    "Reads its saved state": ""
+    "Reads its saved state": "يقرأ حالته المحفوظة"
   },
   "Reads the clipboard": {
-    "Reads the clipboard": ""
+    "Reads the clipboard": "يقرأ الحافظة"
   },
   "Reads the list of running programs": {
-    "Reads the list of running programs": ""
+    "Reads the list of running programs": "يقرأ قائمة البرامج قيد التشغيل"
   },
   "Reads your files": {
-    "Reads your files": ""
+    "Reads your files": "يقرأ ملفاتك"
   },
   "Ready": {
     "Ready": "مستعد"
@@ -6777,7 +6777,7 @@
     "Remove the shortcut %1? An unbind entry will be saved to dms/binds-user.lua so it stays removed across DMS updates.": "هل تريد إزالة الاختصار %1؟ سيتم حفظ إدخال إلغاء الربط في dms/binds-user.lua حتى يظل محذوفاً عبر تحديثات DMS."
   },
   "Remove upvote": {
-    "Remove upvote": ""
+    "Remove upvote": "إزالة التصويت"
   },
   "Removed administrator privileges": {
     "Removed administrator privileges": "تمت إزالة امتيازات المسؤول"
@@ -6956,6 +6956,9 @@
   "Root Filesystem": {
     "Root Filesystem": "نظام ملفات الجذر"
   },
+  "Rotating Cookie": {
+    "Rotating Cookie": ""
+  },
   "Rounded": {
     "Rounded": "مستدير"
   },
@@ -7023,10 +7026,10 @@
     "Runs in a terminal.": "يعمل في Terminal."
   },
   "Runs programs on your computer": {
-    "Runs programs on your computer": ""
+    "Runs programs on your computer": "يشغل برامج على حاسوبك"
   },
   "Runs shell commands": {
-    "Runs shell commands": ""
+    "Runs shell commands": "يشغل أوامر النظام (shell)"
   },
   "S": {
     "S": "S"
@@ -7101,10 +7104,10 @@
     "Saved networks": "الشبكات المحفوظة"
   },
   "Saves its own settings": {
-    "Saves its own settings": ""
+    "Saves its own settings": "يحفظ إعداداته الخاصة"
   },
   "Saves its state": {
-    "Saves its state": ""
+    "Saves its state": "يحفظ حالته"
   },
   "Saving...": {
     "Saving...": "جارٍ الحفظ..."
@@ -7494,7 +7497,7 @@
     "Show discharge rate": "عرض معدل التفريغ"
   },
   "Show every author": {
-    "Show every author": ""
+    "Show every author": "إظهار كل مؤلف"
   },
   "Show filename": {
     "Show filename": "عرض اسم الملف"
@@ -7737,7 +7740,7 @@
     "Soft square": "مربع ناعم"
   },
   "Software dimming": {
-    "Software dimming": ""
+    "Software dimming": "تعتيم البرمجيات"
   },
   "Software updates": {
     "Software updates": "تحديثات البرامج"
@@ -8331,7 +8334,7 @@
     "Third-party plugins": "إضافات الطرف الثالث"
   },
   "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": {
-    "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": ""
+    "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": "الإضافات التابعة لجهات خارجية يتم إنشاؤها بواسطة المجتمع ولا يتم دعمها رسميًا بواسطة %1.\n\nقد تشكل هذه الإضافات مخاطر أمنية وخصوصية - قم بالتثبيت على مسؤوليتك الخاصة."
   },
   "This bar is the Island": {
     "This bar is the Island": "هذا الشريط هو الجزيرة"
@@ -8361,7 +8364,7 @@
     "This output is disabled in the current profile": "هذا المخرج معطل في الملف الشخصي الحالي"
   },
   "This plugin can": {
-    "This plugin can": ""
+    "This plugin can": "هذه الإضافة يمكنها"
   },
   "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": {
     "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": "هذه الإضافة لا تملك إذن 'settings_write'. أضف \"permissions\": [\"settings_read\", \"settings_write\"] إلى ملف plugin.json"
@@ -8592,7 +8595,7 @@
     "Tray icon tint": "صبغة أيقونة الدرج"
   },
   "Trending": {
-    "Trending": ""
+    "Trending": "رائج"
   },
   "Trigger": {
     "Trigger": "المشغل"
@@ -8823,13 +8826,13 @@
     "Uptime": "وقت التشغيل"
   },
   "Upvote on GitHub": {
-    "Upvote on GitHub": ""
+    "Upvote on GitHub": "صوّت على GitHub"
   },
   "Upvote removed": {
-    "Upvote removed": ""
+    "Upvote removed": "تمت إزالة التصويت"
   },
   "Upvoted on GitHub": {
-    "Upvoted on GitHub": ""
+    "Upvoted on GitHub": "تم التصويت على GitHub"
   },
   "Urgent": {
     "Urgent": "عاجل"
@@ -9117,13 +9120,13 @@
     "Welcome": "أهلاً بك"
   },
   "Welcome to %1": {
-    "Welcome to %1": ""
+    "Welcome to %1": "مرحبًا بك في %1"
   },
   "What changed": {
     "What changed": "ما الذي تغير"
   },
   "What's New": {
-    "What's New": ""
+    "What's New": "ما الجديد"
   },
   "When locked": {
     "When locked": "عند القفل"
@@ -9276,7 +9279,7 @@
     "Working...": "جاري العمل..."
   },
   "Works here": {
-    "Works here": ""
+    "Works here": "يعمل هنا"
   },
   "Works in every submap": {
     "Works in every submap": "يعمل في كل خريطة فرعية"
@@ -9306,7 +9309,7 @@
     "Write:": "كتابة:"
   },
   "Writes to your files": {
-    "Writes to your files": ""
+    "Writes to your files": "يكتب في ملفاتك"
   },
   "X axis": {
     "X axis": "المحور س"
@@ -9417,7 +9420,7 @@
     "checked just now": "تم الفحص الآن"
   },
   "copy link": {
-    "copy link": ""
+    "copy link": "نسخ الرابط"
   },
   "deprecated": {
     "deprecated": "عفا عليه الزمن"
@@ -9594,7 +9597,7 @@
     "remote": "بعيد"
   },
   "report a problem": {
-    "report a problem": ""
+    "report a problem": "الإبلاغ عن مشكلة"
   },
   "reviewed": {
     "reviewed": "تمت المراجعة"

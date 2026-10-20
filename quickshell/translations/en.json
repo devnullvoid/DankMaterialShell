@@ -1489,7 +1489,7 @@
   {
     "term": "Album art backdrop",
     "context": "Album art backdrop",
-    "reference": "Modules/DDash/DashRegistry.qml:132",
+    "reference": "Modules/DDash/DashRegistry.qml:136",
     "comment": "",
     "tags": [
       "shell"
@@ -1815,7 +1815,7 @@
   {
     "term": "Analog",
     "context": "Analog",
-    "reference": "Modules/DDash/DashRegistry.qml:228, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:9",
+    "reference": "Modules/DDash/DashRegistry.qml:232, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:9",
     "comment": "clock style option",
     "tags": [
       "settings",
@@ -1888,7 +1888,7 @@
   {
     "term": "Anonymous Identity",
     "context": "Anonymous Identity",
-    "reference": "Modals/WifiPasswordModal.qml:209",
+    "reference": "Modals/WifiPasswordModal.qml:197",
     "comment": "",
     "tags": [
       "shell"
@@ -1897,7 +1897,7 @@
   {
     "term": "Anonymous Identity (optional)",
     "context": "Anonymous Identity (optional)",
-    "reference": "Modals/WifiPasswordModal.qml:532",
+    "reference": "Modals/WifiPasswordModal.qml:533",
     "comment": "",
     "tags": [
       "shell"
@@ -2062,7 +2062,7 @@
   {
     "term": "Apple Music animated covers",
     "context": "Apple Music animated covers",
-    "reference": "Modules/DDash/DashRegistry.qml:132",
+    "reference": "Modules/DDash/DashRegistry.qml:136",
     "comment": "",
     "tags": [
       "shell"
@@ -2497,7 +2497,7 @@
   {
     "term": "Authenticate",
     "context": "Authenticate",
-    "reference": "Modals/PolkitAuthContent.qml:180",
+    "reference": "Modals/PolkitAuthContent.qml:181",
     "comment": "verb, polkit password dialog submit button",
     "tags": [
       "shell"
@@ -2515,7 +2515,7 @@
   {
     "term": "Authentication",
     "context": "Authentication",
-    "reference": "Modals/PolkitAuthModal.qml:38, Modals/WifiPasswordModal.qml:443, Common/SettingsTabs.qml:478, Modules/Settings/GreeterTab.qml:318, Modules/Settings/LockScreenTab.qml:488",
+    "reference": "Modals/PolkitAuthModal.qml:38, Modals/WifiPasswordModal.qml:436, Common/SettingsTabs.qml:478, Modules/Settings/GreeterTab.qml:318, Modules/Settings/LockScreenTab.qml:488",
     "comment": "noun, polkit dialog title and settings section title",
     "tags": [
       "settings",
@@ -2571,7 +2571,7 @@
   {
     "term": "Authentication failed - try again",
     "context": "Authentication failed - try again",
-    "reference": "Modals/PolkitAuthContent.qml:158",
+    "reference": "Modals/PolkitAuthContent.qml:156",
     "comment": "",
     "tags": [
       "shell"
@@ -3238,7 +3238,7 @@
   {
     "term": "Battery",
     "context": "Battery",
-    "reference": "Common/SettingsTabs.qml:373, Common/BarWidgetCatalog.qml:155, Modules/DDash/DashRegistry.qml:331, Modules/Settings/PowerSleepTab.qml:59, Modules/Settings/BarWidgetOptions/ControlCenterOptions.qml:58, Modules/Settings/BarWidgetOptions/BatteryOptions.qml:86, Modules/ControlCenter/Details/BatteryDetail.qml:7, Modules/ControlCenter/Models/WidgetModel.qml:372, Modules/ControlCenter/Widgets/BatteryTile.qml:23",
+    "reference": "Common/SettingsTabs.qml:373, Common/BarWidgetCatalog.qml:155, Modules/DDash/DashRegistry.qml:335, Modules/Settings/PowerSleepTab.qml:59, Modules/Settings/BarWidgetOptions/ControlCenterOptions.qml:58, Modules/Settings/BarWidgetOptions/BatteryOptions.qml:86, Modules/ControlCenter/Details/BatteryDetail.qml:7, Modules/ControlCenter/Models/WidgetModel.qml:372, Modules/ControlCenter/Widgets/BatteryTile.qml:23",
     "comment": "",
     "tags": [
       "settings",
@@ -3738,7 +3738,7 @@
   {
     "term": "Browse and set wallpapers",
     "context": "Browse and set wallpapers",
-    "reference": "Modules/DDash/DashRegistry.qml:138",
+    "reference": "Modules/DDash/DashRegistry.qml:142",
     "comment": "",
     "tags": [
       "shell"
@@ -3838,7 +3838,7 @@
   {
     "term": "CPU",
     "context": "CPU",
-    "reference": "Modules/ProcessList/SystemView.qml:76, Modules/ProcessList/ProcessesView.qml:309, Modules/ProcessList/ProcessSummary.qml:13, Modules/DDash/DashRegistry.qml:275, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:36, Modules/DDash/Overview/CpuCard.qml:9",
+    "reference": "Modules/ProcessList/SystemView.qml:76, Modules/ProcessList/ProcessesView.qml:309, Modules/ProcessList/ProcessSummary.qml:13, Modules/DDash/DashRegistry.qml:279, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:36, Modules/DDash/Overview/CpuCard.qml:9",
     "comment": "processor label in system monitor",
     "tags": [
       "settings",
@@ -3948,7 +3948,7 @@
   {
     "term": "Calendar",
     "context": "Calendar",
-    "reference": "Modules/DDash/DashRegistry.qml:234, Modules/Settings/DefaultAppsTab.qml:358, Modules/Settings/TimeWeatherTab.qml:376, Modules/DDash/Overview/CalendarEventEditor.qml:198",
+    "reference": "Modules/DDash/DashRegistry.qml:238, Modules/Settings/DefaultAppsTab.qml:358, Modules/Settings/TimeWeatherTab.qml:376, Modules/DDash/Overview/CalendarEventEditor.qml:198",
     "comment": "Calendar",
     "tags": [
       "settings",
@@ -3985,7 +3985,7 @@
   {
     "term": "Cancel",
     "context": "Cancel",
-    "reference": "DMSShell.qml:373, DMSShell.qml:400, Modals/PolkitAuthContent.qml:172, Modals/WorkspaceRenameModal.qml:127, Modals/BluetoothPairingModal.qml:269, Modals/BluetoothPairingModal.qml:358, Modals/WifiPasswordModal.qml:568, Modals/Common/InputModal.qml:17, Modals/Common/InputModal.qml:28, Modals/Common/InputModal.qml:41, Modals/Common/ConfirmModal.qml:14, Modals/Common/ConfirmModal.qml:32, Modals/Common/ConfirmDialogOverlay.qml:13, Modals/Common/ConfirmDialogOverlay.qml:36, Modals/DLauncherV2/AppEditView.qml:264, Modals/Clipboard/ClipboardEditor.qml:340, Modules/SystemUpdate/SystemUpdatePanel.qml:414, Modules/Settings/DockHubHeader.qml:99, Modules/Settings/NotificationRuleEditorDialog.qml:103, Modules/Settings/PluginBrowser.qml:744, Modules/Settings/PluginBrowser.qml:802, Modules/Settings/GreeterTab.qml:37, Modules/Settings/GreeterTab.qml:49, Modules/Settings/GreeterTab.qml:174, Modules/Settings/BarHubHeader.qml:162, Modules/Settings/WallpaperColorsTab.qml:154, Modules/Settings/WallpaperColorsTab.qml:184, Modules/Settings/PluginUpdatesDialog.qml:143, Modules/Settings/KeybindEditorDialog.qml:732, Modules/Settings/PrinterTab.qml:173, Modules/Settings/PrinterTab.qml:696, Modules/Settings/SoftwareUpdatesTab.qml:197, Modules/Settings/ThemeBrowser.qml:235, Modules/Settings/WindowRuleEditorDialog.qml:794, Modules/Settings/DisplayConfigTab.qml:240, Modules/Settings/DisplayConfigTab.qml:263, Modules/Settings/DisplayConfigTab.qml:311, Modules/Settings/NetworkWifiTab.qml:921, Modules/Settings/Widgets/SettingsRenameDialog.qml:79, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:142, Modules/DDash/Overview/CalendarEventEditor.qml:251, Modules/DDash/Overview/CalendarOverviewCard.qml:810",
+    "reference": "DMSShell.qml:373, DMSShell.qml:400, Modals/PolkitAuthContent.qml:173, Modals/WorkspaceRenameModal.qml:127, Modals/BluetoothPairingModal.qml:269, Modals/BluetoothPairingModal.qml:358, Modals/WifiPasswordModal.qml:572, Modals/Common/InputModal.qml:17, Modals/Common/InputModal.qml:28, Modals/Common/InputModal.qml:41, Modals/Common/ConfirmModal.qml:14, Modals/Common/ConfirmModal.qml:32, Modals/Common/ConfirmDialogOverlay.qml:13, Modals/Common/ConfirmDialogOverlay.qml:36, Modals/DLauncherV2/AppEditView.qml:264, Modals/Clipboard/ClipboardEditor.qml:340, Modules/SystemUpdate/SystemUpdatePanel.qml:414, Modules/Settings/DockHubHeader.qml:99, Modules/Settings/NotificationRuleEditorDialog.qml:103, Modules/Settings/PluginBrowser.qml:744, Modules/Settings/PluginBrowser.qml:802, Modules/Settings/GreeterTab.qml:37, Modules/Settings/GreeterTab.qml:49, Modules/Settings/GreeterTab.qml:174, Modules/Settings/BarHubHeader.qml:162, Modules/Settings/WallpaperColorsTab.qml:154, Modules/Settings/WallpaperColorsTab.qml:184, Modules/Settings/PluginUpdatesDialog.qml:143, Modules/Settings/KeybindEditorDialog.qml:732, Modules/Settings/PrinterTab.qml:173, Modules/Settings/PrinterTab.qml:696, Modules/Settings/SoftwareUpdatesTab.qml:197, Modules/Settings/ThemeBrowser.qml:235, Modules/Settings/WindowRuleEditorDialog.qml:794, Modules/Settings/DisplayConfigTab.qml:240, Modules/Settings/DisplayConfigTab.qml:263, Modules/Settings/DisplayConfigTab.qml:311, Modules/Settings/NetworkWifiTab.qml:921, Modules/Settings/Widgets/SettingsRenameDialog.qml:79, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:142, Modules/DDash/Overview/CalendarEventEditor.qml:251, Modules/DDash/Overview/CalendarOverviewCard.qml:810",
     "comment": "cancel hotspot editing action",
     "tags": [
       "settings",
@@ -4125,7 +4125,7 @@
   {
     "term": "Carousel",
     "context": "Carousel",
-    "reference": "Modules/DDash/DashRegistry.qml:151",
+    "reference": "Modules/DDash/DashRegistry.qml:155",
     "comment": "wallpaper tab layout option",
     "tags": [
       "shell"
@@ -4216,7 +4216,7 @@
   {
     "term": "Certificate Password",
     "context": "Certificate Password",
-    "reference": "Modals/WifiPasswordModal.qml:200",
+    "reference": "Modals/WifiPasswordModal.qml:188",
     "comment": "",
     "tags": [
       "shell"
@@ -4857,7 +4857,7 @@
   {
     "term": "Clock",
     "context": "Clock",
-    "reference": "Common/BarWidgetCatalog.qml:64, Services/DesktopWidgetRegistry.qml:63, Modules/DDash/DashRegistry.qml:212, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:35",
+    "reference": "Common/BarWidgetCatalog.qml:64, Services/DesktopWidgetRegistry.qml:63, Modules/DDash/DashRegistry.qml:216, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:35",
     "comment": "island settings: pinned clock row in the home layout",
     "tags": [
       "settings",
@@ -4987,7 +4987,7 @@
   {
     "term": "Color",
     "context": "Color",
-    "reference": "Modules/DDash/DashRegistry.qml:356, Modules/Settings/ThemeSurfacesTab.qml:520, Modules/Settings/LauncherTab.qml:264, Modules/Settings/DockAppearanceTab.qml:214, Modules/Settings/DBarAppearanceTab.qml:304, Modules/Settings/DBarAppearanceTab.qml:744, Modules/Settings/ShadowsTab.qml:62, Modules/Settings/ShadowsTab.qml:353, Modules/Settings/ShadowsTab.qml:354, Modules/Settings/Widgets/IslandHomeCard.qml:145, Modules/Settings/Widgets/SettingsColorPicker.qml:20, Modules/ControlCenter/Components/WidgetConfigOverlay.qml:142",
+    "reference": "Modules/DDash/DashRegistry.qml:360, Modules/Settings/ThemeSurfacesTab.qml:520, Modules/Settings/LauncherTab.qml:264, Modules/Settings/DockAppearanceTab.qml:214, Modules/Settings/DBarAppearanceTab.qml:304, Modules/Settings/DBarAppearanceTab.qml:744, Modules/Settings/ShadowsTab.qml:62, Modules/Settings/ShadowsTab.qml:353, Modules/Settings/ShadowsTab.qml:354, Modules/Settings/Widgets/IslandHomeCard.qml:145, Modules/Settings/Widgets/SettingsColorPicker.qml:20, Modules/ControlCenter/Components/WidgetConfigOverlay.qml:142",
     "comment": "noun, settings label for choosing a border, shadow or frame color",
     "tags": [
       "settings",
@@ -5162,7 +5162,7 @@
   {
     "term": "Columns",
     "context": "Columns",
-    "reference": "Modules/DDash/DashRegistry.qml:153",
+    "reference": "Modules/DDash/DashRegistry.qml:157",
     "comment": "number of columns in the wallpaper grid option",
     "tags": [
       "shell"
@@ -5459,7 +5459,7 @@
   {
     "term": "Connect",
     "context": "Connect",
-    "reference": "Modals/WifiPasswordModal.qml:578, Modules/Settings/NetworkCellularTab.qml:160, Modules/Settings/NetworkCellularTab.qml:265, Modules/ControlCenter/Details/BluetoothDetail.qml:137, Modules/ControlCenter/Details/NetworkDetail.qml:168, Modules/ControlCenter/Details/NetworkDetail.qml:517, Modules/ControlCenter/Details/NetworkDetail.qml:545",
+    "reference": "Modals/WifiPasswordModal.qml:582, Modules/Settings/NetworkCellularTab.qml:160, Modules/Settings/NetworkCellularTab.qml:265, Modules/ControlCenter/Details/BluetoothDetail.qml:137, Modules/ControlCenter/Details/NetworkDetail.qml:168, Modules/ControlCenter/Details/NetworkDetail.qml:517, Modules/ControlCenter/Details/NetworkDetail.qml:545",
     "comment": "verb, connect to a network or device",
     "tags": [
       "settings",
@@ -5469,7 +5469,7 @@
   {
     "term": "Connect to Hidden Network",
     "context": "Connect to Hidden Network",
-    "reference": "Modals/WifiPasswordModal.qml:325, Modules/Settings/NetworkWifiTab.qml:303",
+    "reference": "Modals/WifiPasswordModal.qml:313, Modules/Settings/NetworkWifiTab.qml:303",
     "comment": "",
     "tags": [
       "settings",
@@ -5479,7 +5479,7 @@
   {
     "term": "Connect to VPN",
     "context": "Connect to VPN",
-    "reference": "Modals/WifiPasswordModal.qml:323",
+    "reference": "Modals/WifiPasswordModal.qml:311",
     "comment": "",
     "tags": [
       "shell"
@@ -5488,7 +5488,7 @@
   {
     "term": "Connect to Wi-Fi",
     "context": "Connect to Wi-Fi",
-    "reference": "Modals/WifiPasswordModal.qml:326",
+    "reference": "Modals/WifiPasswordModal.qml:314",
     "comment": "",
     "tags": [
       "shell"
@@ -7187,7 +7187,7 @@
   {
     "term": "Digital",
     "context": "Digital",
-    "reference": "Modules/DDash/DashRegistry.qml:224, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:9",
+    "reference": "Modules/DDash/DashRegistry.qml:228, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:9",
     "comment": "clock style option",
     "tags": [
       "settings",
@@ -7197,7 +7197,7 @@
   {
     "term": "Digital wellbeing",
     "context": "Digital wellbeing",
-    "reference": "Common/SettingsTabs.qml:257, Modules/DDash/DashRegistry.qml:177, Modules/Settings/DDashTab.qml:48, Modules/Settings/DDashTab.qml:53",
+    "reference": "Common/SettingsTabs.qml:257, Modules/DDash/DashRegistry.qml:181, Modules/Settings/DDashTab.qml:48, Modules/Settings/DDashTab.qml:53",
     "comment": "settings page and dashboard tab title, screen time tracking",
     "tags": [
       "settings",
@@ -7446,7 +7446,7 @@
   {
     "term": "Disk",
     "context": "Disk",
-    "reference": "Modules/ProcessList/PerformanceView.qml:82, Modules/DDash/DashRegistry.qml:317, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:102, Modules/DDash/Overview/DiskCard.qml:18",
+    "reference": "Modules/ProcessList/PerformanceView.qml:82, Modules/DDash/DashRegistry.qml:321, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:102, Modules/DDash/Overview/DiskCard.qml:18",
     "comment": "noun, storage disk label in system monitor",
     "tags": [
       "settings",
@@ -7701,7 +7701,7 @@
   {
     "term": "Distro badge",
     "context": "Distro badge",
-    "reference": "Modules/DDash/DashRegistry.qml:258",
+    "reference": "Modules/DDash/DashRegistry.qml:262",
     "comment": "",
     "tags": [
       "shell"
@@ -7802,7 +7802,7 @@
   {
     "term": "Domain (optional)",
     "context": "Domain (optional)",
-    "reference": "Modals/WifiPasswordModal.qml:547",
+    "reference": "Modals/WifiPasswordModal.qml:551",
     "comment": "",
     "tags": [
       "shell"
@@ -8505,7 +8505,7 @@
   {
     "term": "Enter PIN for ",
     "context": "Enter PIN for ",
-    "reference": "Modals/BluetoothPairingModal.qml:132, Modals/WifiPasswordModal.qml:330",
+    "reference": "Modals/BluetoothPairingModal.qml:132, Modals/WifiPasswordModal.qml:318",
     "comment": "",
     "tags": [
       "shell"
@@ -8532,7 +8532,7 @@
   {
     "term": "Enter credentials for ",
     "context": "Enter credentials for ",
-    "reference": "Modals/WifiPasswordModal.qml:334, Modals/WifiPasswordModal.qml:339",
+    "reference": "Modals/WifiPasswordModal.qml:322, Modals/WifiPasswordModal.qml:327",
     "comment": "",
     "tags": [
       "shell"
@@ -8568,7 +8568,7 @@
   {
     "term": "Enter network name and password",
     "context": "Enter network name and password",
-    "reference": "Modals/WifiPasswordModal.qml:338",
+    "reference": "Modals/WifiPasswordModal.qml:326",
     "comment": "",
     "tags": [
       "shell"
@@ -8586,7 +8586,7 @@
   {
     "term": "Enter password for ",
     "context": "Enter password for ",
-    "reference": "Modals/WifiPasswordModal.qml:336, Modals/WifiPasswordModal.qml:339",
+    "reference": "Modals/WifiPasswordModal.qml:324, Modals/WifiPasswordModal.qml:327",
     "comment": "",
     "tags": [
       "shell"
@@ -10449,7 +10449,7 @@
   {
     "term": "Follow playback",
     "context": "Follow playback",
-    "reference": "Modules/DDash/Media/LyricsOverlay.qml:369, Modules/DDash/Media/LyricsOverlay.qml:370",
+    "reference": "Modules/DDash/Media/LyricsOverlay.qml:370, Modules/DDash/Media/LyricsOverlay.qml:371",
     "comment": "Resume automatic scrolling of lyrics",
     "tags": [
       "shell"
@@ -10604,7 +10604,7 @@
   {
     "term": "Forecast and conditions",
     "context": "Forecast and conditions",
-    "reference": "Common/SettingsTabs.qml:546, Modules/DDash/DashRegistry.qml:159",
+    "reference": "Common/SettingsTabs.qml:546, Modules/DDash/DashRegistry.qml:163",
     "comment": "",
     "tags": [
       "shell"
@@ -11257,7 +11257,7 @@
   {
     "term": "Grid",
     "context": "Grid",
-    "reference": "Modals/AppPickerModal.qml:334, Modals/DLauncherV2/SectionHeader.qml:35, Modules/DDash/DashRegistry.qml:147, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:142, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:146, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:155, Modules/DBar/Popouts/DWLLayoutPopout.qml:52",
+    "reference": "Modals/AppPickerModal.qml:334, Modals/DLauncherV2/SectionHeader.qml:35, Modules/DDash/DashRegistry.qml:151, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:142, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:146, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:155, Modules/DBar/Popouts/DWLLayoutPopout.qml:52",
     "comment": "noun, grid view mode and layout option",
     "tags": [
       "settings",
@@ -11558,7 +11558,7 @@
   {
     "term": "Hidden until screen time tracking is enabled",
     "context": "Hidden until screen time tracking is enabled",
-    "reference": "Modules/DDash/DashRegistry.qml:179",
+    "reference": "Modules/DDash/DashRegistry.qml:183",
     "comment": "dashboard tab description while digital wellbeing is off",
     "tags": [
       "shell"
@@ -11567,7 +11567,7 @@
   {
     "term": "Hidden until weather is enabled",
     "context": "Hidden until weather is enabled",
-    "reference": "Modules/DDash/DashRegistry.qml:159",
+    "reference": "Modules/DDash/DashRegistry.qml:163",
     "comment": "",
     "tags": [
       "shell"
@@ -11776,7 +11776,7 @@
   {
     "term": "Highlight weekends",
     "context": "Highlight weekends",
-    "reference": "Modules/DDash/DashRegistry.qml:244",
+    "reference": "Modules/DDash/DashRegistry.qml:248",
     "comment": "",
     "tags": [
       "shell"
@@ -12550,7 +12550,7 @@
   {
     "term": "Incorrect password",
     "context": "Incorrect password",
-    "reference": "Modals/WifiPasswordModal.qml:408, Modals/WifiPasswordModal.qml:509",
+    "reference": "Modals/WifiPasswordModal.qml:401, Modals/WifiPasswordModal.qml:507",
     "comment": "",
     "tags": [
       "shell"
@@ -12714,7 +12714,7 @@
   {
     "term": "Inner authentication",
     "context": "Inner authentication",
-    "reference": "Modals/WifiPasswordModal.qml:467",
+    "reference": "Modals/WifiPasswordModal.qml:460",
     "comment": "802.1X phase 2 authentication method",
     "tags": [
       "shell"
@@ -12968,7 +12968,7 @@
   {
     "term": "Instrumental",
     "context": "Instrumental",
-    "reference": "Modules/DDash/Media/LyricsOverlay.qml:42",
+    "reference": "Modules/DDash/Media/LyricsOverlay.qml:43",
     "comment": "Track has no lyrics because it is instrumental",
     "tags": [
       "shell"
@@ -13679,7 +13679,7 @@
   {
     "term": "Layout",
     "context": "Layout",
-    "reference": "Common/BarWidgetCatalog.qml:13, Modals/Greeter/GreeterCompletePage.qml:124, Modules/DDash/DashRegistry.qml:144, Modules/Settings/DockHubHeader.qml:129, Modules/Settings/BarHubHeader.qml:188, Modules/Settings/DockGeneralTab.qml:41, Modules/Settings/CompositorLayoutTab.qml:225, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1650, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:141, Modules/Settings/Widgets/IslandHomeCard.qml:26",
+    "reference": "Common/BarWidgetCatalog.qml:13, Modals/Greeter/GreeterCompletePage.qml:124, Modules/DDash/DashRegistry.qml:148, Modules/Settings/DockHubHeader.qml:129, Modules/Settings/BarHubHeader.qml:188, Modules/Settings/DockGeneralTab.qml:41, Modules/Settings/CompositorLayoutTab.qml:225, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1650, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:141, Modules/Settings/Widgets/IslandHomeCard.qml:26",
     "comment": "noun, settings section title for arrangement options",
     "tags": [
       "settings",
@@ -13816,7 +13816,7 @@
   {
     "term": "Level",
     "context": "Level",
-    "reference": "Modules/DDash/DashRegistry.qml:359, Modules/Settings/BarWidgetOptions/BatteryOptions.qml:90, Modules/Settings/Widgets/IslandHomeCard.qml:147, Modules/ControlCenter/Components/WidgetConfigOverlay.qml:144",
+    "reference": "Modules/DDash/DashRegistry.qml:363, Modules/Settings/BarWidgetOptions/BatteryOptions.qml:90, Modules/Settings/Widgets/IslandHomeCard.qml:147, Modules/ControlCenter/Components/WidgetConfigOverlay.qml:144",
     "comment": "battery settings: charge level indicator colors",
     "tags": [
       "settings",
@@ -14125,7 +14125,7 @@
   {
     "term": "Loading...",
     "context": "Loading...",
-    "reference": "Modules/ProcessList/ProcessesView.qml:397, Modules/Settings/PrinterTab.qml:339, Modules/Settings/NetworkWifiTab.qml:941, Modules/DDash/Media/LyricsOverlay.qml:401",
+    "reference": "Modules/ProcessList/ProcessesView.qml:397, Modules/Settings/PrinterTab.qml:339, Modules/Settings/NetworkWifiTab.qml:941, Modules/DDash/Media/LyricsOverlay.qml:402",
     "comment": "hotspot password loading status",
     "tags": [
       "settings",
@@ -14391,7 +14391,7 @@
   {
     "term": "Lyrics",
     "context": "Lyrics",
-    "reference": "Modules/DDash/DashRegistry.qml:132, Modules/Settings/MediaPlayerTab.qml:121, Modules/Settings/MediaPlayerTab.qml:127, Modules/Settings/BarWidgetOptions/MusicOptions.qml:56, Modules/DDash/Media/MaterialSourceGroup.qml:33, Modules/DDash/Media/LyricsOverlay.qml:53, Modules/DDash/Media/BentoChrome.qml:115",
+    "reference": "Modules/DDash/DashRegistry.qml:136, Modules/Settings/MediaPlayerTab.qml:121, Modules/Settings/MediaPlayerTab.qml:127, Modules/Settings/BarWidgetOptions/MusicOptions.qml:56, Modules/DDash/Media/MaterialSourceGroup.qml:33, Modules/DDash/Media/LyricsOverlay.qml:54, Modules/DDash/Media/BentoChrome.qml:115",
     "comment": "Media player lyrics button",
     "tags": [
       "settings",
@@ -15054,7 +15054,7 @@
   {
     "term": "Memory",
     "context": "Memory",
-    "reference": "Modules/ProcessList/ProcessesView.qml:309, Modules/ProcessList/ProcessRow.qml:182, Modules/ProcessList/ProcessSummary.qml:25, Modules/ProcessList/PerformanceView.qml:45, Modules/DDash/DashRegistry.qml:289, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:76, Modules/DDash/Overview/MemoryCard.qml:9",
+    "reference": "Modules/ProcessList/ProcessesView.qml:309, Modules/ProcessList/ProcessRow.qml:182, Modules/ProcessList/ProcessSummary.qml:25, Modules/ProcessList/PerformanceView.qml:45, Modules/DDash/DashRegistry.qml:293, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:76, Modules/DDash/Overview/MemoryCard.qml:9",
     "comment": "system RAM label in system monitor",
     "tags": [
       "settings",
@@ -15872,7 +15872,7 @@
   {
     "term": "Network",
     "context": "Network",
-    "reference": "Common/SettingsTabs.qml:382, Services/CupsService.qml:136, Modules/ProcessList/PerformanceView.qml:66, Modules/DDash/DashRegistry.qml:303, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:89, Modules/Settings/BarWidgetOptions/ControlCenterOptions.qml:16, Modules/ControlCenter/Details/NetworkDetail.qml:26, Modules/ControlCenter/Models/WidgetModel.qml:305, Modules/ControlCenter/Components/CcWidgetSheet.qml:26, Modules/DDash/Overview/NetworkCard.qml:10",
+    "reference": "Common/SettingsTabs.qml:382, Services/CupsService.qml:136, Modules/ProcessList/PerformanceView.qml:66, Modules/DDash/DashRegistry.qml:307, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:89, Modules/Settings/BarWidgetOptions/ControlCenterOptions.qml:16, Modules/ControlCenter/Details/NetworkDetail.qml:26, Modules/ControlCenter/Models/WidgetModel.qml:305, Modules/ControlCenter/Components/CcWidgetSheet.qml:26, Modules/DDash/Overview/NetworkCard.qml:10",
     "comment": "noun, settings page and widget title | printer device class, a network printer",
     "tags": [
       "settings",
@@ -15900,7 +15900,7 @@
   {
     "term": "Network Name (SSID)",
     "context": "Network Name (SSID)",
-    "reference": "Modals/WifiPasswordModal.qml:388",
+    "reference": "Modals/WifiPasswordModal.qml:379",
     "comment": "",
     "tags": [
       "shell"
@@ -16429,7 +16429,7 @@
   {
     "term": "No battery",
     "context": "No battery",
-    "reference": "Services/BatteryService.qml:703, Modules/DDash/DashRegistry.qml:333, Modules/ControlCenter/Models/WidgetModel.qml:378, Modules/ControlCenter/Widgets/BatteryTile.qml:23",
+    "reference": "Services/BatteryService.qml:703, Modules/DDash/DashRegistry.qml:337, Modules/ControlCenter/Models/WidgetModel.qml:378, Modules/ControlCenter/Widgets/BatteryTile.qml:23",
     "comment": "battery status",
     "tags": [
       "shell"
@@ -16950,7 +16950,7 @@
   {
     "term": "No results",
     "context": "No results",
-    "reference": "Modules/DDash/Media/LyricsOverlay.qml:46",
+    "reference": "Modules/DDash/Media/LyricsOverlay.qml:47",
     "comment": "",
     "tags": [
       "shell"
@@ -17544,7 +17544,7 @@
   {
     "term": "Notifications",
     "context": "Notifications",
-    "reference": "Common/SettingsTabs.qml:232, Services/DesktopWidgetRegistry.qml:110, Modals/Greeter/GreeterCompletePage.qml:411, Modules/DDash/DashRegistry.qml:197, Modules/DIsland/DIslandSurface.qml:816, Modules/Settings/ShadowsTab.qml:190, Modules/Settings/CompositorLayoutTab.qml:179, Modules/Settings/Widgets/IslandNotificationsCard.qml:14, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:60, Modules/DDash/Overview/NotificationsOverviewCard.qml:18, Modules/Lock/Widgets/LockNotificationsWidget.qml:257",
+    "reference": "Common/SettingsTabs.qml:232, Services/DesktopWidgetRegistry.qml:110, Modals/Greeter/GreeterCompletePage.qml:411, Modules/DDash/DashRegistry.qml:201, Modules/DIsland/DIslandSurface.qml:816, Modules/Settings/ShadowsTab.qml:190, Modules/Settings/CompositorLayoutTab.qml:179, Modules/Settings/Widgets/IslandNotificationsCard.qml:14, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:60, Modules/DDash/Overview/NotificationsOverviewCard.qml:18, Modules/Lock/Widgets/LockNotificationsWidget.qml:257",
     "comment": "greeter settings link | island compact face: notification center label | island settings: notification badge slot row | island settings: notifications card title",
     "tags": [
       "settings",
@@ -17826,7 +17826,7 @@
   {
     "term": "Only continue if you recognize this server certificate fingerprint.",
     "context": "Only continue if you recognize this server certificate fingerprint.",
-    "reference": "Modals/WifiPasswordModal.qml:364",
+    "reference": "Modals/WifiPasswordModal.qml:352",
     "comment": "Warning shown before trusting an unverified VPN server certificate",
     "tags": [
       "shell"
@@ -18246,7 +18246,7 @@
   {
     "term": "Outline",
     "context": "Outline",
-    "reference": "Modules/DDash/DashRegistry.qml:350, Modules/Settings/ThemeSurfacesTab.qml:148, Modules/Settings/ThemeSurfacesTab.qml:150, Modules/Settings/ThemeSurfacesTab.qml:167, Modules/Settings/ThemeSurfacesTab.qml:521, Modules/Settings/ThemeSurfacesTab.qml:525, Modules/Settings/ThemeSurfacesTab.qml:533, Modules/Settings/ThemeSurfacesTab.qml:545, Modules/Settings/UserAccountsTab.qml:58, Modules/Settings/LauncherTab.qml:265, Modules/Settings/BarWidgetOptions/BatteryOptions.qml:75, Modules/Settings/Widgets/IslandHomeCard.qml:109, Modules/ControlCenter/Components/WidgetConfigOverlay.qml:124",
+    "reference": "Modules/DDash/DashRegistry.qml:354, Modules/Settings/ThemeSurfacesTab.qml:148, Modules/Settings/ThemeSurfacesTab.qml:150, Modules/Settings/ThemeSurfacesTab.qml:167, Modules/Settings/ThemeSurfacesTab.qml:521, Modules/Settings/ThemeSurfacesTab.qml:525, Modules/Settings/ThemeSurfacesTab.qml:533, Modules/Settings/ThemeSurfacesTab.qml:545, Modules/Settings/UserAccountsTab.qml:58, Modules/Settings/LauncherTab.qml:265, Modules/Settings/BarWidgetOptions/BatteryOptions.qml:75, Modules/Settings/Widgets/IslandHomeCard.qml:109, Modules/ControlCenter/Components/WidgetConfigOverlay.qml:124",
     "comment": "island settings: outlined battery meter style | outline color | surface border color",
     "tags": [
       "settings",
@@ -18501,7 +18501,7 @@
   {
     "term": "PIN",
     "context": "PIN",
-    "reference": "Modals/WifiPasswordModal.qml:205, Modals/WifiPasswordModal.qml:511",
+    "reference": "Modals/WifiPasswordModal.qml:193, Modals/WifiPasswordModal.qml:509",
     "comment": "noun, numeric personal identification number for a smart card",
     "tags": [
       "shell"
@@ -18690,7 +18690,7 @@
   {
     "term": "Password",
     "context": "Password",
-    "reference": "Modals/PolkitAuthContent.qml:156, Modals/WifiPasswordModal.qml:197, Modals/WifiPasswordModal.qml:207, Modals/WifiPasswordModal.qml:511, Services/DesktopWidgetRegistry.qml:109, Modules/Settings/CreateUserTab.qml:118, Modules/Settings/NetworkWifiTab.qml:872, Modules/ControlCenter/Details/VpnProfileDelegate.qml:188, Modules/Lock/Widgets/LockAuthWidget.qml:377, Modules/Lock/Widgets/LockAuthWidget.qml:561, Modules/Lock/Widgets/LockAuthWidget.qml:863",
+    "reference": "Modals/PolkitAuthContent.qml:154, Modals/WifiPasswordModal.qml:185, Modals/WifiPasswordModal.qml:195, Modals/WifiPasswordModal.qml:509, Services/DesktopWidgetRegistry.qml:109, Modules/Settings/CreateUserTab.qml:118, Modules/Settings/NetworkWifiTab.qml:872, Modules/ControlCenter/Details/VpnProfileDelegate.qml:184, Modules/Lock/Widgets/LockAuthWidget.qml:377, Modules/Lock/Widgets/LockAuthWidget.qml:561, Modules/Lock/Widgets/LockAuthWidget.qml:863",
     "comment": "hotspot password field label | lock screen password field placeholder",
     "tags": [
       "settings",
@@ -18809,7 +18809,7 @@
   {
     "term": "Pause",
     "context": "Pause",
-    "reference": "Modules/Lock/LockStatusRow.qml:205, Modules/OSD/MediaPlaybackOSD.qml:306, Modules/OSD/MediaPlaybackOSD.qml:373, Modules/Settings/PrinterTab.qml:590, Modules/Settings/PrinterTab.qml:683, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:87, Modules/DBar/Widgets/Media.qml:225, Modules/DDash/Media/MediaTransportButton.qml:47, Modules/DDash/Overview/MediaOverviewCard.qml:200",
+    "reference": "Modules/Lock/LockStatusRow.qml:205, Modules/OSD/MediaPlaybackOSD.qml:306, Modules/OSD/MediaPlaybackOSD.qml:373, Modules/Settings/PrinterTab.qml:590, Modules/Settings/PrinterTab.qml:683, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:87, Modules/DBar/Widgets/Media.qml:230, Modules/DDash/Media/MediaTransportButton.qml:47, Modules/DDash/Overview/MediaOverviewCard.qml:200",
     "comment": "verb, button pausing media playback or a printer or print job",
     "tags": [
       "settings",
@@ -19101,7 +19101,7 @@
   {
     "term": "Play",
     "context": "Play",
-    "reference": "Modules/Lock/LockStatusRow.qml:205, Modules/OSD/MediaPlaybackOSD.qml:306, Modules/OSD/MediaPlaybackOSD.qml:373, Modules/DBar/Widgets/Media.qml:225, Modules/DDash/Media/MediaTransportButton.qml:47, Modules/DDash/Overview/MediaOverviewCard.qml:200",
+    "reference": "Modules/Lock/LockStatusRow.qml:205, Modules/OSD/MediaPlaybackOSD.qml:306, Modules/OSD/MediaPlaybackOSD.qml:373, Modules/DBar/Widgets/Media.qml:230, Modules/DDash/Media/MediaTransportButton.qml:47, Modules/DDash/Overview/MediaOverviewCard.qml:200",
     "comment": "verb, media play button accessible name",
     "tags": [
       "shell"
@@ -19219,7 +19219,7 @@
   {
     "term": "Plugin",
     "context": "Plugin",
-    "reference": "Modals/DLauncherV2/Components/LauncherRow.qml:258, Modules/DDash/DashRegistry.qml:390, Modules/Settings/DesktopWidgetBrowser.qml:93, Modules/ControlCenter/Models/WidgetModel.qml:482, Modules/ControlCenter/Widgets/PluginTile.qml:15",
+    "reference": "Modals/DLauncherV2/Components/LauncherRow.qml:258, Modules/DDash/DashRegistry.qml:394, Modules/Settings/DesktopWidgetBrowser.qml:93, Modules/ControlCenter/Models/WidgetModel.qml:482, Modules/ControlCenter/Widgets/PluginTile.qml:15",
     "comment": "noun, item type label and fallback plugin name",
     "tags": [
       "settings",
@@ -20057,7 +20057,7 @@
   {
     "term": "Private Key Password",
     "context": "Private Key Password",
-    "reference": "Modals/WifiPasswordModal.qml:202",
+    "reference": "Modals/WifiPasswordModal.qml:190",
     "comment": "",
     "tags": [
       "shell"
@@ -21414,7 +21414,7 @@
   {
     "term": "Retry",
     "context": "Retry",
-    "reference": "Modals/Greeter/GreeterPluginsPage.qml:166, Modules/Settings/ChangelogTab.qml:36, Modules/Settings/PluginBrowser.qml:1262, Modules/Settings/WallpaperColorsTab.qml:777, Modules/Settings/PrinterTab.qml:690, Modules/Settings/PluginsManageTab.qml:131, Modules/Settings/ThemeBrowser.qml:335, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:180, Modules/DDash/Media/LyricsOverlay.qml:434",
+    "reference": "Modals/Greeter/GreeterPluginsPage.qml:166, Modules/Settings/ChangelogTab.qml:36, Modules/Settings/PluginBrowser.qml:1262, Modules/Settings/WallpaperColorsTab.qml:777, Modules/Settings/PrinterTab.qml:690, Modules/Settings/PluginsManageTab.qml:131, Modules/Settings/ThemeBrowser.qml:335, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:180, Modules/DDash/Media/LyricsOverlay.qml:435",
     "comment": "retry failed action button",
     "tags": [
       "settings",
@@ -21552,7 +21552,7 @@
   {
     "term": "Ring",
     "context": "Ring",
-    "reference": "Modules/DDash/DashRegistry.qml:354, Modules/Settings/LockWidgetSettings/LockAuthSettings.qml:10",
+    "reference": "Modules/DDash/DashRegistry.qml:358, Modules/Settings/LockWidgetSettings/LockAuthSettings.qml:10",
     "comment": "noun, battery widget ring gauge style option",
     "tags": [
       "settings",
@@ -21582,6 +21582,15 @@
     "context": "Root Filesystem",
     "reference": "Modules/ControlCenter/Details/DiskUsageDetail.qml:72",
     "comment": "",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Rotating Cookie",
+    "context": "Rotating Cookie",
+    "reference": "Modules/DDash/DashRegistry.qml:134",
+    "comment": "Album artwork shape",
     "tags": [
       "shell"
     ]
@@ -21617,7 +21626,7 @@
   {
     "term": "Rows",
     "context": "Rows",
-    "reference": "Modules/DDash/DashRegistry.qml:153",
+    "reference": "Modules/DDash/DashRegistry.qml:157",
     "comment": "number of rows in the wallpaper grid option",
     "tags": [
       "shell"
@@ -21953,7 +21962,7 @@
   {
     "term": "Save credentials",
     "context": "Save credentials",
-    "reference": "Modules/ControlCenter/Details/VpnProfileDelegate.qml:195",
+    "reference": "Modules/ControlCenter/Details/VpnProfileDelegate.qml:191",
     "comment": "",
     "tags": [
       "shell"
@@ -21971,7 +21980,7 @@
   {
     "term": "Save password",
     "context": "Save password",
-    "reference": "Modals/WifiPasswordModal.qml:558",
+    "reference": "Modals/WifiPasswordModal.qml:562",
     "comment": "",
     "tags": [
       "shell"
@@ -22166,7 +22175,7 @@
   {
     "term": "Screen time and app limits",
     "context": "Screen time and app limits",
-    "reference": "Common/SettingsTabs.qml:261, Modules/DDash/DashRegistry.qml:179, Modules/Settings/DDashTab.qml:54",
+    "reference": "Common/SettingsTabs.qml:261, Modules/DDash/DashRegistry.qml:183, Modules/Settings/DDashTab.qml:54",
     "comment": "settings sidebar hint and dashboard tab description for digital wellbeing",
     "tags": [
       "settings",
@@ -22718,7 +22727,7 @@
   {
     "term": "Sends the playing artist and album name to Apple",
     "context": "Sends the playing artist and album name to Apple",
-    "reference": "Modules/DDash/DashRegistry.qml:132",
+    "reference": "Modules/DDash/DashRegistry.qml:136",
     "comment": "",
     "tags": [
       "shell"
@@ -22727,7 +22736,7 @@
   {
     "term": "Sends the playing track, artist and album name to enabled lyrics providers",
     "context": "Sends the playing track, artist and album name to enabled lyrics providers",
-    "reference": "Modules/DDash/DashRegistry.qml:132, Modules/Settings/MediaPlayerTab.qml:128",
+    "reference": "Modules/DDash/DashRegistry.qml:136, Modules/Settings/MediaPlayerTab.qml:128",
     "comment": "",
     "tags": [
       "settings",
@@ -23136,7 +23145,7 @@
   {
     "term": "Show I/O",
     "context": "Show I/O",
-    "reference": "Modules/DDash/DashRegistry.qml:327",
+    "reference": "Modules/DDash/DashRegistry.qml:331",
     "comment": "",
     "tags": [
       "shell"
@@ -23209,7 +23218,7 @@
   {
     "term": "Show city",
     "context": "Show city",
-    "reference": "Modules/DDash/DashRegistry.qml:173, Modules/DDash/WeatherTab.qml:107",
+    "reference": "Modules/DDash/DashRegistry.qml:177, Modules/DDash/WeatherTab.qml:107",
     "comment": "",
     "tags": [
       "shell"
@@ -23218,7 +23227,7 @@
   {
     "term": "Show compositor",
     "context": "Show compositor",
-    "reference": "Modules/DDash/DashRegistry.qml:258",
+    "reference": "Modules/DDash/DashRegistry.qml:262",
     "comment": "",
     "tags": [
       "shell"
@@ -23227,7 +23236,7 @@
   {
     "term": "Show date",
     "context": "Show date",
-    "reference": "Modules/DDash/DashRegistry.qml:230, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:88, Modules/Settings/LockWidgetSettings/LockDateSettings.qml:12",
+    "reference": "Modules/DDash/DashRegistry.qml:234, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:88, Modules/Settings/LockWidgetSettings/LockDateSettings.qml:12",
     "comment": "",
     "tags": [
       "settings",
@@ -23246,7 +23255,7 @@
   {
     "term": "Show device name",
     "context": "Show device name",
-    "reference": "Modules/DDash/DashRegistry.qml:132",
+    "reference": "Modules/DDash/DashRegistry.qml:136",
     "comment": "Media player option that puts the audio output device name on its button",
     "tags": [
       "shell"
@@ -23273,7 +23282,7 @@
   {
     "term": "Show filename",
     "context": "Show filename",
-    "reference": "Modules/DDash/DashRegistry.qml:153",
+    "reference": "Modules/DDash/DashRegistry.qml:157",
     "comment": "",
     "tags": [
       "shell"
@@ -23318,7 +23327,7 @@
   {
     "term": "Show health",
     "context": "Show health",
-    "reference": "Modules/DDash/DashRegistry.qml:365",
+    "reference": "Modules/DDash/DashRegistry.qml:369",
     "comment": "",
     "tags": [
       "shell"
@@ -23336,7 +23345,7 @@
   {
     "term": "Show hostname",
     "context": "Show hostname",
-    "reference": "Modules/DDash/DashRegistry.qml:258",
+    "reference": "Modules/DDash/DashRegistry.qml:262",
     "comment": "",
     "tags": [
       "shell"
@@ -23345,7 +23354,7 @@
   {
     "term": "Show hour numbers",
     "context": "Show hour numbers",
-    "reference": "Modules/DDash/DashRegistry.qml:230, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:67",
+    "reference": "Modules/DDash/DashRegistry.qml:234, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:67",
     "comment": "",
     "tags": [
       "settings",
@@ -23518,7 +23527,7 @@
   {
     "term": "Show readings",
     "context": "Show readings",
-    "reference": "Modules/DDash/DashRegistry.qml:173",
+    "reference": "Modules/DDash/DashRegistry.qml:177",
     "comment": "",
     "tags": [
       "shell"
@@ -23563,7 +23572,7 @@
   {
     "term": "Show seconds",
     "context": "Show seconds",
-    "reference": "Modules/DDash/DashRegistry.qml:230, Modules/Settings/TimeWeatherTab.qml:81, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:74, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:81",
+    "reference": "Modules/DDash/DashRegistry.qml:234, Modules/Settings/TimeWeatherTab.qml:81, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:74, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:81",
     "comment": "",
     "tags": [
       "settings",
@@ -23573,7 +23582,7 @@
   {
     "term": "Show seekbar",
     "context": "Show seekbar",
-    "reference": "Modules/DDash/DashRegistry.qml:132",
+    "reference": "Modules/DDash/DashRegistry.qml:136",
     "comment": "",
     "tags": [
       "shell"
@@ -23600,7 +23609,7 @@
   {
     "term": "Show swap",
     "context": "Show swap",
-    "reference": "Modules/DDash/DashRegistry.qml:299, Modules/Settings/BarWidgetOptions/SystemMonitorOptions.qml:36",
+    "reference": "Modules/DDash/DashRegistry.qml:303, Modules/Settings/BarWidgetOptions/SystemMonitorOptions.qml:36",
     "comment": "",
     "tags": [
       "settings",
@@ -23619,7 +23628,7 @@
   {
     "term": "Show temperature",
     "context": "Show temperature",
-    "reference": "Modules/DDash/DashRegistry.qml:271, Modules/DDash/DashRegistry.qml:285",
+    "reference": "Modules/DDash/DashRegistry.qml:275, Modules/DDash/DashRegistry.qml:289",
     "comment": "",
     "tags": [
       "shell"
@@ -23637,7 +23646,7 @@
   {
     "term": "Show trend",
     "context": "Show trend",
-    "reference": "Modules/DDash/DashRegistry.qml:285, Modules/DDash/DashRegistry.qml:299, Modules/DDash/DashRegistry.qml:313, Modules/DDash/DashRegistry.qml:327",
+    "reference": "Modules/DDash/DashRegistry.qml:289, Modules/DDash/DashRegistry.qml:303, Modules/DDash/DashRegistry.qml:317, Modules/DDash/DashRegistry.qml:331",
     "comment": "",
     "tags": [
       "shell"
@@ -23655,7 +23664,7 @@
   {
     "term": "Show uptime",
     "context": "Show uptime",
-    "reference": "Modules/DDash/DashRegistry.qml:258",
+    "reference": "Modules/DDash/DashRegistry.qml:262",
     "comment": "",
     "tags": [
       "shell"
@@ -23953,7 +23962,7 @@
   {
     "term": "Smartcard Authentication",
     "context": "Smartcard Authentication",
-    "reference": "Modals/WifiPasswordModal.qml:319",
+    "reference": "Modals/WifiPasswordModal.qml:307",
     "comment": "",
     "tags": [
       "shell"
@@ -23971,7 +23980,7 @@
   {
     "term": "Smooth lyrics highlight",
     "context": "Smooth lyrics highlight",
-    "reference": "Modules/DDash/DashRegistry.qml:132",
+    "reference": "Modules/DDash/DashRegistry.qml:136",
     "comment": "Media player option that fills each sung word gradually instead of highlighting it at once",
     "tags": [
       "shell"
@@ -24045,7 +24054,7 @@
   {
     "term": "Solid",
     "context": "Solid",
-    "reference": "Modules/DDash/DashRegistry.qml:346, Modules/Settings/BarWidgetOptions/BatteryOptions.qml:75, Modules/Settings/Widgets/IslandHomeCard.qml:104, Modules/ControlCenter/Components/WidgetConfigOverlay.qml:124",
+    "reference": "Modules/DDash/DashRegistry.qml:350, Modules/Settings/BarWidgetOptions/BatteryOptions.qml:75, Modules/Settings/Widgets/IslandHomeCard.qml:104, Modules/ControlCenter/Components/WidgetConfigOverlay.qml:124",
     "comment": "island settings: filled battery meter style",
     "tags": [
       "settings",
@@ -24547,7 +24556,7 @@
   {
     "term": "Style",
     "context": "Style",
-    "reference": "Modules/DDash/DashRegistry.qml:221, Modules/DDash/DashRegistry.qml:343, Modules/Settings/DBarTab.qml:131, Modules/Settings/DockGeneralTab.qml:48, Modules/Settings/BarWidgetOptions/WorkspaceSwitcherOptions.qml:51, Modules/Settings/BarWidgetOptions/MusicOptions.qml:24, Modules/Settings/LockWidgetSettings/LockAuthSettings.qml:19, Modules/Settings/LockWidgetSettings/LockPowerSettings.qml:18",
+    "reference": "Modules/DDash/DashRegistry.qml:225, Modules/DDash/DashRegistry.qml:347, Modules/Settings/DBarTab.qml:131, Modules/Settings/DockGeneralTab.qml:48, Modules/Settings/BarWidgetOptions/WorkspaceSwitcherOptions.qml:51, Modules/Settings/BarWidgetOptions/MusicOptions.qml:24, Modules/Settings/LockWidgetSettings/LockAuthSettings.qml:19, Modules/Settings/LockWidgetSettings/LockPowerSettings.qml:18",
     "comment": "noun, visual style option label for a widget or the dock",
     "tags": [
       "settings",
@@ -24993,7 +25002,7 @@
   {
     "term": "System Monitor",
     "context": "System Monitor",
-    "reference": "Modals/ProcessListModal.qml:54, Modals/ProcessListModal.qml:78, Modals/ProcessListModal.qml:208, Services/AppSearchService.qml:217, Services/DesktopWidgetRegistry.qml:79, Modules/DDash/DashRegistry.qml:262",
+    "reference": "Modals/ProcessListModal.qml:54, Modals/ProcessListModal.qml:78, Modals/ProcessListModal.qml:208, Services/AppSearchService.qml:217, Services/DesktopWidgetRegistry.qml:79, Modules/DDash/DashRegistry.qml:266",
     "comment": "System monitor widget name | sysmon window title",
     "tags": [
       "shell"
@@ -25709,7 +25718,7 @@
   {
     "term": "The server certificate has changed since it was last trusted. Only continue if you recognize the new fingerprint.",
     "context": "The server certificate has changed since it was last trusted. Only continue if you recognize the new fingerprint.",
-    "reference": "Modals/WifiPasswordModal.qml:364",
+    "reference": "Modals/WifiPasswordModal.qml:352",
     "comment": "Warning shown when a trusted VPN server certificate no longer matches",
     "tags": [
       "shell"
@@ -25736,7 +25745,7 @@
   {
     "term": "Theme",
     "context": "Theme",
-    "reference": "Modules/DDash/DashRegistry.qml:363, Modules/Settings/ThemeColorsTab.qml:74, Modules/Settings/WallpaperColorsTab.qml:889, Modules/Settings/WallpaperColorsTab.qml:969, Modules/Settings/BarWidgetOptions/BatteryOptions.qml:90, Modules/Settings/Widgets/IslandHomeCard.qml:147, Modules/ControlCenter/Components/WidgetConfigOverlay.qml:144",
+    "reference": "Modules/DDash/DashRegistry.qml:367, Modules/Settings/ThemeColorsTab.qml:74, Modules/Settings/WallpaperColorsTab.qml:889, Modules/Settings/WallpaperColorsTab.qml:969, Modules/Settings/BarWidgetOptions/BatteryOptions.qml:90, Modules/Settings/Widgets/IslandHomeCard.qml:147, Modules/ControlCenter/Components/WidgetConfigOverlay.qml:144",
     "comment": "battery settings: theme accent indicator colors",
     "tags": [
       "settings",
@@ -26255,7 +26264,7 @@
   {
     "term": "Title font",
     "context": "Title font",
-    "reference": "Modules/DDash/DashRegistry.qml:132",
+    "reference": "Modules/DDash/DashRegistry.qml:136",
     "comment": "",
     "tags": [
       "shell"
@@ -26417,7 +26426,7 @@
   {
     "term": "Tone",
     "context": "Tone",
-    "reference": "Modules/DDash/DashRegistry.qml:71, Modules/DDash/DashRegistry.qml:230",
+    "reference": "Modules/DDash/DashRegistry.qml:71, Modules/DDash/DashRegistry.qml:234",
     "comment": "noun, dashboard widget color tone option label",
     "tags": [
       "shell"
@@ -26726,7 +26735,7 @@
   {
     "term": "Trust",
     "context": "Trust",
-    "reference": "Modals/WifiPasswordModal.qml:578, Modules/ControlCenter/Details/BluetoothDetail.qml:154",
+    "reference": "Modals/WifiPasswordModal.qml:582, Modules/ControlCenter/Details/BluetoothDetail.qml:154",
     "comment": "Button that approves a VPN server certificate fingerprint",
     "tags": [
       "shell"
@@ -26844,7 +26853,7 @@
   {
     "term": "Unavailable",
     "context": "Unavailable",
-    "reference": "Modals/WorkspaceRenameModal.qml:28, Services/AqueousService.qml:355, Services/KeybindsService.qml:503, Services/KeybindsService.qml:589, Services/KeybindsService.qml:622, Modules/Settings/NetworkVpnTab.qml:61, Modules/Settings/PrinterTab.qml:143, Modules/Settings/SoftwareUpdatesTab.qml:161, Modules/Settings/WidgetsTab.qml:519, Modules/Settings/NetworkCellularTab.qml:40, Modules/Settings/NetworkEthernetTab.qml:142, Modules/Settings/NetworkWifiTab.qml:538, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:37, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:52, Modules/ControlCenter/Details/AudioPortSelector.qml:115, Modules/ControlCenter/Details/NetworkDetail.qml:477, Modules/DBar/Widgets/FocusedWindowContextMenu.qml:199, Modules/DDash/Media/LyricsOverlay.qml:44",
+    "reference": "Modals/WorkspaceRenameModal.qml:28, Services/AqueousService.qml:355, Services/KeybindsService.qml:503, Services/KeybindsService.qml:589, Services/KeybindsService.qml:622, Modules/Settings/NetworkVpnTab.qml:61, Modules/Settings/PrinterTab.qml:143, Modules/Settings/SoftwareUpdatesTab.qml:161, Modules/Settings/WidgetsTab.qml:519, Modules/Settings/NetworkCellularTab.qml:40, Modules/Settings/NetworkEthernetTab.qml:142, Modules/Settings/NetworkWifiTab.qml:538, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:37, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:52, Modules/ControlCenter/Details/AudioPortSelector.qml:115, Modules/ControlCenter/Details/NetworkDetail.qml:477, Modules/DBar/Widgets/FocusedWindowContextMenu.qml:199, Modules/DDash/Media/LyricsOverlay.qml:45",
     "comment": "audio port availability status",
     "tags": [
       "settings",
@@ -27178,7 +27187,7 @@
   {
     "term": "Unsynced",
     "context": "Unsynced",
-    "reference": "Modules/DDash/Media/LyricsOverlay.qml:230",
+    "reference": "Modules/DDash/Media/LyricsOverlay.qml:231",
     "comment": "Lyrics have no timestamps",
     "tags": [
       "shell"
@@ -27241,7 +27250,7 @@
   {
     "term": "Untrusted VPN certificate",
     "context": "Untrusted VPN certificate",
-    "reference": "Modals/WifiPasswordModal.qml:321",
+    "reference": "Modals/WifiPasswordModal.qml:309",
     "comment": "Title for VPN server certificate trust confirmation",
     "tags": [
       "shell"
@@ -27469,7 +27478,7 @@
   {
     "term": "Use album art accent",
     "context": "Use album art accent",
-    "reference": "Modules/DDash/DashRegistry.qml:132",
+    "reference": "Modules/DDash/DashRegistry.qml:136",
     "comment": "",
     "tags": [
       "shell"
@@ -27577,7 +27586,7 @@
   {
     "term": "User",
     "context": "User",
-    "reference": "Modals/Settings/SettingsSidebar.qml:340, Modules/ProcessList/ProcessFilterChips.qml:9, Modules/DDash/DashRegistry.qml:248, Modules/ControlCenter/Models/WidgetModel.qml:204, Modules/ControlCenter/Components/CcWidgetSheet.qml:21",
+    "reference": "Modals/Settings/SettingsSidebar.qml:340, Modules/ProcessList/ProcessFilterChips.qml:9, Modules/DDash/DashRegistry.qml:252, Modules/ControlCenter/Models/WidgetModel.qml:204, Modules/ControlCenter/Components/CcWidgetSheet.qml:21",
     "comment": "noun, process filter and fallback display name",
     "tags": [
       "settings",
@@ -27659,7 +27668,7 @@
   {
     "term": "Username",
     "context": "Username",
-    "reference": "Modals/WifiPasswordModal.qml:195, Modals/WifiPasswordModal.qml:491, Modules/Settings/CreateUserTab.qml:77, Modules/ControlCenter/Details/VpnProfileDelegate.qml:38, Modules/ControlCenter/Details/VpnProfileDelegate.qml:179",
+    "reference": "Modals/WifiPasswordModal.qml:183, Modals/WifiPasswordModal.qml:487, Modules/Settings/CreateUserTab.qml:77, Modules/ControlCenter/Details/VpnProfileDelegate.qml:38, Modules/ControlCenter/Details/VpnProfileDelegate.qml:177",
     "comment": "text field label for network, vpn and account forms",
     "tags": [
       "settings",
@@ -28193,7 +28202,7 @@
   {
     "term": "Wallpapers",
     "context": "Wallpapers",
-    "reference": "Modules/DDash/DashRegistry.qml:136, Modules/Settings/Widgets/IslandBehaviorCard.qml:119",
+    "reference": "Modules/DDash/DashRegistry.qml:140, Modules/Settings/Widgets/IslandBehaviorCard.qml:119",
     "comment": "dashboard tab name",
     "tags": [
       "settings",
@@ -28230,7 +28239,7 @@
   {
     "term": "Wave progress bars",
     "context": "Wave progress bars",
-    "reference": "Modules/DDash/DashRegistry.qml:132",
+    "reference": "Modules/DDash/DashRegistry.qml:136",
     "comment": "",
     "tags": [
       "shell"
@@ -28239,7 +28248,7 @@
   {
     "term": "Weather",
     "context": "Weather",
-    "reference": "Common/SettingsTabs.qml:543, Common/BarWidgetCatalog.qml:71, Modules/DDash/DashRegistry.qml:157, Modules/DIsland/DIslandSurface.qml:746, Modules/Settings/BarWidgetTab.qml:137, Modules/Settings/BarWidgetTab.qml:140, Modules/Settings/DDashTab.qml:23, Modules/Settings/DDashTab.qml:28, Modules/Settings/KeybindEditorDialog.qml:378, Modules/Settings/KeybindEditorDialog.qml:390, Modules/Settings/KeybindEditorDialog.qml:1138, Modules/Settings/TimeWeatherTab.qml:423, Modules/Settings/WeatherSettingsTab.qml:30, Modules/Settings/LockWidgetSettings/LockStatusSettings.qml:27, Modules/Settings/Widgets/IslandBehaviorCard.qml:111, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:40",
+    "reference": "Common/SettingsTabs.qml:543, Common/BarWidgetCatalog.qml:71, Modules/DDash/DashRegistry.qml:161, Modules/DIsland/DIslandSurface.qml:746, Modules/Settings/BarWidgetTab.qml:137, Modules/Settings/BarWidgetTab.qml:140, Modules/Settings/DDashTab.qml:23, Modules/Settings/DDashTab.qml:28, Modules/Settings/KeybindEditorDialog.qml:378, Modules/Settings/KeybindEditorDialog.qml:390, Modules/Settings/KeybindEditorDialog.qml:1138, Modules/Settings/TimeWeatherTab.qml:423, Modules/Settings/WeatherSettingsTab.qml:30, Modules/Settings/LockWidgetSettings/LockStatusSettings.qml:27, Modules/Settings/Widgets/IslandBehaviorCard.qml:111, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:40",
     "comment": "island compact face: weather label | island settings: weather slot row",
     "tags": [
       "settings",
