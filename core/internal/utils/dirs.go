@@ -64,6 +64,8 @@ func migrateLegacyDir(oldDir, newDir string) error {
 		}
 		return err
 	}
+	// dms-greeter sync grants the greeter group read access through an ACL on the legacy dir.
+	copyDirACL(oldDir, newDir)
 	if err := os.Remove(oldDir); err != nil {
 		return errors.New("legacy dir " + oldDir + " still has entries that also exist in " + newDir)
 	}
