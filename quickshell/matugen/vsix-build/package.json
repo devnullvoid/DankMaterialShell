@@ -2,7 +2,7 @@
   "name": "dms-theme",
   "displayName": "DMS - Dux Shell Theme",
   "description": "Dynamic theme using matugen & dank16 terminal colors - auto-updated by Dux Shell",
-  "publisher": "Dux Linux",
+  "publisher": "DankLinux",
   "version": "0.0.3",
   "icon": "danklogo.png",
   "engines": {

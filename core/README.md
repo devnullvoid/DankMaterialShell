@@ -225,6 +225,6 @@ Most packages available in standard repos. Minimal building required.
 Uses Portage with GURU overlay. Automatically configures USE flags. Variable success depending on system configuration.
 
 **Void Linux**
-Uses XBPS with the DMS and Dux Linux self-hosted repositories.
+Uses XBPS with the DMS and Dux Labs self-hosted repositories.
 
 See installer output for distribution-specific details during installation.
