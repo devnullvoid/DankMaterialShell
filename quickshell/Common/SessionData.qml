@@ -46,7 +46,6 @@ Singleton {
     property string terminalOverride: ""
     property int updaterNotifiedUnix: 0
     property int updaterNotifiedCount: 0
-    property string changelogSeenVersion: ""
     property bool isSwitchingMode: false
     property bool suppressOSD: true
 
