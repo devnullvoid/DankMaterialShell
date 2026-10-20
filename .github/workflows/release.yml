@@ -354,13 +354,13 @@ jobs:
 
           # Replace the DCommon symlink with real submodule content for packaging
           rm quickshell/DCommon
-          cp -r dank-qml-common/DCommon quickshell/DCommon
+          cp -r dux-qml-common/DCommon quickshell/DCommon
 
           # Create full source tarball (GitHub tag archives never contain submodule content)
           VERSION_NUM=${TAG#v}
           tar --exclude='.git' \
               --exclude='.github' \
-              --exclude='dank-qml-common' \
+              --exclude='dux-qml-common' \
               --exclude='_release_assets' \
               --exclude='_core_assets' \
               --exclude='RELEASE_BODY.md' \

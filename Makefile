@@ -46,10 +46,10 @@ lint-qml:
 test-qml:
 	QMLTESTRUNNER="$(QMLTESTRUNNER)" python3 quickshell/tests/run-qml.py
 
-# Pull the latest dank-qml-common and pin it everywhere it is consumed
+# Pull the latest dux-qml-common and pin it everywhere it is consumed
 # (submodule pointer + nix flake input). Commit both in one change.
 update-common:
-	git submodule update --remote --merge dank-qml-common
+	git submodule update --remote --merge dux-qml-common
 	nix --extra-experimental-features 'nix-command flakes' flake update dank-qml-common
 
 # Installation targets

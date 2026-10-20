@@ -35,7 +35,7 @@ Plugins are discovered from `~/.config/dms/plugins/` and managed by PluginServic
    - Lists built-in and plugin tabs and overview cards
    - Hosts plugin tabs in `DashTabHost.qml` and cards in `Overview/DashCardSlot.qml`
 
-Many widgets are implemented in the shared [dank-qml-common](https://github.com/duxlabs-dev/dux-qml-common) library and re-exported by DMS. Plugins should keep importing `qs.Common`, `qs.Services`, `qs.Widgets`, and `qs.Modules.Plugins` — these remain the supported plugin API and are unaffected by where a widget is implemented.
+Many widgets are implemented in the shared [dux-qml-common](https://github.com/duxlabs-dev/dux-qml-common) library and re-exported by DMS. Plugins should keep importing `qs.Common`, `qs.Services`, `qs.Widgets`, and `qs.Modules.Plugins` — these remain the supported plugin API and are unaffected by where a widget is implemented.
 
 ## Plugin Structure
 

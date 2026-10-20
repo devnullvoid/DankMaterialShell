@@ -29,8 +29,8 @@ VCS:            {{{ git_repo_vcs }}}
 Source0:        {{{ git_repo_pack }}}
 Source1:        https://go.dev/dl/go%{go_toolchain_version}.linux-amd64.tar.gz
 Source2:        https://go.dev/dl/go%{go_toolchain_version}.linux-arm64.tar.gz
-# git_repo_pack archives skip submodule content, so pack dank-qml-common separately
-Source3:        {{{ git_pack path=$GIT_ROOT/dank-qml-common dir_name=dank-qml-common source_name=dank-qml-common.tar.gz }}}
+# git_repo_pack archives skip submodule content, so pack dux-qml-common separately
+Source3:        {{{ git_pack path=$GIT_ROOT/dux-qml-common dir_name=dux-qml-common source_name=dux-qml-common.tar.gz }}}
 
 BuildRequires:  git-core
 BuildRequires:  gzip
@@ -74,7 +74,7 @@ Provides native DBus bindings, NetworkManager integration, and system utilities.
 
 %prep
 {{{ git_repo_setup_macro }}}
-rm -rf dank-qml-common
+rm -rf dux-qml-common
 tar -xzf %{SOURCE3}
 test -e quickshell/DCommon/Widgets/DIcon.qml || { echo "DCommon missing after submodule unpack"; exit 1; }
 

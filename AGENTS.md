@@ -6,7 +6,7 @@ DMS is an open-source desktop shell for Wayland compositors on linux, built to w
 
 - core/ - Go. `cmd/dms` runs quickshell, CLI utilities, and the unix socket server the UI depends on. `cmd/dankinstall` is a separate installer TUI.
 - quickshell/ - the entire UI: Common/ (singletons, Theme, settings), Services/ (system and core access), Modules/ (bar, dock, lock, ...), Modals/, Widgets/ (shell-specific widgets and deprecated Dank* shims), PLUGINS/, translations/
-- dank-qml-common/ - submodule of shared QML widgets
+- dux-qml-common/ - submodule of shared QML widgets
 - docs/, distro/ - IPC and theme docs, packaging
 
 ## Rules

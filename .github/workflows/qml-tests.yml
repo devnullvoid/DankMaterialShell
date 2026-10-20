@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - "quickshell/**"
-      - "dank-qml-common"
+      - "dux-qml-common"
       - "Makefile"
       - "core/Makefile"
       - "scripts/shell-test-excludes.txt"
@@ -16,7 +16,7 @@ on:
     branches: [master, main, "stable-*"]
     paths:
       - "quickshell/**"
-      - "dank-qml-common"
+      - "dux-qml-common"
       - "Makefile"
       - "core/Makefile"
       - "scripts/shell-test-excludes.txt"
