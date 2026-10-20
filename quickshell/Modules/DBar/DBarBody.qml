@@ -59,7 +59,7 @@ Item {
     readonly property real islandFlareClearance: ((islandHost?.notch ?? false) ? islandHost.surface.joinRadius * 2.5 : 0) + islandSatelliteSweep
     // Satellites centre on the idle pill face, not the strip; backed ones reach its far edge instead.
     readonly property bool islandSatellitesTrackPill: isIsland && !!islandHost && !islandFree
-    readonly property real islandPillFace: islandSatellitesTrackPill ? islandHost.islandController.homeCompactFaceThickness : 0
+    readonly property real islandPillFace: islandSatellitesTrackPill ? islandHost.islandController.compactFaceThickness : 0
     readonly property real islandSatelliteDepth: islandSatellitesTrackPill ? Theme.px(Math.min(islandStripThickness, islandHost.outerGap + islandPillFace), _dpr) : islandStripThickness
     readonly property real islandSatelliteCrossCenter: !islandSatellitesTrackPill || islandSatelliteBackground ? islandSatelliteDepth / 2 : islandHost.outerGap + islandPillFace / 2
     readonly property real islandSatelliteCrossShift: Theme.px(islandSatelliteCrossCenter - islandStripThickness / 2, _dpr) * (axis.edge === "bottom" || axis.edge === "right" ? -1 : 1)

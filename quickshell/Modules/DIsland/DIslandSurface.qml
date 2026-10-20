@@ -521,8 +521,7 @@ Item {
     readonly property real embeddedOverhang: !root.embedded || root.chromeless ? 0 : Math.max(0, root.farEdge ? -(root.isVertical ? root.currentVisualX : root.currentVisualY) : (root.isVertical ? root.currentVisualX + root.currentVisualWidth : root.currentVisualY + root.currentVisualHeight) - root.crossExtent)
     readonly property real joinRadius: root.notch ? root.notchRadius : Math.min(Theme.connectedCornerRadius, root.embeddedOverhang)
     // Depth is capped so the flare never passes the pill's far corner; the slider still drives the along radius.
-    readonly property real notchCross: Math.min(root.controller.homeCompactFaceThickness, root.controller.compactFaceThickness)
-    readonly property real joinCrossRadius: root.notch ? Math.max(0, Math.min(root.joinRadius, root.notchCross - Math.min(root.notchCross / 2, root.controller.pillRadius))) : root.joinRadius
+    readonly property real joinCrossRadius: root.notch ? Math.max(0, Math.min(root.joinRadius, root.controller.compactFaceThickness - Math.min(root.controller.compactFaceThickness / 2, root.controller.pillRadius))) : root.joinRadius
     // Where the join corners sit: the band's inner edge when embedded, the screen edge for a notch.
     readonly property real joinCross: root.notch === root.farEdge ? root.crossExtent : 0
     readonly property var joinCorners: joinChrome.item ? [joinChrome.item.leadingCorner, joinChrome.item.trailingCorner] : []
