@@ -70,6 +70,11 @@ func (d *DebianDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 		dependencies = append(dependencies, d.detectXwaylandSatellite())
 	}
 
+	if wm == deps.WindowManagerHyprland && d.isPika() {
+		dependencies = append(dependencies, d.detectHyprlandTools()...)
+		dependencies = append(dependencies, d.detectHyprlandGuiutils())
+	}
+
 	dependencies = append(dependencies, d.detectMatugen())
 	dependencies = append(dependencies, d.detectDanksearch())
 	dependencies = append(dependencies, withGitVariant(d.detectDankCalendar(), d.packageInstalled("dankcalendar-git")))
@@ -140,6 +145,9 @@ func (d *DebianDistribution) GetPackageMapping(wm deps.WindowManager) map[string
 }
 
 func (d *DebianDistribution) GetPackageMappingWithVariants(wm deps.WindowManager, variants map[string]deps.PackageVariant) map[string]PackageMapping {
+	if d.isPika() {
+		return d.pikaPackageMapping(wm, variants)
+	}
 	packages := map[string]PackageMapping{
 		// Standard APT packages
 		"git":                    {Name: "git", Repository: RepoTypeSystem},

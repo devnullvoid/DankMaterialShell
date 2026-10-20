@@ -53,6 +53,10 @@ func greeterPackageInstallHint() string {
 		return "Install package: dms-greeter"
 	}
 
+	if config.ID == "pika" {
+		return "Install with 'sudo apt install dms-greeter'"
+	}
+
 	switch config.Family {
 	case distros.FamilyDebian:
 		return "Install with 'sudo apt install dms-greeter' (requires DankLinux OBS repo — see " + site.Docs + "/dankgreeter/installation#debian)"
