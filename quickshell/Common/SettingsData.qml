@@ -81,7 +81,7 @@ Singleton {
     readonly property string _homeUrl: StandardPaths.writableLocation(StandardPaths.HomeLocation)
     readonly property string _configUrl: StandardPaths.writableLocation(StandardPaths.ConfigLocation)
     readonly property string _configDir: Paths.strip(_configUrl)
-    readonly property string pluginSettingsPath: _configDir + "/DankMaterialShell/plugin_settings.json"
+    readonly property string pluginSettingsPath: _configDir + "/dms/plugin_settings.json"
     readonly property bool qtengineActive: Quickshell.env("QT_QPA_PLATFORMTHEME") === "qtengine" || Quickshell.env("QT_QPA_PLATFORMTHEME_QT6") === "qtengine"
 
     property bool _loading: false
@@ -1841,7 +1841,7 @@ Singleton {
 
         const oldVersion = obj?.configVersion ?? 0;
         if (oldVersion > settingsConfigVersion && !isGreeterMode) {
-            newerSettingsBackup.path = `${_configDir}/DankMaterialShell/settings.v${oldVersion}.json`;
+            newerSettingsBackup.path = `${_configDir}/dms/settings.v${oldVersion}.json`;
             newerSettingsBackup.setText(JSON.stringify(obj, null, 2));
         }
         const legacyPins = oldVersion < 13 ? Store.extractPins(obj) : null;
@@ -3914,7 +3914,7 @@ Singleton {
     SettingsFile {
         id: defaultSettingsFile
 
-        filePath: StandardPaths.writableLocation(StandardPaths.ConfigLocation) + "/DankMaterialShell/settings.json"
+        filePath: StandardPaths.writableLocation(StandardPaths.ConfigLocation) + "/dms/settings.json"
 
         Component.onCompleted: {
             _registerSettingsFile(defaultSettingsFile);
@@ -3970,7 +3970,7 @@ Singleton {
         sourceComponent: FolderListModel {
             id: settingsFolderModel
 
-            property url dir: StandardPaths.writableLocation(StandardPaths.ConfigLocation) + "/DankMaterialShell/config.d"
+            property url dir: StandardPaths.writableLocation(StandardPaths.ConfigLocation) + "/dms/config.d"
 
             folder: dir
             showDirs: false

@@ -1,12 +1,12 @@
 package tui
 
 import (
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/config"
+	"github.com/duxlabs-dev/dux-shell/core/internal/config"
 	"testing"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/distros"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/duxlabs-dev/dux-shell/core/internal/deps"
+	"github.com/duxlabs-dev/dux-shell/core/internal/distros"
 )
 
 func archModel() Model {

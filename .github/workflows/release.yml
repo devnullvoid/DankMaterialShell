@@ -280,7 +280,7 @@ jobs:
           ## Installation
 
           ```bash
-          curl -fsSL https://install.danklinux.com | sh
+          curl -fsSL https://install.duxlabs.dev | sh
           ```
 
           ## Assets
@@ -420,7 +420,7 @@ jobs:
 
             # Create installation guide
             cat > _temp_full/INSTALL.md << 'EOFINSTALL'
-          # DankMaterialShell Installation
+          # Dux Shell Installation
 
           ## Requirements
 
@@ -458,8 +458,8 @@ jobs:
 
           ## Configuration
 
-          - Settings are stored in `~/.config/DankMaterialShell/settings.json`
-          - Plugins go in `~/.config/DankMaterialShell/plugins/`
+          - Settings are stored in `~/.config/dms/settings.json`
+          - Plugins go in `~/.config/dms/plugins/`
           - See the documentation in the `dms/` directory for more details
 
           ## Troubleshooting
@@ -531,13 +531,13 @@ jobs:
       fail-fast: false
       matrix:
         repo:
-          - dgop
-          - dankgo
-          - dank-qml-common
-          - dankcalendar
-          - danksearch
-          - dank-greeter
-          - dfiles
+          - dux-gop
+          - dux-go
+          - dux-qml-common
+          - dux-calendar
+          - dux-search
+          - dux-greeter
+          - dux-files
     steps:
       - name: Create GitHub App token
         id: app_token

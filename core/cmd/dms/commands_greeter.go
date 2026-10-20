@@ -6,8 +6,8 @@ import (
 	"os/exec"
 	"syscall"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/distros"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/site"
+	"github.com/duxlabs-dev/dux-shell/core/internal/distros"
+	"github.com/duxlabs-dev/dux-shell/core/internal/site"
 	"github.com/spf13/cobra"
 )
 
@@ -59,9 +59,9 @@ func greeterPackageInstallHint() string {
 
 	switch config.Family {
 	case distros.FamilyDebian:
-		return "Install with 'sudo apt install dms-greeter' (requires DankLinux OBS repo — see " + site.Docs + "/dankgreeter/installation#debian)"
+		return "Install with 'sudo apt install dms-greeter' (requires Dux Linux OBS repo — see " + site.Docs + "/dms-greeter/installation#debian)"
 	case distros.FamilySUSE:
-		return "Install with 'sudo zypper install dms-greeter' (requires DankLinux OBS repo — see " + site.Docs + "/dankgreeter/installation#opensuse)"
+		return "Install with 'sudo zypper install dms-greeter' (requires Dux Linux OBS repo — see " + site.Docs + "/dms-greeter/installation#opensuse)"
 	case distros.FamilyUbuntu:
 		return "Install with 'sudo apt install dms-greeter' (requires ppa:avengemedia/danklinux: sudo add-apt-repository ppa:avengemedia/danklinux)"
 	case distros.FamilyFedora:

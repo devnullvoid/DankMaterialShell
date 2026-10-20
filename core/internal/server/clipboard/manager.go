@@ -30,13 +30,13 @@ import (
 
 	bolt "go.etcd.io/bbolt"
 
-	clipboardstore "github.com/AvengeMedia/DankMaterialShell/core/internal/clipboard"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/virtual_keyboard"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/wlcontext"
-	wlclient "github.com/AvengeMedia/dankgo/wayland/client"
-	"github.com/AvengeMedia/dankgo/wayland/ext_data_control"
-	"github.com/AvengeMedia/dankgo/wlclipboard"
+	wlclient "github.com/duxlabs-dev/dux-go/wayland/client"
+	"github.com/duxlabs-dev/dux-go/wayland/ext_data_control"
+	"github.com/duxlabs-dev/dux-go/wlclipboard"
+	clipboardstore "github.com/duxlabs-dev/dux-shell/core/internal/clipboard"
+	"github.com/duxlabs-dev/dux-shell/core/internal/log"
+	"github.com/duxlabs-dev/dux-shell/core/internal/proto/virtual_keyboard"
+	"github.com/duxlabs-dev/dux-shell/core/internal/server/wlcontext"
 )
 
 var errEntryNotFound = errors.New("entry not found")

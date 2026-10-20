@@ -10,9 +10,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/screenshot"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
+	"github.com/duxlabs-dev/dux-shell/core/internal/log"
+	"github.com/duxlabs-dev/dux-shell/core/internal/screenshot"
+	"github.com/duxlabs-dev/dux-shell/core/internal/utils"
 )
 
 type iccConfig struct {
@@ -22,7 +22,7 @@ type iccConfig struct {
 }
 
 func dmsConfigDir() string {
-	return filepath.Join(utils.XDGConfigHome(), "DankMaterialShell")
+	return filepath.Join(utils.XDGConfigHome(), "dms")
 }
 
 func iccConfigPath() string {

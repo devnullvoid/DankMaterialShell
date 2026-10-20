@@ -26,7 +26,7 @@ COMMON_POEXPORTS_DIR = COMMON_ROOT / "DCommon" / "translations" / "poexports"
 # I18n.tr, so their terms belong to the shell catalog. I18n.trFor terms
 # (external registry plugins) are owned by the DankPlugins project, see
 # i18nsync_plugins.py.
-OFFICIAL_PLUGINS_REPO = "https://github.com/AvengeMedia/dms-plugins.git"
+OFFICIAL_PLUGINS_REPO = "https://github.com/duxlabs-dev/dux-plugins.git"
 OFFICIAL_PLUGINS_DIR = REPO_ROOT / "dms-plugins"
 
 RATE_LIMIT_CODE = '4048'

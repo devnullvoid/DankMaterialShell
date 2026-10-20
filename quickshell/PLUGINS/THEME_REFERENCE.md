@@ -92,7 +92,7 @@ Theme.foregroundColor(Theme.cardSurface, Theme.isFloatingWindow(root))
 
 ### Icon with Text
 ```qml
-DankIcon {
+DIcon {
     name: "icon_name"
     color: Theme.onSurface
     font.pixelSize: Theme.iconSize

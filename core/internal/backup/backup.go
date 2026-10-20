@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const dirName = "DankMaterialShell"
+const dirName = "dms"
 
 func ConfigDir() (string, error) {
 	configDir, err := os.UserConfigDir()

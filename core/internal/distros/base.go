@@ -13,11 +13,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/config"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/netfetch"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/privesc"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/version"
+	"github.com/duxlabs-dev/dux-shell/core/internal/config"
+	"github.com/duxlabs-dev/dux-shell/core/internal/deps"
+	"github.com/duxlabs-dev/dux-shell/core/internal/netfetch"
+	"github.com/duxlabs-dev/dux-shell/core/internal/privesc"
+	"github.com/duxlabs-dev/dux-shell/core/internal/version"
 )
 
 const (
@@ -146,7 +146,7 @@ func (b *BaseDistribution) detectDMS() deps.Dependency {
 	}
 
 	dep := deps.Dependency{
-		Name:        "dms (DankMaterialShell)",
+		Name:        "dms (Dux Shell)",
 		Status:      status,
 		Description: "Desktop Management System configuration",
 		Required:    true,
@@ -666,7 +666,7 @@ func (b *BaseDistribution) installDMSBinary(ctx context.Context, sudoPassword st
 	defer os.RemoveAll(tmpDir)
 
 	// Download the gzipped binary
-	downloadURL := fmt.Sprintf("https://github.com/AvengeMedia/DankMaterialShell/releases/download/%s/dms-cli-%s.gz", version, arch)
+	downloadURL := fmt.Sprintf("https://github.com/duxlabs-dev/dux-shell/releases/download/%s/dms-cli-%s.gz", version, arch)
 	gzPath := filepath.Join(tmpDir, "dms.gz")
 
 	if err := netfetch.ToFile(ctx, downloadURL, netfetch.Options{Timeout: 5 * time.Minute}, gzPath); err != nil {

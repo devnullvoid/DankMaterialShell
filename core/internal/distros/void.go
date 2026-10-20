@@ -8,9 +8,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/privesc"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/site"
+	"github.com/duxlabs-dev/dux-shell/core/internal/deps"
+	"github.com/duxlabs-dev/dux-shell/core/internal/privesc"
+	"github.com/duxlabs-dev/dux-shell/core/internal/site"
 )
 
 const (
@@ -108,7 +108,7 @@ func (v *VoidDistribution) detectDMS() deps.Dependency {
 	}
 
 	return deps.Dependency{
-		Name:        "dms (DankMaterialShell)",
+		Name:        "dms (Dux Shell)",
 		Status:      status,
 		Version:     version,
 		Description: "Desktop Management System package",
@@ -130,7 +130,7 @@ func (v *VoidDistribution) detectXDGPortal() deps.Dependency {
 
 func (v *VoidDistribution) detectDMSGreeter() deps.Dependency {
 	gitInstalled := v.packageInstalled("dms-greeter-git")
-	dep := v.detectOptionalPackage("dms-greeter", "DankMaterialShell greetd greeter", gitInstalled || v.packageInstalled("dms-greeter"))
+	dep := v.detectOptionalPackage("dms-greeter", "Dux Shell greetd greeter", gitInstalled || v.packageInstalled("dms-greeter"))
 	return withGitVariant(dep, gitInstalled)
 }
 
@@ -217,12 +217,12 @@ func (v *VoidDistribution) GetPackageMappingWithVariants(wm deps.WindowManager, 
 		"elogind":                {Name: "elogind", Repository: RepoTypeSystem},
 		"mesa-dri":               {Name: "mesa-dri", Repository: RepoTypeSystem},
 
-		"quickshell":              {Name: "quickshell", Repository: RepoTypeSystem},
-		"matugen":                 {Name: "matugen", Repository: RepoTypeSystem},
-		"dms (DankMaterialShell)": v.getDmsMapping(variants["dms (DankMaterialShell)"]),
-		"dms-greeter":             variantMapping("dms-greeter", variants["dms-greeter"], RepoTypeXBPS, VoidDMSRepo),
-		"danksearch":              {Name: "danksearch", Repository: RepoTypeXBPS, RepoURL: VoidDankLinuxRepo},
-		"dankcalendar":            {Name: "dankcalendar", Repository: RepoTypeXBPS, RepoURL: VoidDankLinuxRepo},
+		"quickshell":      {Name: "quickshell", Repository: RepoTypeSystem},
+		"matugen":         {Name: "matugen", Repository: RepoTypeSystem},
+		"dms (Dux Shell)": v.getDmsMapping(variants["dms (Dux Shell)"]),
+		"dms-greeter":     variantMapping("dms-greeter", variants["dms-greeter"], RepoTypeXBPS, VoidDMSRepo),
+		"danksearch":      {Name: "danksearch", Repository: RepoTypeXBPS, RepoURL: VoidDankLinuxRepo},
+		"dankcalendar":    {Name: "dankcalendar", Repository: RepoTypeXBPS, RepoURL: VoidDankLinuxRepo},
 	}
 
 	switch wm {

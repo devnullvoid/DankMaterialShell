@@ -6,10 +6,10 @@ To contribute fork this repository, make your changes, and open a pull request.
 
 ## Setup
 
-Clone with submodules — the shared widget library ([dank-qml-common](https://github.com/AvengeMedia/dank-qml-common)) is vendored at `dank-qml-common/` and symlinked into `quickshell/DCommon`:
+Clone with submodules — the shared widget library ([dank-qml-common](https://github.com/duxlabs-dev/dux-qml-common)) is vendored at `dank-qml-common/` and symlinked into `quickshell/DCommon`:
 
 ```bash
-git clone --recurse-submodules https://github.com/AvengeMedia/DankMaterialShell.git
+git clone --recurse-submodules https://github.com/duxlabs-dev/dux-shell.git
 # or, in an existing clone:
 git submodule update --init
 ```
@@ -54,7 +54,7 @@ make run     # dev build, then launch against the live quickshell/ tree
 
 The UI config dir resolves in order: `-c <dir>`, `DMS_SHELL_DIR`, the dir a running instance is using, then the embedded UI. Each candidate must contain `shell.qml`. `make run` uses `-c $(pwd)/quickshell`, so QML edits hot-reload from the working tree.
 
-The Go core depends on [dankgo](https://github.com/AvengeMedia/dankgo) for logging, XDG paths, the IPC transport, and the quickshell process lifecycle. To develop against a local dankgo checkout, create a gitignored `go.work` at the repo root:
+The Go core depends on [dankgo](https://github.com/duxlabs-dev/dux-go) for logging, XDG paths, the IPC transport, and the quickshell process lifecycle. To develop against a local dankgo checkout, create a gitignored `go.work` at the repo root:
 
 ```
 go work init ./core ../dankgo
@@ -71,12 +71,12 @@ Everything under `quickshell/DCommon/` (core widgets, the file browser, scroll p
 The submodule URL in `.gitmodules` is HTTPS so CI and anonymous clones keep working. To push over SSH instead of being prompted for credentials, add a push rewrite to your git config — fetches stay HTTPS, pushes use SSH:
 
 ```bash
-git config --global url."git@github.com:AvengeMedia/".pushInsteadOf "https://github.com/AvengeMedia/"
+git config --global url."git@github.com:duxlabs-dev/".pushInsteadOf "https://github.com/duxlabs-dev/"
 ```
 
 Shared widgets read app-provided singletons (`Theme`, `SettingsData`, ...) through a documented contract — see the dank-qml-common README. If your change needs a new contract property, add it to the library's stub singletons in the same PR, then to `quickshell/Common/` here when you bump.
 
-Files in `quickshell/Widgets/`, `quickshell/Common/`, and `quickshell/Modals/FileBrowser/` that moved to the library remain in place as thin wrappers, so `import qs.Widgets`, `qs.Common`, and `qs.Modals.FileBrowser` keep working for the shell and for plugins.
+Files in `quickshell/Widgets/`, `quickshell/Common/`, and `quickshell/Modals/FileBrowser/` that moved to the library remain in place as thin wrappers, so existing `qs.Widgets`, `qs.Common`, and `qs.Modals.FileBrowser` imports keep working for the shell and for plugins. The `Dank*` widget names are deprecated: each one logs a warning naming its replacement. New code imports `qs.DCommon.Widgets` and uses the `D*` names (`DButton`, `DIcon`, `DListView`, and so on).
 
 ## VSCode Setup
 

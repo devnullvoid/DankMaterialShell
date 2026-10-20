@@ -3,14 +3,14 @@ package distros
 import (
 	"testing"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
+	"github.com/duxlabs-dev/dux-shell/core/internal/deps"
 )
 
 func TestPikaPackageMapping_SystemRepoOnly(t *testing.T) {
 	d := NewDebianDistribution(Registry["pika"], nil)
 	variants := map[string]deps.PackageVariant{
-		"quickshell":              deps.VariantGit,
-		"dms (DankMaterialShell)": deps.VariantGit,
+		"quickshell":      deps.VariantGit,
+		"dms (Dux Shell)": deps.VariantGit,
 	}
 	for _, wm := range []deps.WindowManager{deps.WindowManagerNiri, deps.WindowManagerHyprland} {
 		packages := d.GetPackageMappingWithVariants(wm, variants)
@@ -19,8 +19,8 @@ func TestPikaPackageMapping_SystemRepoOnly(t *testing.T) {
 				t.Errorf("%v: pika maps %s to %s, want system repo", wm, name, pkg.Repository)
 			}
 		}
-		if packages["dms (DankMaterialShell)"].Name != "dms-git" {
-			t.Errorf("%v: dms git variant = %s, want dms-git", wm, packages["dms (DankMaterialShell)"].Name)
+		if packages["dms (Dux Shell)"].Name != "dms-git" {
+			t.Errorf("%v: dms git variant = %s, want dms-git", wm, packages["dms (Dux Shell)"].Name)
 		}
 	}
 	hypr := d.GetPackageMapping(deps.WindowManagerHyprland)

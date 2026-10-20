@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/distros"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/duxlabs-dev/dux-shell/core/internal/deps"
+	"github.com/duxlabs-dev/dux-shell/core/internal/distros"
+	"github.com/duxlabs-dev/dux-shell/core/internal/utils"
 )
 
-const dmsDepName = "dms (DankMaterialShell)"
+const dmsDepName = "dms (Dux Shell)"
 
 func (m Model) viewDetectingDeps() string {
 	var b strings.Builder

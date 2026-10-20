@@ -15,7 +15,7 @@ Item {
     LayoutMirroring.childrenInherit: true
 
     readonly property string assetsDir: "file://" + Theme.shellDir + "/assets/"
-    readonly property string githubUrl: "https://github.com/AvengeMedia/DankMaterialShell"
+    readonly property string githubUrl: "https://github.com/duxlabs-dev/dux-shell"
     readonly property string kofiUrl: "https://ko-fi.com/danklinux"
     readonly property string discordUrl: "https://discord.gg/ppWTpKmPgT"
 
@@ -184,7 +184,7 @@ Item {
             }
 
             SettingsLinkRow {
-                title: I18n.tr("niri/dms Discord")
+                title: "niri/dux Discord"
                 subtitle: root.host(root.discordUrl)
                 url: root.discordUrl
                 leading: LogoImage {

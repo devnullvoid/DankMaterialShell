@@ -40,7 +40,7 @@ Item {
     }
 
     function registryThemeDir(theme) {
-        return Quickshell.env("HOME") + "/.config/DankMaterialShell/themes/" + (theme.sourceDir || theme.id);
+        return Quickshell.env("HOME") + "/.config/dms/themes/" + (theme.sourceDir || theme.id);
     }
     Component.onCompleted: {
         if (DMSService.dmsAvailable)

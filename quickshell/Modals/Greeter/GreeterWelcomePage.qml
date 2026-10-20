@@ -133,7 +133,7 @@ Item {
 
                     StyledText {
                         width: parent.width
-                        text: I18n.tr("Welcome to %1", "greeter welcome page title, %1 is the product name").arg("DankMaterialShell")
+                        text: I18n.tr("Welcome to %1", "greeter welcome page title, %1 is the product name").arg("Dux Shell")
                         font.pixelSize: Theme.fontSizeXXLarge
                         font.weight: Theme.fontWeightBold
                         color: hero.contentColor

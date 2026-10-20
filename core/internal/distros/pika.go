@@ -1,7 +1,7 @@
 package distros
 
 import (
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
+	"github.com/duxlabs-dev/dux-shell/core/internal/deps"
 )
 
 // PikaOS carries the whole DMS stack in its own apt repo, so no OBS repos or backports.
@@ -20,18 +20,18 @@ func (d *DebianDistribution) pikaPackageMapping(wm deps.WindowManager, variants 
 		return PackageMapping{Name: name, Repository: RepoTypeSystem}
 	}
 	packages := map[string]PackageMapping{
-		"git":                     system("git"),
-		"kitty":                   system("kitty"),
-		"alacritty":               system("alacritty"),
-		"ghostty":                 system("ghostty"),
-		"xdg-desktop-portal-gtk":  system("xdg-desktop-portal-gtk"),
-		"accountsservice":         system("accountsservice"),
-		"dms (DankMaterialShell)": variantMapping("dms", variants["dms (DankMaterialShell)"], RepoTypeSystem, ""),
-		"quickshell":              variantMapping("quickshell", variants["quickshell"], RepoTypeSystem, ""),
-		"dms-greeter":             variantMapping("dms-greeter", variants["dms-greeter"], RepoTypeSystem, ""),
-		"matugen":                 system("matugen"),
-		"danksearch":              system("danksearch"),
-		"dankcalendar":            variantMapping("dankcalendar", variants["dankcalendar"], RepoTypeSystem, ""),
+		"git":                    system("git"),
+		"kitty":                  system("kitty"),
+		"alacritty":              system("alacritty"),
+		"ghostty":                system("ghostty"),
+		"xdg-desktop-portal-gtk": system("xdg-desktop-portal-gtk"),
+		"accountsservice":        system("accountsservice"),
+		"dms (Dux Shell)":        variantMapping("dms", variants["dms (Dux Shell)"], RepoTypeSystem, ""),
+		"quickshell":             variantMapping("quickshell", variants["quickshell"], RepoTypeSystem, ""),
+		"dms-greeter":            variantMapping("dms-greeter", variants["dms-greeter"], RepoTypeSystem, ""),
+		"matugen":                system("matugen"),
+		"danksearch":             system("danksearch"),
+		"dankcalendar":           variantMapping("dankcalendar", variants["dankcalendar"], RepoTypeSystem, ""),
 	}
 
 	switch wm {

@@ -6,8 +6,8 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/privesc"
+	"github.com/duxlabs-dev/dux-shell/core/internal/deps"
+	"github.com/duxlabs-dev/dux-shell/core/internal/privesc"
 )
 
 func init() {
@@ -100,7 +100,7 @@ func (u *UbuntuDistribution) detectAccountsService() deps.Dependency {
 
 func (u *UbuntuDistribution) detectDMSGreeter() deps.Dependency {
 	gitInstalled := u.packageInstalled("dms-greeter-git")
-	dep := u.detectOptionalPackage("dms-greeter", "DankMaterialShell greetd greeter", gitInstalled || u.packageInstalled("dms-greeter"))
+	dep := u.detectOptionalPackage("dms-greeter", "Dux Shell greetd greeter", gitInstalled || u.packageInstalled("dms-greeter"))
 	return withGitVariant(dep, gitInstalled)
 }
 
@@ -137,13 +137,13 @@ func (u *UbuntuDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"accountsservice":        {Name: "accountsservice", Repository: RepoTypeSystem},
 
 		// DMS packages from PPAs
-		"dms (DankMaterialShell)": u.getDmsMapping(variants["dms (DankMaterialShell)"]),
-		"quickshell":              u.getQuickshellMapping(variants["quickshell"]),
-		"dms-greeter":             variantMapping("dms-greeter", variants["dms-greeter"], RepoTypePPA, "ppa:avengemedia/danklinux"),
-		"matugen":                 {Name: "matugen", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
-		"ghostty":                 {Name: "ghostty", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
-		"danksearch":              {Name: "danksearch", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
-		"dankcalendar":            variantMapping("dankcalendar", variants["dankcalendar"], RepoTypePPA, "ppa:avengemedia/danklinux"),
+		"dms (Dux Shell)": u.getDmsMapping(variants["dms (Dux Shell)"]),
+		"quickshell":      u.getQuickshellMapping(variants["quickshell"]),
+		"dms-greeter":     variantMapping("dms-greeter", variants["dms-greeter"], RepoTypePPA, "ppa:avengemedia/danklinux"),
+		"matugen":         {Name: "matugen", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
+		"ghostty":         {Name: "ghostty", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
+		"danksearch":      {Name: "danksearch", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
+		"dankcalendar":    variantMapping("dankcalendar", variants["dankcalendar"], RepoTypePPA, "ppa:avengemedia/danklinux"),
 	}
 
 	switch wm {

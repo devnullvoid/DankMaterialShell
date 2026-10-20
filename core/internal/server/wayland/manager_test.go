@@ -13,11 +13,11 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	wlclient "github.com/AvengeMedia/dankgo/wayland/client"
+	wlclient "github.com/duxlabs-dev/dux-go/wayland/client"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/icc"
-	mocks_wlclient "github.com/AvengeMedia/DankMaterialShell/core/internal/mocks/wlclient"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/wlr_gamma_control"
+	"github.com/duxlabs-dev/dux-shell/core/internal/icc"
+	mocks_wlclient "github.com/duxlabs-dev/dux-shell/core/internal/mocks/wlclient"
+	"github.com/duxlabs-dev/dux-shell/core/internal/proto/wlr_gamma_control"
 )
 
 func TestManager_ActorSerializesOutputStateAccess(t *testing.T) {

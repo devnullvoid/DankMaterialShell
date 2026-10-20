@@ -21,7 +21,7 @@ Singleton {
     }
     readonly property bool changelogEnabled: true
     // A dotfile in the config dir, not session.json: the Nix home module can make session.json read-only
-    readonly property string markerPath: currentVersion !== "" ? Paths.strip(StandardPaths.writableLocation(StandardPaths.ConfigLocation)) + "/DankMaterialShell/.changelog-" + currentVersion : ""
+    readonly property string markerPath: currentVersion !== "" ? Paths.strip(StandardPaths.writableLocation(StandardPaths.ConfigLocation)) + "/dms/.changelog-" + currentVersion : ""
     property bool markerChecked: false
     property bool markerSeen: false
     readonly property bool ready: !SessionData.isGreeterMode && FirstLaunchService.checkComplete && markerChecked

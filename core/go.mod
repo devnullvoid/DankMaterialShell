@@ -1,10 +1,10 @@
-module github.com/AvengeMedia/DankMaterialShell/core
+module github.com/duxlabs-dev/dux-shell/core
 
 go 1.27.1
 
 require (
-	github.com/AvengeMedia/dankgo v1.6.3-0.20261019192939-46e7a10c933f
-	github.com/AvengeMedia/dgop v1.6.3-0.20261015133851-bf93d6b75cf2
+	github.com/duxlabs-dev/dux-go v0.0.0-00010101000000-000000000000
+	github.com/duxlabs-dev/dux-gop v0.0.0-00010101000000-000000000000
 	github.com/Wifx/gonetworkmanager/v2 v2.2.0
 	github.com/alecthomas/chroma/v2 v2.27.0
 	github.com/charmbracelet/bubbles v1.0.0

@@ -56,7 +56,7 @@ Column {
             "hoverShape": "cookie6",
             "accent": "orange",
             "heading": "Material wallpapers",
-            "description": "Presets from your seed color, plus layouts from wallpaper.danklinux.com",
+            "description": "Presets from your seed color, plus layouts from wallpaper.duxlabs.dev",
             "target": "personalization"
         },
         {

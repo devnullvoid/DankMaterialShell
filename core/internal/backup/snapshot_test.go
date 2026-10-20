@@ -39,11 +39,11 @@ func TestSnapshotRestoresThroughSymlinkedConfig(t *testing.T) {
 	if err := os.MkdirAll(filepath.Join(home, ".config"), 0o755); err != nil {
 		t.Fatal(err)
 	}
-	configLink := filepath.Join(home, ".config", "DankMaterialShell")
+	configLink := filepath.Join(home, ".config", "dms")
 	if err := os.Symlink(dotfiles, configLink); err != nil {
 		t.Fatal(err)
 	}
-	session := filepath.Join(home, ".local", "state", "DankMaterialShell", "session.json")
+	session := filepath.Join(home, ".local", "state", "dms", "session.json")
 	writeFile(t, session, `{"wallpaper":"a"}`)
 
 	path, err := Snapshot("stable")
@@ -73,7 +73,7 @@ func TestSnapshotKeepsNewestPerLabel(t *testing.T) {
 	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
 	t.Setenv("XDG_STATE_HOME", filepath.Join(home, ".local", "state"))
 	t.Setenv("XDG_CACHE_HOME", filepath.Join(home, ".cache"))
-	writeFile(t, filepath.Join(home, ".config", "DankMaterialShell", "settings.json"), "{}")
+	writeFile(t, filepath.Join(home, ".config", "dms", "settings.json"), "{}")
 
 	dir, _ := SnapshotDir()
 	for _, stamp := range []string{"20260101-000000", "20260102-000000", "20260103-000000"} {
@@ -98,7 +98,7 @@ func TestRestoreSnapshotRejectsForeignEntries(t *testing.T) {
 	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
 	t.Setenv("XDG_STATE_HOME", filepath.Join(home, ".local", "state"))
 	t.Setenv("XDG_CACHE_HOME", filepath.Join(home, ".cache"))
-	writeFile(t, filepath.Join(home, ".config", "DankMaterialShell", "settings.json"), "{}")
+	writeFile(t, filepath.Join(home, ".config", "dms", "settings.json"), "{}")
 
 	archive := filepath.Join(home, "backup.tar.gz")
 	if err := Create(archive); err != nil {
@@ -123,7 +123,7 @@ func TestRestoreSnapshotRejectsEscapingSymlink(t *testing.T) {
 	}
 	gz := gzip.NewWriter(f)
 	tw := tar.NewWriter(gz)
-	if err := tw.WriteHeader(&tar.Header{Name: "config/DankMaterialShell/plugins", Typeflag: tar.TypeSymlink, Linkname: "../../../.ssh", Mode: 0o777}); err != nil {
+	if err := tw.WriteHeader(&tar.Header{Name: "config/dms/plugins", Typeflag: tar.TypeSymlink, Linkname: "../../../.ssh", Mode: 0o777}); err != nil {
 		t.Fatal(err)
 	}
 	for _, c := range []interface{ Close() error }{tw, gz, f} {
@@ -135,7 +135,7 @@ func TestRestoreSnapshotRejectsEscapingSymlink(t *testing.T) {
 	if err := RestoreSnapshot(archive); err == nil {
 		t.Fatal("RestoreSnapshot followed a symlink that points outside the config dir")
 	}
-	if _, err := os.Lstat(filepath.Join(home, ".config", "DankMaterialShell", "plugins")); err == nil {
+	if _, err := os.Lstat(filepath.Join(home, ".config", "dms", "plugins")); err == nil {
 		t.Fatal("the escaping symlink was created")
 	}
 }

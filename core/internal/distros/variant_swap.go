@@ -6,7 +6,7 @@ import (
 	"maps"
 	"strings"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
+	"github.com/duxlabs-dev/dux-shell/core/internal/deps"
 )
 
 // VariantSwap replaces the installed variant of a dependency with its other variant.

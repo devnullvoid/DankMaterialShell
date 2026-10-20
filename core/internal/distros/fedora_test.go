@@ -3,7 +3,7 @@ package distros
 import (
 	"testing"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
+	"github.com/duxlabs-dev/dux-shell/core/internal/deps"
 )
 
 func TestFedoraPackageMapping_EnterpriseLinuxUsesCOPRForMissingEPELPackages(t *testing.T) {

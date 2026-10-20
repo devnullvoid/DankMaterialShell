@@ -6,8 +6,8 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/privesc"
+	"github.com/duxlabs-dev/dux-shell/core/internal/deps"
+	"github.com/duxlabs-dev/dux-shell/core/internal/privesc"
 )
 
 func init() {
@@ -220,12 +220,12 @@ func (f *FedoraDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"accountsservice":        {Name: "accountsservice", Repository: RepoTypeSystem},
 
 		// COPR packages
-		"quickshell":              f.getQuickshellMapping(variants["quickshell"]),
-		"dms-greeter":             variantMapping("dms-greeter", variants["dms-greeter"], RepoTypeCOPR, "avengemedia/danklinux"),
-		"matugen":                 {Name: "matugen", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
-		"dms (DankMaterialShell)": f.getDmsMapping(variants["dms (DankMaterialShell)"]),
-		"danksearch":              {Name: "danksearch", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
-		"dankcalendar":            variantMapping("dankcalendar", variants["dankcalendar"], RepoTypeCOPR, "avengemedia/danklinux"),
+		"quickshell":      f.getQuickshellMapping(variants["quickshell"]),
+		"dms-greeter":     variantMapping("dms-greeter", variants["dms-greeter"], RepoTypeCOPR, "avengemedia/danklinux"),
+		"matugen":         {Name: "matugen", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
+		"dms (Dux Shell)": f.getDmsMapping(variants["dms (Dux Shell)"]),
+		"danksearch":      {Name: "danksearch", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
+		"dankcalendar":    variantMapping("dankcalendar", variants["dankcalendar"], RepoTypeCOPR, "avengemedia/danklinux"),
 	}
 
 	switch wm {
@@ -310,7 +310,7 @@ func (f *FedoraDistribution) detectAccountsService() deps.Dependency {
 
 func (f *FedoraDistribution) detectDMSGreeter() deps.Dependency {
 	gitInstalled := f.packageInstalled("dms-greeter-git")
-	dep := f.detectOptionalPackage("dms-greeter", "DankMaterialShell greetd greeter", gitInstalled || f.packageInstalled("dms-greeter"))
+	dep := f.detectOptionalPackage("dms-greeter", "Dux Shell greetd greeter", gitInstalled || f.packageInstalled("dms-greeter"))
 	return withGitVariant(dep, gitInstalled)
 }
 

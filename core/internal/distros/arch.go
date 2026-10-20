@@ -10,8 +10,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/privesc"
+	"github.com/duxlabs-dev/dux-shell/core/internal/deps"
+	"github.com/duxlabs-dev/dux-shell/core/internal/privesc"
 )
 
 func init() {
@@ -156,7 +156,7 @@ func (a *ArchDistribution) detectAccountsService() deps.Dependency {
 
 func (a *ArchDistribution) detectDMSGreeter() deps.Dependency {
 	installed := a.packageInstalled("greetd-dms-greeter-git") || a.packageInstalled("greetd-dms-greeter-bin")
-	dep := a.detectOptionalPackage("dms-greeter", "DankMaterialShell greetd greeter", installed)
+	dep := a.detectOptionalPackage("dms-greeter", "Dux Shell greetd greeter", installed)
 	dep.CanToggle = true
 	if a.packageInstalled("greetd-dms-greeter-git") {
 		dep.Variant = deps.VariantGit
@@ -217,18 +217,18 @@ func (a *ArchDistribution) GetPackageMapping(wm deps.WindowManager) map[string]P
 
 func (a *ArchDistribution) GetPackageMappingWithVariants(wm deps.WindowManager, variants map[string]deps.PackageVariant) map[string]PackageMapping {
 	packages := map[string]PackageMapping{
-		"dms (DankMaterialShell)": a.getDMSMapping(variants["dms (DankMaterialShell)"]),
-		"git":                     {Name: "git", Repository: RepoTypeSystem},
-		"quickshell":              a.getQuickshellMapping(variants["quickshell"]),
-		"dms-greeter":             a.getDMSGreeterMapping(variants["dms-greeter"]),
-		"matugen":                 a.getMatugenMapping(variants["matugen"]),
-		"ghostty":                 {Name: "ghostty", Repository: RepoTypeSystem},
-		"kitty":                   {Name: "kitty", Repository: RepoTypeSystem},
-		"alacritty":               {Name: "alacritty", Repository: RepoTypeSystem},
-		"xdg-desktop-portal-gtk":  {Name: "xdg-desktop-portal-gtk", Repository: RepoTypeSystem},
-		"accountsservice":         {Name: "accountsservice", Repository: RepoTypeSystem},
-		"danksearch":              a.getDanksearchMapping(variants["danksearch"]),
-		"dankcalendar":            a.getDankCalendarMapping(variants["dankcalendar"]),
+		"dms (Dux Shell)":        a.getDMSMapping(variants["dms (Dux Shell)"]),
+		"git":                    {Name: "git", Repository: RepoTypeSystem},
+		"quickshell":             a.getQuickshellMapping(variants["quickshell"]),
+		"dms-greeter":            a.getDMSGreeterMapping(variants["dms-greeter"]),
+		"matugen":                a.getMatugenMapping(variants["matugen"]),
+		"ghostty":                {Name: "ghostty", Repository: RepoTypeSystem},
+		"kitty":                  {Name: "kitty", Repository: RepoTypeSystem},
+		"alacritty":              {Name: "alacritty", Repository: RepoTypeSystem},
+		"xdg-desktop-portal-gtk": {Name: "xdg-desktop-portal-gtk", Repository: RepoTypeSystem},
+		"accountsservice":        {Name: "accountsservice", Repository: RepoTypeSystem},
+		"danksearch":             a.getDanksearchMapping(variants["danksearch"]),
+		"dankcalendar":           a.getDankCalendarMapping(variants["dankcalendar"]),
 	}
 
 	switch wm {

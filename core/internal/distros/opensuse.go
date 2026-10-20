@@ -9,8 +9,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/privesc"
+	"github.com/duxlabs-dev/dux-shell/core/internal/deps"
+	"github.com/duxlabs-dev/dux-shell/core/internal/privesc"
 )
 
 func init() {
@@ -134,7 +134,7 @@ func (o *OpenSUSEDistribution) SwapVariants(ctx context.Context, swaps []Variant
 
 func (o *OpenSUSEDistribution) detectDMSGreeter() deps.Dependency {
 	gitInstalled := o.packageInstalled("dms-greeter-git")
-	dep := o.detectOptionalPackage("dms-greeter", "DankMaterialShell greetd greeter", gitInstalled || o.packageInstalled("dms-greeter"))
+	dep := o.detectOptionalPackage("dms-greeter", "Dux Shell greetd greeter", gitInstalled || o.packageInstalled("dms-greeter"))
 	return withGitVariant(dep, gitInstalled)
 }
 
@@ -152,13 +152,13 @@ func (o *OpenSUSEDistribution) GetPackageMappingWithVariants(wm deps.WindowManag
 		"accountsservice":        {Name: "accountsservice", Repository: RepoTypeSystem},
 
 		// DMS packages from OBS
-		"dms (DankMaterialShell)": o.getDmsMapping(variants["dms (DankMaterialShell)"]),
-		"quickshell":              o.getQuickshellMapping(variants["quickshell"]),
-		"dms-greeter":             variantMapping("dms-greeter", variants["dms-greeter"], RepoTypeOBS, "home:AvengeMedia:danklinux"),
-		"ghostty":                 {Name: "ghostty", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
-		"matugen":                 {Name: "matugen", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
-		"danksearch":              {Name: "danksearch", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
-		"dankcalendar":            variantMapping("dankcalendar", variants["dankcalendar"], RepoTypeOBS, "home:AvengeMedia:danklinux"),
+		"dms (Dux Shell)": o.getDmsMapping(variants["dms (Dux Shell)"]),
+		"quickshell":      o.getQuickshellMapping(variants["quickshell"]),
+		"dms-greeter":     variantMapping("dms-greeter", variants["dms-greeter"], RepoTypeOBS, "home:AvengeMedia:danklinux"),
+		"ghostty":         {Name: "ghostty", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
+		"matugen":         {Name: "matugen", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
+		"danksearch":      {Name: "danksearch", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
+		"dankcalendar":    variantMapping("dankcalendar", variants["dankcalendar"], RepoTypeOBS, "home:AvengeMedia:danklinux"),
 	}
 
 	switch wm {

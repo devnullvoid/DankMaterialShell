@@ -8818,13 +8818,13 @@
   },
   {
     "section": "softwareUpdatesShell",
-    "label": "DankMaterialShell",
+    "label": "Dux Shell",
     "tabIndex": 20,
     "category": "Software updates",
     "keywords": [
       "channel",
-      "dankmaterialshell",
       "dms",
+      "dux",
       "integrations",
       "restart",
       "shell",

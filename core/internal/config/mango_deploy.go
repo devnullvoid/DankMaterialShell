@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/mangoconf"
+	"github.com/duxlabs-dev/dux-shell/core/internal/deps"
+	"github.com/duxlabs-dev/dux-shell/core/internal/mangoconf"
 )
 
 // BindsConfigType is the replaceConfigs key choosing stock DMS binds over the user's.

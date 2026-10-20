@@ -96,7 +96,7 @@ test("no taste, no dates, no votes: still a deterministic order", () => {
 });
 
 test("an upvote is posted to the reactions of the plugin's GitHub issue only", () => {
-    assert.equal(rank.issueReactionsPath("https://github.com/AvengeMedia/dms-plugin-registry/issues/42"), "repos/AvengeMedia/dms-plugin-registry/issues/42/reactions");
+    assert.equal(rank.issueReactionsPath("https://github.com/duxlabs-dev/dux-plugin-registry/issues/42"), "repos/duxlabs-dev/dux-plugin-registry/issues/42/reactions");
     assert.equal(rank.issueReactionsPath("https://github.com/a/b.c/issues/7#issuecomment-1"), "repos/a/b.c/issues/7/reactions");
     for (const url of ["", undefined, "https://example.com/a/b/issues/1", "https://github.com/a/b/pull/1", "https://github.com/a/b/issues/1/../../x", "https://github.com/a/b/issues/1 -f x=y", "http://github.com/a/b/issues/1", "https://github.com/../b/issues/1", "https://github.com/a/../issues/1", "https://github.com/./b/issues/1", "https://github.com/a/./issues/1"])
         assert.equal(rank.issueReactionsPath(url), "");

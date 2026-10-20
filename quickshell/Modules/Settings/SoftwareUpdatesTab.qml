@@ -294,7 +294,7 @@ Item {
 
         SettingsCard {
             width: parent.width
-            title: "DankMaterialShell"
+            title: "Dux Shell"
             iconName: "deployed_code"
             settingKey: "softwareUpdatesShell"
             tags: ["dms", "shell", "version", "channel", "restart"]
@@ -380,7 +380,7 @@ Item {
                     iconColor: Theme.primary
                     backgroundColor: SettingsMetrics.controlSurface
                     tooltipText: I18n.tr("View on GitHub", "link to the release on GitHub")
-                    onClicked: Qt.openUrlExternally("https://github.com/AvengeMedia/DankMaterialShell/commits/master")
+                    onClicked: Qt.openUrlExternally("https://github.com/duxlabs-dev/dux-shell/commits/master")
                 }
             }
 

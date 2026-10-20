@@ -11,14 +11,14 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/backup"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/distros"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/privesc"
+	"github.com/duxlabs-dev/dux-shell/core/internal/backup"
+	"github.com/duxlabs-dev/dux-shell/core/internal/deps"
+	"github.com/duxlabs-dev/dux-shell/core/internal/distros"
+	"github.com/duxlabs-dev/dux-shell/core/internal/privesc"
 	"github.com/spf13/cobra"
 )
 
-const switchDMSDep = "dms (DankMaterialShell)"
+const switchDMSDep = "dms (Dux Shell)"
 
 // The greeter runs the shell's QML, so it moves with dms or the login screen can break.
 var switchFamily = []string{switchDMSDep, "quickshell", "dms-greeter"}
