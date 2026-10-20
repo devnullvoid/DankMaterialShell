@@ -3,14 +3,14 @@ module github.com/duxlabs-dev/dux-shell/core
 go 1.27.1
 
 require (
-	github.com/duxlabs-dev/dux-go v0.0.0-00010101000000-000000000000
-	github.com/duxlabs-dev/dux-gop v0.0.0-00010101000000-000000000000
 	github.com/Wifx/gonetworkmanager/v2 v2.2.0
 	github.com/alecthomas/chroma/v2 v2.27.0
 	github.com/charmbracelet/bubbles v1.0.0
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/dlclark/regexp2/v2 v2.9.1
+	github.com/duxlabs-dev/dux-go v1.6.3-0.20261020163124-e2ca52bdf500
+	github.com/duxlabs-dev/dux-gop v1.6.3-0.20261020163819-0e4888f1fcea
 	github.com/fsnotify/fsnotify v1.10.1
 	github.com/go-git/go-git/v6 v6.0.0-beta.1
 	github.com/godbus/dbus/v5 v5.2.4
