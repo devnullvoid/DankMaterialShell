@@ -16,7 +16,7 @@ Item {
 
     readonly property string assetsDir: "file://" + Theme.shellDir + "/assets/"
     readonly property string githubUrl: "https://github.com/duxlabs-dev/dux-shell"
-    readonly property string kofiUrl: "https://ko-fi.com/danklinux"
+    readonly property string kofiUrl: "https://ko-fi.com/duxlabs"
     readonly property string discordUrl: "https://discord.gg/ppWTpKmPgT"
 
     readonly property var compositor: {
