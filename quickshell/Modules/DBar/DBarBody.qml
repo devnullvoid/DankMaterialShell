@@ -1234,6 +1234,52 @@ Item {
                     }
                 }
 
+                // Qt 6.11+ drops pointer delivery outside an ancestor's bounds once its clip cache is set
+                // (QQuickItemPrivate::effectivelyClipsEventHandlingChildren), so an edge pill cannot reach the screen edge on its own.
+                Repeater {
+                    model: 2
+
+                    MouseArea {
+                        id: edgeStrip
+
+                        required property int index
+                        readonly property bool leading: index === 0
+                        readonly property var section: leading ? barWindow._leftSection : barWindow._rightSection
+                        readonly property var edgeItem: {
+                            const item = leading ? section?.leadingInlineItem : section?.trailingInlineItem;
+                            if (!item || !("handlePress" in item) || !item.enabled || !item.visible)
+                                return null;
+                            if (leading)
+                                return item.isFirst && (barWindow.isVertical ? item.isTopBarEdge : item.isLeftBarEdge) ? item : null;
+                            return item.isLast && (barWindow.isVertical ? item.isBottomBarEdge : item.isRightBarEdge) ? item : null;
+                        }
+                        readonly property real sectionStart: !section ? 0 : barWindow.isVertical ? barUnitInset.y + topBarContent.y + section.y : barUnitInset.x + topBarContent.x + section.x
+                        readonly property real sectionEnd: !section ? 0 : sectionStart + (barWindow.isVertical ? section.height : section.width)
+
+                        x: barWindow.isVertical || leading ? 0 : sectionEnd
+                        y: barWindow.isVertical && !leading ? sectionEnd : 0
+                        width: barWindow.isVertical ? parent.width : Math.max(0, leading ? sectionStart : parent.width - sectionEnd)
+                        height: barWindow.isVertical ? Math.max(0, leading ? sectionStart : parent.height - sectionEnd) : parent.height
+                        visible: !!edgeItem && width > 0 && height > 0
+                        hoverEnabled: true
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        cursorShape: (edgeItem?.enableCursor ?? false) ? Qt.PointingHandCursor : Qt.ArrowCursor
+                        onPressed: mouse => edgeItem.handlePress(mouse, edgeStrip)
+                        onWheel: wheelEvent => {
+                            wheelEvent.accepted = false;
+                            edgeItem.wheel(wheelEvent);
+                        }
+
+                        Binding {
+                            target: edgeStrip.edgeItem
+                            property: "edgeHovered"
+                            value: edgeStrip.containsMouse
+                            when: !!edgeStrip.edgeItem
+                            restoreMode: Binding.RestoreBindingOrValue
+                        }
+                    }
+                }
+
                 Loader {
                     id: islandLoader
                     anchors.fill: parent

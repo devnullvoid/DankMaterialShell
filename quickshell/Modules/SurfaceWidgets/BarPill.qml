@@ -28,7 +28,8 @@ Item {
     property bool enableBackgroundHover: true
     property bool enableCursor: true
     property bool isAutoHideBar: false
-    readonly property bool isMouseHovered: mouseArea.containsMouse || visualContent.hovered
+    property bool edgeHovered: false
+    readonly property bool isMouseHovered: mouseArea.containsMouse || visualContent.hovered || edgeHovered
     property bool isLeftBarEdge: false
     property bool isRightBarEdge: false
     property bool isTopBarEdge: false
@@ -45,12 +46,11 @@ Item {
     readonly property real visualHeight: Theme.snap(isVerticalOrientation ? (contentLoader.item ? (contentLoader.item.implicitHeight + horizontalPadding * 2) : 0) : widgetThickness, dpr)
     readonly property alias visualContent: visualContent
     readonly property alias contentItem: contentLoader.item
-    readonly property real barEdgeExtension: BarMetrics.fittsReach
     readonly property real gapExtension: sectionSpacing
-    readonly property real leftMargin: !isVerticalOrientation ? (isLeftBarEdge && isFirst ? barEdgeExtension : (isFirst ? gapExtension : gapExtension / 2)) : 0
-    readonly property real rightMargin: !isVerticalOrientation ? (isRightBarEdge && isLast ? barEdgeExtension : (isLast ? gapExtension : gapExtension / 2)) : 0
-    readonly property real topMargin: isVerticalOrientation ? (isTopBarEdge && isFirst ? barEdgeExtension : (isFirst ? gapExtension : gapExtension / 2)) : (axis?.edge === "top" ? crossEdgeExtension : 0)
-    readonly property real bottomMargin: isVerticalOrientation ? (isBottomBarEdge && isLast ? barEdgeExtension : (isLast ? gapExtension : gapExtension / 2)) : (axis?.edge === "bottom" ? crossEdgeExtension : 0)
+    readonly property real leftMargin: !isVerticalOrientation ? (isFirst ? gapExtension : gapExtension / 2) : 0
+    readonly property real rightMargin: !isVerticalOrientation ? (isLast ? gapExtension : gapExtension / 2) : 0
+    readonly property real topMargin: isVerticalOrientation ? (isFirst ? gapExtension : gapExtension / 2) : (axis?.edge === "top" ? crossEdgeExtension : 0)
+    readonly property real bottomMargin: isVerticalOrientation ? (isLast ? gapExtension : gapExtension / 2) : (axis?.edge === "bottom" ? crossEdgeExtension : 0)
     readonly property real minTooltipY: {
         if (!parentScreen || !isVerticalOrientation || isAutoHideBar)
             return 0;
