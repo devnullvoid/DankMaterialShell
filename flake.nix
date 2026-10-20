@@ -222,7 +222,7 @@
 
       nixosModules.default = self.nixosModules.dank-material-shell;
 
-      nixosModules.greeter = builtins.warn "dank-material-shell: the greeter moved to the dank-greeter repo; use `inputs.dank-greeter.nixosModules.default` and `programs.dms-greeter` (https://github.com/duxlabs-dev/dux-greeter)" { };
+      nixosModules.greeter = builtins.warn "dank-material-shell: the greeter moved to the dux-greeter repo; use `inputs.dank-greeter.nixosModules.default` and `programs.dms-greeter` (https://github.com/duxlabs-dev/dux-greeter)" { };
 
       nixosModules.dankMaterialShell = builtins.warn "dank-material-shell: flake output `nixosModules.dankMaterialShell` has been renamed to `nixosModules.dank-material-shell`" self.nixosModules.dank-material-shell;
 

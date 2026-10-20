@@ -20,7 +20,7 @@ func (m Model) viewWelcome() string {
 	b.WriteString(m.styles.TitleBox.Render(
 		m.styles.Highlight.Render("dankinstall") + m.styles.AccentItalic.Render(" // Dux Labs Installer")))
 	b.WriteByte('\n')
-	b.WriteString(m.styles.SubtleItalic.Render("Quickstart for a Dank Desktop"))
+	b.WriteString(m.styles.SubtleItalic.Render("Quickstart for a Dux Desktop"))
 	b.WriteString("\n\n")
 
 	switch {

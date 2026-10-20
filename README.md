@@ -142,8 +142,8 @@ dms plugins restore ~/plugins.lock.json
 
 DMS is one piece of the suite. The rest lives in its own repos:
 
-- [dank-greeter](https://github.com/duxlabs-dev/dux-greeter) - greetd login screen with the Dank Material aesthetic. The Greeter tab in DMS settings is the front-end for it.
-- [dankcalendar](https://github.com/duxlabs-dev/dux-calendar) - Local, Google, Microsoft, and CalDAV calendars for the dank desktop.
+- [dank-greeter](https://github.com/duxlabs-dev/dux-greeter) - greetd login screen with the Dux Shell aesthetic. The Greeter tab in DMS settings is the front-end for it.
+- [dankcalendar](https://github.com/duxlabs-dev/dux-calendar) - Local, Google, Microsoft, and CalDAV calendars for the Dux desktop.
 - [dgop](https://github.com/duxlabs-dev/dux-gop) - System monitoring TUI and Go library; its library powers the process list and dashboard widgets inside the dms daemon.
 - [dsearch](https://github.com/duxlabs-dev/dux-search) - Fast file search that powers file results in the launcher.
 - [dank-qml-common](https://github.com/duxlabs-dev/dux-qml-common) - Shared QML widgets and components used by DMS, dank-greeter, and dankcalendar.

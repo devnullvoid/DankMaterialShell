@@ -74,7 +74,7 @@ The submodule URL in `.gitmodules` is HTTPS so CI and anonymous clones keep work
 git config --global url."git@github.com:duxlabs-dev/".pushInsteadOf "https://github.com/duxlabs-dev/"
 ```
 
-Shared widgets read app-provided singletons (`Theme`, `SettingsData`, ...) through a documented contract — see the dank-qml-common README. If your change needs a new contract property, add it to the library's stub singletons in the same PR, then to `quickshell/Common/` here when you bump.
+Shared widgets read app-provided singletons (`Theme`, `SettingsData`, ...) through a documented contract — see the dux-qml-common README. If your change needs a new contract property, add it to the library's stub singletons in the same PR, then to `quickshell/Common/` here when you bump.
 
 Files in `quickshell/Widgets/`, `quickshell/Common/`, and `quickshell/Modals/FileBrowser/` that moved to the library remain in place as thin wrappers, so existing `qs.Widgets`, `qs.Common`, and `qs.Modals.FileBrowser` imports keep working for the shell and for plugins. The `Dank*` widget names are deprecated: each one logs a warning naming its replacement. New code imports `qs.DCommon.Widgets` and uses the `D*` names (`DButton`, `DIcon`, `DListView`, and so on).
 
@@ -158,7 +158,7 @@ Preferably, try to keep new terms to a minimum and re-use existing terms where p
 
 Don't re-extract the translations. `en.json` and `template.json` are synced with POEditor by a maintainer script, so running `extract_translations.py` in your PR just makes a diff that fights the next sync. Add your `I18n.tr()` calls and leave the catalogs alone. (`settings_search_index.json` is the exception, the pre-commit hook regenerates that one when you touch settings QML.)
 
-Strings inside `quickshell/DCommon/` are owned by the dank-qml-common repo but stay in the DMS POEditor project — extraction here deliberately skips them, and `scripts/i18nsync.py sync` uploads the union of app terms and the submodule's terms instead (common terms carry the `dank-qml-common` tag). On download the sync splits the exports: app translations go to `quickshell/translations/poexports/`, common translations go to `dank-qml-common/DCommon/translations/poexports/` for you to commit in that repo and bump. At runtime `I18n` merges both catalogs (app terms win). Other apps (dankcalendar) keep their own POEditor projects and merge the `dank-qml-common`-tagged terms from the DMS project.
+Strings inside `quickshell/DCommon/` are owned by the dux-qml-common repo but stay in the DMS POEditor project — extraction here deliberately skips them, and `scripts/i18nsync.py sync` uploads the union of app terms and the submodule's terms instead (common terms carry the `dank-qml-common` tag). On download the sync splits the exports: app translations go to `quickshell/translations/poexports/`, common translations go to `dank-qml-common/DCommon/translations/poexports/` for you to commit in that repo and bump. At runtime `I18n` merges both catalogs (app terms win). Other apps (dankcalendar) keep their own POEditor projects and merge the `dank-qml-common`-tagged terms from the DMS project.
 
 ### GO (`core` directory)
 
