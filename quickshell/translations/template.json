@@ -5012,27 +5012,6 @@
     "comment": "greeter settings link"
   },
   {
-    "term": "DankCalendar",
-    "translation": "",
-    "context": "DankCalendar",
-    "reference": "",
-    "comment": "calendar backend option"
-  },
-  {
-    "term": "DankCalendar isn't installed",
-    "translation": "",
-    "context": "DankCalendar isn't installed",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "DankCalendar isn't running",
-    "translation": "",
-    "context": "DankCalendar isn't running",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Dark",
     "translation": "",
     "context": "Dark",
@@ -6191,6 +6170,27 @@
     "term": "Dusk (Nautical Twilight)",
     "translation": "",
     "context": "Dusk (Nautical Twilight)",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Dux Calendar",
+    "translation": "",
+    "context": "Dux Calendar",
+    "reference": "",
+    "comment": "calendar backend option"
+  },
+  {
+    "term": "Dux Calendar isn't installed",
+    "translation": "",
+    "context": "Dux Calendar isn't installed",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Dux Calendar isn't running",
+    "translation": "",
+    "context": "Dux Calendar isn't running",
     "reference": "",
     "comment": ""
   },
@@ -7553,9 +7553,9 @@
     "comment": ""
   },
   {
-    "term": "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch",
+    "term": "File search requires dsearch\nInstall from github.com/duxlabs-dev/dux-search",
     "translation": "",
-    "context": "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch",
+    "context": "File search requires dsearch\nInstall from github.com/duxlabs-dev/dux-search",
     "reference": "",
     "comment": ""
   },
@@ -22692,13 +22692,6 @@
     "context": "niri shortcuts config",
     "reference": "",
     "comment": "greeter keybinds niri description"
-  },
-  {
-    "term": "niri/dms Discord",
-    "translation": "",
-    "context": "niri/dms Discord",
-    "reference": "",
-    "comment": ""
   },
   {
     "term": "niri: config reloaded",

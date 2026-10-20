@@ -452,7 +452,7 @@
   {
     "term": "%1 notifications",
     "context": "%1 notifications",
-    "reference": "Modules/DIsland/DIslandSurface.qml:816, Modules/Lock/Widgets/LockNotificationsWidget.qml:257",
+    "reference": "Modules/DIsland/DIslandSurface.qml:815, Modules/Lock/Widgets/LockNotificationsWidget.qml:257",
     "comment": "island compact face: unread notification count",
     "tags": [
       "shell"
@@ -4820,7 +4820,7 @@
   {
     "term": "Clipboard",
     "context": "Clipboard",
-    "reference": "Common/SettingsTabs.qml:580, Services/AppSearchService.qml:282, Modals/DLauncherV2/Controller.qml:344, Modals/DLauncherV2/Controller.qml:1897, Modals/DLauncherV2/Components/LauncherRow.qml:262, Modules/DIsland/DIslandSurface.qml:836, Modules/Settings/KeybindEditorDialog.qml:402, Modules/Settings/Widgets/IslandBehaviorCard.qml:79",
+    "reference": "Common/SettingsTabs.qml:580, Services/AppSearchService.qml:282, Modals/DLauncherV2/Controller.qml:344, Modals/DLauncherV2/Controller.qml:1897, Modals/DLauncherV2/Components/LauncherRow.qml:262, Modules/DIsland/DIslandSurface.qml:835, Modules/Settings/KeybindEditorDialog.qml:402, Modules/Settings/Widgets/IslandBehaviorCard.qml:79",
     "comment": "noun, settings page name and launcher section title",
     "tags": [
       "settings",
@@ -5635,7 +5635,7 @@
   {
     "term": "Control Center",
     "context": "Control Center",
-    "reference": "Common/BarWidgetCatalog.qml:141, Modals/Greeter/GreeterWelcomePage.qml:66, Modules/DIsland/DIslandSurface.qml:699, Modules/Settings/ThemeSurfacesTab.qml:630, Modules/Settings/Widgets/IslandBehaviorCard.qml:63, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:45",
+    "reference": "Common/BarWidgetCatalog.qml:141, Modals/Greeter/GreeterWelcomePage.qml:66, Modules/DIsland/DIslandSurface.qml:698, Modules/Settings/ThemeSurfacesTab.qml:630, Modules/Settings/Widgets/IslandBehaviorCard.qml:63, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:45",
     "comment": "Control Center | greeter feature card title | island compact face: control center label | island settings: battery or control center slot row",
     "tags": [
       "settings",
@@ -6519,33 +6519,6 @@
     "context": "DankBar",
     "reference": "Modals/Greeter/GreeterCompletePage.qml:419",
     "comment": "greeter settings link",
-    "tags": [
-      "shell"
-    ]
-  },
-  {
-    "term": "DankCalendar",
-    "context": "DankCalendar",
-    "reference": "Modules/Settings/TimeWeatherTab.qml:387",
-    "comment": "calendar backend option",
-    "tags": [
-      "settings"
-    ]
-  },
-  {
-    "term": "DankCalendar isn't installed",
-    "context": "DankCalendar isn't installed",
-    "reference": "Modules/DDash/Overview/CalendarOverviewCard.qml:226",
-    "comment": "",
-    "tags": [
-      "shell"
-    ]
-  },
-  {
-    "term": "DankCalendar isn't running",
-    "context": "DankCalendar isn't running",
-    "reference": "Modules/DDash/Overview/CalendarOverviewCard.qml:226",
-    "comment": "",
     "tags": [
       "shell"
     ]
@@ -8067,6 +8040,33 @@
     "term": "Dusk (Nautical Twilight)",
     "context": "Dusk (Nautical Twilight)",
     "reference": "Services/WeatherService.qml:281",
+    "comment": "",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Dux Calendar",
+    "context": "Dux Calendar",
+    "reference": "Modules/Settings/TimeWeatherTab.qml:387",
+    "comment": "calendar backend option",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "Dux Calendar isn't installed",
+    "context": "Dux Calendar isn't installed",
+    "reference": "Modules/DDash/Overview/CalendarOverviewCard.qml:226",
+    "comment": "",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Dux Calendar isn't running",
+    "context": "Dux Calendar isn't running",
+    "reference": "Modules/DDash/Overview/CalendarOverviewCard.qml:226",
     "comment": "",
     "tags": [
       "shell"
@@ -9832,8 +9832,8 @@
     ]
   },
   {
-    "term": "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch",
-    "context": "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch",
+    "term": "File search requires dsearch\nInstall from github.com/duxlabs-dev/dux-search",
+    "context": "File search requires dsearch\nInstall from github.com/duxlabs-dev/dux-search",
     "reference": "Modals/DLauncherV2/ResultsList.qml:637",
     "comment": "",
     "tags": [
@@ -13606,7 +13606,7 @@
   {
     "term": "Launcher",
     "context": "Launcher",
-    "reference": "Common/SettingsTabs.qml:194, Modules/DIsland/DIslandSurface.qml:663, Modules/Settings/WidgetsTab.qml:722, Modules/Settings/Widgets/IslandBehaviorCard.qml:55",
+    "reference": "Common/SettingsTabs.qml:194, Modules/DIsland/DIslandSurface.qml:662, Modules/Settings/WidgetsTab.qml:722, Modules/Settings/Widgets/IslandBehaviorCard.qml:55",
     "comment": "island compact face: launcher label | island settings: button to launcher tab",
     "tags": [
       "settings",
@@ -17544,7 +17544,7 @@
   {
     "term": "Notifications",
     "context": "Notifications",
-    "reference": "Common/SettingsTabs.qml:232, Services/DesktopWidgetRegistry.qml:110, Modals/Greeter/GreeterCompletePage.qml:411, Modules/DDash/DashRegistry.qml:201, Modules/DIsland/DIslandSurface.qml:816, Modules/Settings/ShadowsTab.qml:190, Modules/Settings/CompositorLayoutTab.qml:179, Modules/Settings/Widgets/IslandNotificationsCard.qml:14, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:60, Modules/DDash/Overview/NotificationsOverviewCard.qml:18, Modules/Lock/Widgets/LockNotificationsWidget.qml:257",
+    "reference": "Common/SettingsTabs.qml:232, Services/DesktopWidgetRegistry.qml:110, Modals/Greeter/GreeterCompletePage.qml:411, Modules/DDash/DashRegistry.qml:201, Modules/DIsland/DIslandSurface.qml:815, Modules/Settings/ShadowsTab.qml:190, Modules/Settings/CompositorLayoutTab.qml:179, Modules/Settings/Widgets/IslandNotificationsCard.qml:14, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:60, Modules/DDash/Overview/NotificationsOverviewCard.qml:18, Modules/Lock/Widgets/LockNotificationsWidget.qml:257",
     "comment": "greeter settings link | island compact face: notification center label | island settings: notification badge slot row | island settings: notifications card title",
     "tags": [
       "settings",
@@ -19645,7 +19645,7 @@
   {
     "term": "Power menu",
     "context": "Power menu",
-    "reference": "Modules/DIsland/DIslandSurface.qml:859, Modules/Settings/PowerSleepTab.qml:184, Modules/Settings/Widgets/IslandBehaviorCard.qml:87, Modules/ControlCenter/Models/WidgetModel.qml:232",
+    "reference": "Modules/DIsland/DIslandSurface.qml:858, Modules/Settings/PowerSleepTab.qml:184, Modules/Settings/Widgets/IslandBehaviorCard.qml:87, Modules/ControlCenter/Models/WidgetModel.qml:232",
     "comment": "island compact face: power menu label | island settings: route the power menu to the island",
     "tags": [
       "settings",
@@ -28146,7 +28146,7 @@
   {
     "term": "Wallpaper",
     "context": "Wallpaper",
-    "reference": "Modals/Greeter/GreeterCompletePage.qml:395, Modules/DIsland/DIslandSurface.qml:725, Modules/Settings/DisplayWidgetsTab.qml:34, Modules/Settings/WallpaperColorsTab.qml:55, Modules/Settings/WallpaperColorsTab.qml:361, Modules/Settings/KeybindEditorDialog.qml:376, Modules/Settings/KeybindEditorDialog.qml:388, Modules/Settings/KeybindEditorDialog.qml:1138, Modules/Settings/ThemeScheduleTab.qml:16",
+    "reference": "Modals/Greeter/GreeterCompletePage.qml:395, Modules/DIsland/DIslandSurface.qml:724, Modules/Settings/DisplayWidgetsTab.qml:34, Modules/Settings/WallpaperColorsTab.qml:55, Modules/Settings/WallpaperColorsTab.qml:361, Modules/Settings/KeybindEditorDialog.qml:376, Modules/Settings/KeybindEditorDialog.qml:388, Modules/Settings/KeybindEditorDialog.qml:1138, Modules/Settings/ThemeScheduleTab.qml:16",
     "comment": "greeter settings link | island compact face: wallpaper picker label",
     "tags": [
       "settings",
@@ -28248,7 +28248,7 @@
   {
     "term": "Weather",
     "context": "Weather",
-    "reference": "Common/SettingsTabs.qml:543, Common/BarWidgetCatalog.qml:71, Modules/DDash/DashRegistry.qml:161, Modules/DIsland/DIslandSurface.qml:746, Modules/Settings/BarWidgetTab.qml:137, Modules/Settings/BarWidgetTab.qml:140, Modules/Settings/DDashTab.qml:23, Modules/Settings/DDashTab.qml:28, Modules/Settings/KeybindEditorDialog.qml:378, Modules/Settings/KeybindEditorDialog.qml:390, Modules/Settings/KeybindEditorDialog.qml:1138, Modules/Settings/TimeWeatherTab.qml:423, Modules/Settings/WeatherSettingsTab.qml:30, Modules/Settings/LockWidgetSettings/LockStatusSettings.qml:27, Modules/Settings/Widgets/IslandBehaviorCard.qml:111, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:40",
+    "reference": "Common/SettingsTabs.qml:543, Common/BarWidgetCatalog.qml:71, Modules/DDash/DashRegistry.qml:161, Modules/DIsland/DIslandSurface.qml:745, Modules/Settings/BarWidgetTab.qml:137, Modules/Settings/BarWidgetTab.qml:140, Modules/Settings/DDashTab.qml:23, Modules/Settings/DDashTab.qml:28, Modules/Settings/KeybindEditorDialog.qml:378, Modules/Settings/KeybindEditorDialog.qml:390, Modules/Settings/KeybindEditorDialog.qml:1138, Modules/Settings/TimeWeatherTab.qml:423, Modules/Settings/WeatherSettingsTab.qml:30, Modules/Settings/LockWidgetSettings/LockStatusSettings.qml:27, Modules/Settings/Widgets/IslandBehaviorCard.qml:111, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:40",
     "comment": "island compact face: weather label | island settings: weather slot row",
     "tags": [
       "settings",
@@ -29533,15 +29533,6 @@
     "comment": "greeter keybinds niri description",
     "tags": [
       "shell"
-    ]
-  },
-  {
-    "term": "niri/dms Discord",
-    "context": "niri/dms Discord",
-    "reference": "Modules/Settings/AboutTab.qml:187",
-    "comment": "",
-    "tags": [
-      "settings"
     ]
   },
   {
