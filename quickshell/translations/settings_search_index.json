@@ -373,7 +373,10 @@
       "wallpaper"
     ],
     "page": "personalization",
-    "description": "Layer namespace dms:blurwallpaper, needs a niri blur rule",
+    "description": "Layer namespace %1, needs a niri blur rule",
+    "descriptionArgs": [
+      "dms:blurwallpaper"
+    ],
     "conditionKey": "isNiri"
   },
   {
@@ -8243,7 +8246,11 @@
       "user"
     ],
     "parentLabel": "Sound & media",
-    "description": "mpris-proxy is running and will create duplicate Bluetooth players. Disable it with: systemctl --user disable --now mpris-proxy.service"
+    "description": "%1 is running and will create duplicate Bluetooth players. Disable it with: %2",
+    "descriptionArgs": [
+      "mpris-proxy",
+      "systemctl --user disable --now mpris-proxy.service"
+    ]
   },
   {
     "section": "mediaExcludePlayers",
@@ -12583,6 +12590,9 @@
       "unmanaged"
     ],
     "description": "Auto follows bar spacing, Off keeps your %1 config",
+    "descriptionArgs": [
+      "MangoWC"
+    ],
     "conditionKey": "layoutCapable"
   },
   {
@@ -12612,6 +12622,9 @@
       "unmanaged"
     ],
     "description": "Auto follows bar spacing, Off keeps your %1 config",
+    "descriptionArgs": [
+      "niri"
+    ],
     "conditionKey": "layoutCapable"
   },
   {
@@ -15221,7 +15234,10 @@
       "wallpaper colors"
     ],
     "parentLabel": "Wallpaper & colors",
-    "description": "Also runs the templates in your matugen config.toml",
+    "description": "Also runs the templates in your %1",
+    "descriptionArgs": [
+      "matugen config.toml"
+    ],
     "conditionKey": "matugenAvailable"
   },
   {
@@ -17130,7 +17146,7 @@
       "users"
     ],
     "parentLabel": "Users & accounts",
-    "description": "Adds them to the %1 group so they can run dms-greeter sync --profile"
+    "description": "Adds them to the %1 group so they can run %2"
   },
   {
     "section": "createUserAdmin",
@@ -17230,7 +17246,10 @@
       "write"
     ],
     "parentLabel": "Security",
-    "description": "DMS removes its managed block from /etc/pam.d/greetd and stops write services",
+    "description": "DMS removes its managed block from %1 and stops write services",
+    "descriptionArgs": [
+      "/etc/pam.d/greetd"
+    ],
     "conditionKey": "greeterAvailable"
   },
   {
