@@ -12697,6 +12697,8 @@
     "tabIndex": 37,
     "category": "System & integrations",
     "keywords": [
+      "gap_inner_horizontal",
+      "gap_inner_vertical",
       "gappih",
       "gappiv",
       "gaps",
@@ -12964,6 +12966,8 @@
     "category": "System & integrations",
     "keywords": [
       "edge",
+      "gap_outer_horizontal",
+      "gap_outer_vertical",
       "gappoh",
       "gappov",
       "gaps",
@@ -12999,6 +13003,7 @@
     "category": "System & integrations",
     "keywords": [
       "border",
+      "border_px",
       "borderpx",
       "integrations",
       "mango",
