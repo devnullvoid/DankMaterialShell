@@ -47,7 +47,7 @@ jobs:
         run: |
           SHOULD_BUILD=true
           if [ "${{ github.event_name }}" = "schedule" ]; then
-            # dms/current is shared with dux-packaging; read this repo's own entry
+            # dms/current is shared with dux-repo; read this repo's own entry
             PUBLISHED_COMMIT="$(curl -fsSL --retry 3 "$MANIFEST_URL" \
               | jq -r --arg repo "${{ github.repository }}" '.sources[$repo] // .source_commit // empty' 2>/dev/null || true)"
             if [ "$PUBLISHED_COMMIT" = "${{ github.sha }}" ]; then
