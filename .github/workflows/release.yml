@@ -559,3 +559,38 @@ jobs:
           set -euo pipefail
           gh workflow run pin-release.yml --repo "$REPO" -f version="$TAG"
           echo "dispatched pin-release ${TAG} to ${REPO}" >> "$GITHUB_STEP_SUMMARY"
+
+  # Build the stable dms package on every distro channel. Runs after the
+  # release job so every asset the packaging scripts download already exists.
+  distros:
+    name: Dispatch ${{ matrix.workflow }}
+    runs-on: ubuntu-latest
+    needs: [release]
+    if: ${{ !contains(inputs.tag, '-') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - workflow: run-copr.yml
+            args: -f package=dms -f version=__VERSION__ -f release=1
+          - workflow: run-obs.yml
+            args: -f package=dms
+          - workflow: run-ppa.yml
+            args: -f package=dms
+          - workflow: run-xbps.yml
+            args: -f version=__TAG__ -f build_dms=true -f build_git=false
+    steps:
+      - name: Dispatch packaging workflow
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WORKFLOW: ${{ matrix.workflow }}
+          ARGS: ${{ matrix.args }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          VERSION="${TAG#v}"
+          ARGS="${ARGS//__VERSION__/$VERSION}"
+          ARGS="${ARGS//__TAG__/$TAG}"
+          # shellcheck disable=SC2086
+          gh workflow run "$WORKFLOW" --repo "${{ github.repository }}" $ARGS
+          echo "dispatched ${WORKFLOW} for ${TAG} (${ARGS})" >> "$GITHUB_STEP_SUMMARY"

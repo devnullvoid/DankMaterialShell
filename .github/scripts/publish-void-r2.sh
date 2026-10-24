@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Download / publish an XBPS repository prefix on Cloudflare R2.
+# Shared by dux-shell and dux-packaging (same prefix); keep both copies identical.
+# ETag guard: publish aborts if another writer replaced x86_64-repodata mid-run.
 
 set -euo pipefail
 
@@ -19,13 +22,54 @@ require_env() {
 
 require_env R2_BUCKET R2_ENDPOINT R2_PREFIX REPOSITORY_DIR
 
+REPODATA_KEY="${R2_PREFIX}/current/x86_64-repodata"
+ETAG_STATE="$REPOSITORY_DIR/.repodata-etag"
+
 aws_r2() {
     aws --endpoint-url "$R2_ENDPOINT" "$@"
+}
+
+# Print the remote repodata ETag, or "none" when the object does not exist yet.
+remote_repodata_etag() {
+    local out
+    if out="$(aws_r2 s3api head-object --bucket "$R2_BUCKET" --key "$REPODATA_KEY" \
+        --query ETag --output text 2>&1)"; then
+        printf '%s\n' "$out"
+    elif grep -qiE 'Not Found|404' <<<"$out"; then
+        echo none
+    else
+        printf '%s\n' "$out" >&2
+        return 1
+    fi
+}
+
+record_repodata_etag() {
+    remote_repodata_etag > "$ETAG_STATE"
+}
+
+# Abort when another publisher replaced the index since we recorded it.
+assert_repodata_unchanged() {
+    local stage="$1" expected actual
+    if [[ ! -s "$ETAG_STATE" ]]; then
+        echo "error: $ETAG_STATE is missing; run '$0 download' before publishing" >&2
+        exit 1
+    fi
+    expected="$(<"$ETAG_STATE")"
+    actual="$(remote_repodata_etag)"
+    if [[ "$expected" != "$actual" ]]; then
+        echo "error: ${REPODATA_KEY} changed while this run was building ($stage)" >&2
+        echo "  recorded ETag: $expected" >&2
+        echo "  current ETag:  $actual" >&2
+        echo "another publisher won the race; nothing was overwritten. Re-run to retry." >&2
+        exit 1
+    fi
 }
 
 download() {
     mkdir -p "$REPOSITORY_DIR/current" "$REPOSITORY_DIR/previous-current"
 
+    # ETag must be taken before the sync so a mid-sync publish is detected.
+    record_repodata_etag
     aws_r2 s3 sync \
         "s3://${R2_BUCKET}/${R2_PREFIX}/current/" \
         "$REPOSITORY_DIR/current/" \
@@ -35,7 +79,7 @@ download() {
 }
 
 build_manifest() {
-    local packages='[]'
+    local packages='[]' previous_sources='{}'
     local file filename pkgver name version revision sha size
 
     for file in "$REPOSITORY_DIR"/current/*.xbps; do
@@ -58,12 +102,21 @@ build_manifest() {
             <<<"$packages")"
     done
 
+    # `sources` maps publishing repo -> last published commit; `source_commit` kept for older consumers.
+    if [[ -s "$REPOSITORY_DIR/previous-current/manifest.json" ]]; then
+        previous_sources="$(jq -c '.sources // {}' "$REPOSITORY_DIR/previous-current/manifest.json" 2>/dev/null || echo '{}')"
+    fi
+
     jq -n \
         --arg repository "$R2_PREFIX" \
+        --arg source_repository "$SOURCE_REPOSITORY" \
         --arg source_commit "$SOURCE_COMMIT" \
         --arg published_at "$PUBLISHED_AT" \
+        --argjson previous_sources "$previous_sources" \
         --argjson packages "$packages" \
-        '{schema: 1, repository: $repository, source_commit: $source_commit, published_at: $published_at, packages: $packages}' \
+        '{schema: 1, repository: $repository, source_repository: $source_repository, source_commit: $source_commit,
+          sources: ($previous_sources + {($source_repository): $source_commit}),
+          published_at: $published_at, packages: $packages}' \
         > "$REPOSITORY_DIR/current/manifest.json"
 }
 
@@ -110,11 +163,16 @@ upload_current() {
             --only-show-errors
     done
 
-    aws_r2 s3 cp \
-        "$REPOSITORY_DIR/current/x86_64-repodata" \
-        "s3://${R2_BUCKET}/${R2_PREFIX}/current/x86_64-repodata" \
+    # Orphaned .xbps from an aborted run are re-indexed by the next run.
+    assert_repodata_unchanged "before uploading repodata"
+
+    # Keep the ETag of our own PUT for the final check.
+    aws_r2 s3api put-object \
+        --bucket "$R2_BUCKET" \
+        --key "$REPODATA_KEY" \
+        --body "$REPOSITORY_DIR/current/x86_64-repodata" \
         --cache-control 'no-cache' \
-        --only-show-errors
+        --query ETag --output text > "$ETAG_STATE"
 
     # The manifest is the publication marker and is always uploaded last.
     aws_r2 s3 cp \
@@ -123,7 +181,8 @@ upload_current() {
         --cache-control 'no-cache' \
         --only-show-errors
 
-    # Once the new index and marker are live, remove objects no longer referenced.
+    # Remove retired objects only if the live index is still ours.
+    assert_repodata_unchanged "before removing retired objects"
     shopt -s nullglob
     for old in "$REPOSITORY_DIR"/previous-current/*; do
         filename="$(basename "$old")"
@@ -137,8 +196,9 @@ upload_current() {
 
 publish() {
     require_env SOURCE_COMMIT
+    SOURCE_REPOSITORY="${SOURCE_REPOSITORY:-${GITHUB_REPOSITORY:-unknown}}"
     PUBLISHED_AT="${PUBLISHED_AT:-$(date -u +'%Y-%m-%dT%H:%M:%SZ')}"
-    export PUBLISHED_AT
+    export PUBLISHED_AT SOURCE_REPOSITORY
 
     shopt -s nullglob
     local packages=("$REPOSITORY_DIR"/current/*.xbps)
@@ -157,6 +217,7 @@ publish() {
         }
     done
 
+    assert_repodata_unchanged "before publishing"
     verify_immutable_packages
     build_manifest
     archive_retired

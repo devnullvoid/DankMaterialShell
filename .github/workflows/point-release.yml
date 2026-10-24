@@ -103,5 +103,5 @@ jobs:
           {
             echo "## ${{ steps.derive.outputs.tag }} tagged on ${{ steps.derive.outputs.branch }} — Release workflow dispatched"
             echo ""
-            echo "Distro builds are manual: run the per-distro workflows (COPR/OBS/PPA/XBPS) once the release is published."
+            echo "Distro builds (COPR/OBS/PPA/XBPS) are dispatched by the Release workflow once the release is published."
           } >> "$GITHUB_STEP_SUMMARY"

@@ -3,9 +3,7 @@ name: Void Linux XBPS Repository
 on:
   schedule:
     - cron: "0 2,5,14,17,20,23 * * *" # 9am, 12pm, 3pm, 6pm, 9pm, 12am EST (UTC times shown)
-  # release trigger disabled; dispatch manually after a release
-  # release:
-  #   types: [published]
+  # Stable builds are dispatched by release.yml after the release assets exist.
   workflow_dispatch:
     inputs:
       version:
@@ -49,7 +47,9 @@ jobs:
         run: |
           SHOULD_BUILD=true
           if [ "${{ github.event_name }}" = "schedule" ]; then
-            PUBLISHED_COMMIT="$(curl -fsSL --retry 3 "$MANIFEST_URL" | jq -r '.source_commit // empty' 2>/dev/null || true)"
+            # dms/current is shared with dux-packaging; read this repo's own entry
+            PUBLISHED_COMMIT="$(curl -fsSL --retry 3 "$MANIFEST_URL" \
+              | jq -r --arg repo "${{ github.repository }}" '.sources[$repo] // .source_commit // empty' 2>/dev/null || true)"
             if [ "$PUBLISHED_COMMIT" = "${{ github.sha }}" ]; then
               SHOULD_BUILD=false
               echo "${{ github.sha }} is already published; skipping the scheduled build."
