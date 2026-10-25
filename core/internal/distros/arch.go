@@ -1,6 +1,7 @@
 package distros
 
 import (
+	"cmp"
 	"context"
 	"fmt"
 	"os"
@@ -128,7 +129,7 @@ func (a *ArchDistribution) DetectDependenciesWithTerminal(ctx context.Context, w
 func (a *ArchDistribution) detectDanksearch() deps.Dependency {
 	dep := a.BaseDistribution.detectDanksearch()
 	dep.CanToggle = true
-	if a.packageInstalled("dsearch-git") {
+	if a.packageInstalled("dux-search-git") {
 		dep.Variant = deps.VariantGit
 	}
 	return dep
@@ -136,14 +137,14 @@ func (a *ArchDistribution) detectDanksearch() deps.Dependency {
 
 func (a *ArchDistribution) detectDMS() deps.Dependency {
 	dep := a.BaseDistribution.detectDMS()
-	if a.packageInstalled("dms-shell-git") {
+	if a.packageInstalled("dux-shell-git") {
 		dep.Variant = deps.VariantGit
 	}
 	return dep
 }
 
 func (a *ArchDistribution) detectDankCalendar() deps.Dependency {
-	return withGitVariant(a.BaseDistribution.detectDankCalendar(), a.packageInstalled("dankcalendar-git"))
+	return withGitVariant(a.BaseDistribution.detectDankCalendar(), a.packageInstalled("dux-calendar-git"))
 }
 
 func (a *ArchDistribution) detectXDGPortal() deps.Dependency {
@@ -155,19 +156,40 @@ func (a *ArchDistribution) detectAccountsService() deps.Dependency {
 }
 
 func (a *ArchDistribution) detectDMSGreeter() deps.Dependency {
-	installed := a.packageInstalled("greetd-dms-greeter-git") || a.packageInstalled("greetd-dms-greeter-bin")
+	installed := a.packageInstalled("dux-greeter-git") || a.packageInstalled("dux-greeter-bin")
 	dep := a.detectOptionalPackage("dms-greeter", "Dux Shell greetd greeter", installed)
 	dep.CanToggle = true
-	if a.packageInstalled("greetd-dms-greeter-git") {
+	if a.packageInstalled("dux-greeter-git") {
 		dep.Variant = deps.VariantGit
 	}
 	return dep
 }
 
+// AUR packages renamed for Dux; installs from before the rename keep the old name.
+var legacyAURNames = map[string]string{
+	"dux-shell-git":    "dms-shell-git",
+	"dux-greeter-bin":  "greetd-dms-greeter-bin",
+	"dux-greeter-git":  "greetd-dms-greeter-git",
+	"dux-search-bin":   "dsearch-bin",
+	"dux-search-git":   "dsearch-git",
+	"dux-calendar-bin": "dankcalendar-bin",
+	"dux-calendar-git": "dankcalendar-git",
+}
+
 func (a *ArchDistribution) packageInstalled(pkg string) bool {
-	cmd := exec.Command("pacman", "-Q", pkg)
-	err := cmd.Run()
-	return err == nil
+	return a.installedName(pkg) != ""
+}
+
+// installedName returns the name pkg is installed under, which may be its pre-rename name.
+func (a *ArchDistribution) installedName(pkg string) string {
+	if exec.Command("pacman", "-Q", pkg).Run() == nil {
+		return pkg
+	}
+	legacy, ok := legacyAURNames[pkg]
+	if ok && exec.Command("pacman", "-Q", legacy).Run() == nil {
+		return legacy
+	}
+	return ""
 }
 
 // parseSRCINFODeps reads a .SRCINFO file and returns runtime dep and makedep package
@@ -286,28 +308,28 @@ func (a *ArchDistribution) getMatugenMapping(variant deps.PackageVariant) Packag
 
 func (a *ArchDistribution) getDanksearchMapping(variant deps.PackageVariant) PackageMapping {
 	if variant == deps.VariantGit {
-		return PackageMapping{Name: "dsearch-git", Repository: RepoTypeAUR}
+		return PackageMapping{Name: "dux-search-git", Repository: RepoTypeAUR}
 	}
-	return PackageMapping{Name: "dsearch-bin", Repository: RepoTypeAUR}
+	return PackageMapping{Name: "dux-search-bin", Repository: RepoTypeAUR}
 }
 
 func (a *ArchDistribution) getDankCalendarMapping(variant deps.PackageVariant) PackageMapping {
 	if variant == deps.VariantGit {
-		return PackageMapping{Name: "dankcalendar-git", Repository: RepoTypeAUR}
+		return PackageMapping{Name: "dux-calendar-git", Repository: RepoTypeAUR}
 	}
-	return PackageMapping{Name: "dankcalendar-bin", Repository: RepoTypeAUR}
+	return PackageMapping{Name: "dux-calendar-bin", Repository: RepoTypeAUR}
 }
 
 func (a *ArchDistribution) getDMSGreeterMapping(variant deps.PackageVariant) PackageMapping {
 	if variant == deps.VariantGit {
-		return PackageMapping{Name: "greetd-dms-greeter-git", Repository: RepoTypeAUR}
+		return PackageMapping{Name: "dux-greeter-git", Repository: RepoTypeAUR}
 	}
-	return PackageMapping{Name: "greetd-dms-greeter-bin", Repository: RepoTypeAUR}
+	return PackageMapping{Name: "dux-greeter-bin", Repository: RepoTypeAUR}
 }
 
 func (a *ArchDistribution) getDMSMapping(variant deps.PackageVariant) PackageMapping {
 	if forceDMSGit || variant == deps.VariantGit {
-		return PackageMapping{Name: "dms-shell-git", Repository: RepoTypeAUR}
+		return PackageMapping{Name: "dux-shell-git", Repository: RepoTypeAUR}
 	}
 	return PackageMapping{Name: "dms-shell", Repository: RepoTypeSystem}
 }
@@ -587,7 +609,8 @@ func (a *ArchDistribution) SwapVariants(ctx context.Context, swaps []VariantSwap
 		}
 
 		if swap.To.Repository == RepoTypeAUR {
-			if err := a.installSingleAURPackageInternal(ctx, swap.To.Name, swap.From.Name, sudoPassword, progressChan, 0.40, 0.85, make(map[string]bool)); err != nil {
+			from := cmp.Or(a.installedName(swap.From.Name), swap.From.Name)
+			if err := a.installSingleAURPackageInternal(ctx, swap.To.Name, from, sudoPassword, progressChan, 0.40, 0.85, make(map[string]bool)); err != nil {
 				return err
 			}
 			continue
@@ -658,7 +681,7 @@ func (a *ArchDistribution) installAURPackages(ctx context.Context, packages []st
 		}
 	}
 
-	// Reorder packages to ensure dms-shell-git dependencies are installed first
+	// Reorder packages to ensure dux-shell-git dependencies are installed first
 	orderedPackages := a.reorderAURPackages(packages)
 
 	baseProgress := 0.67
@@ -699,7 +722,7 @@ func (a *ArchDistribution) reorderAURPackages(packages []string) []string {
 	var dmsShell []string
 
 	for _, pkg := range packages {
-		if pkg == "dms-shell-git" {
+		if pkg == "dux-shell-git" {
 			dmsShell = append(dmsShell, pkg)
 		} else {
 			isDep := false
@@ -781,7 +804,7 @@ func (a *ArchDistribution) installSingleAURPackageInternal(ctx context.Context, 
 		}
 	}
 
-	if pkg == "dms-shell-git" {
+	if pkg == "dux-shell-git" {
 		srcinfoPath := filepath.Join(packageDir, ".SRCINFO")
 		depsToRemove := []string{
 			"depends = quickshell",

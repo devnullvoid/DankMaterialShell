@@ -52,8 +52,14 @@ cd "$TEMP_DIR" || exit 1
 
 # Download the gzipped binary and its checksum
 printf "%bDownloading installer...%b\n" "$GREEN" "$NC"
-curl -L "https://github.com/duxlabs-dev/dux-shell/releases/download/$LATEST_VERSION/duxinstall-$ARCH.gz" -o "installer.gz"
-curl -L "https://github.com/duxlabs-dev/dux-shell/releases/download/$LATEST_VERSION/duxinstall-$ARCH.gz.sha256" -o "expected.sha256"
+RELEASE_URL="https://github.com/duxlabs-dev/dux-shell/releases/download/$LATEST_VERSION"
+# install.duxlabs.dev serves this file from master; releases before 2.0.1 only ship dankinstall-*.gz
+ASSET="duxinstall-$ARCH.gz"
+if ! curl -fsLI "$RELEASE_URL/$ASSET" >/dev/null; then
+    ASSET="dankinstall-$ARCH.gz"
+fi
+curl -fL "$RELEASE_URL/$ASSET" -o "installer.gz"
+curl -fL "$RELEASE_URL/$ASSET.sha256" -o "expected.sha256"
 
 # Get the expected checksum
 EXPECTED_CHECKSUM=$(awk '{print $1}' expected.sha256)

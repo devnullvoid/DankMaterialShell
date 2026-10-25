@@ -18,6 +18,7 @@ const ownerQueryTimeout = 10 * time.Second
 var dmsPackageNames = map[string]bool{
 	"dms": true, "dms-git": true,
 	"dms-shell": true, "dms-shell-git": true, "dms-shell-bin": true,
+	"dux-shell-git": true,
 }
 
 // Arch/Debian/SUSE: 1.7.0+git4915.56234761; Fedora COPR: 0.0.git.4915.56234761

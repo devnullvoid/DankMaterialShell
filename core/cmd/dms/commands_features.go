@@ -128,14 +128,18 @@ func updateArchLinux() error {
 
 	var packageName string
 	var isAUR bool
-	if isArchPackageInstalled("dms-shell") {
-		packageName = "dms-shell"
+	// AUR names first: pacman -Q matches provides, and dux-shell-git provides dms-shell.
+	if isArchPackageInstalled("dux-shell-git") {
+		packageName = "dux-shell-git"
+		isAUR = true
 	} else if isArchPackageInstalled("dms-shell-git") {
 		packageName = "dms-shell-git"
 		isAUR = true
 	} else if isArchPackageInstalled("dms-shell-bin") {
 		packageName = "dms-shell-bin"
 		isAUR = true
+	} else if isArchPackageInstalled("dms-shell") {
+		packageName = "dms-shell"
 	} else {
 		fmt.Println("Info: No dms-shell package found.")
 		fmt.Println("Info: Falling back to git-based update method...")

@@ -67,7 +67,7 @@ func greeterPackageInstallHint() string {
 	case distros.FamilyFedora:
 		return "Install with 'sudo dnf install dms-greeter' (requires COPR: sudo dnf copr enable avengemedia/danklinux)"
 	case distros.FamilyArch:
-		return "Install from AUR with 'paru -S greetd-dms-greeter-bin' or 'yay -S greetd-dms-greeter-bin'"
+		return "Install from AUR with 'paru -S dux-greeter-bin' or 'yay -S dux-greeter-bin'"
 	case distros.FamilyVoid:
 		return "Install with 'sudo xbps-install -S dms-greeter' (requires DMS XBPS repo: echo 'repository=" + distros.VoidDMSRepo + "' | sudo tee /etc/xbps.d/dms.conf)"
 	default:

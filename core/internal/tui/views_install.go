@@ -123,7 +123,7 @@ func dmsPackageName(distroID string, dependencies []deps.Dependency) string {
 	switch config.Family {
 	case distros.FamilyArch:
 		if isGit {
-			return "dms-shell-git"
+			return "dux-shell-git"
 		}
 		return "dms-shell"
 	case distros.FamilyFedora, distros.FamilyUbuntu, distros.FamilyDebian, distros.FamilySUSE, distros.FamilyVoid:
