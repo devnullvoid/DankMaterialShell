@@ -136,6 +136,16 @@ func dmsPackageName(distroID string, dependencies []deps.Dependency) string {
 	}
 }
 
+func (m Model) uninstallHint() string {
+	if m.isImmutable() {
+		if distros.Registry[m.osInfo.Distribution.ID].Family == distros.FamilyFedora {
+			return "sudo rpm-ostree uninstall " + dmsPackageName(m.osInfo.Distribution.ID, m.dependencies)
+		}
+		return ""
+	}
+	return uninstallCommand(m.osInfo.Distribution.ID, m.dependencies)
+}
+
 func uninstallCommand(distroID string, dependencies []deps.Dependency) string {
 	config, ok := distros.Registry[distroID]
 	if !ok {
@@ -218,15 +228,20 @@ func (m Model) viewInstallComplete() string {
 	b.WriteByte('\n')
 	b.WriteString(m.styles.Success.Render("Setup Complete!"))
 	b.WriteString("\n\n")
-	b.WriteString(m.styles.Success.Render("✓ All packages installed and configurations deployed."))
-	b.WriteString("\n\n")
-
+	summary := "✓ All packages installed and configurations deployed."
 	accomplishments := []string{
 		"• Window manager and dependencies installed",
 		"• Terminal and development tools configured",
 		"• Configuration files deployed with backups",
 		"• System optimized for Dux Shell",
 	}
+	if m.isImmutable() {
+		summary = "✓ Configurations deployed. No packages were changed on this image."
+		accomplishments = accomplishments[1:]
+	}
+	b.WriteString(m.styles.Success.Render(summary))
+	b.WriteString("\n\n")
+
 	for _, item := range accomplishments {
 		b.WriteString(m.styles.Subtle.Render(item))
 		b.WriteByte('\n')
@@ -240,12 +255,17 @@ func (m Model) viewInstallComplete() string {
 	cmd := m.styles.Accent
 	autostart, logs := m.troubleshootingHints()
 
+	if m.isImmutable() && m.optionalDepSelected("dms-greeter") {
+		b.WriteString(label.Render("Greeter:") + "\n")
+		b.WriteString(label.Render("  Configure greetd:  ") + cmd.Render("dms-greeter install --yes") + "\n\n")
+	}
+
 	b.WriteString(label.Render("Troubleshooting:") + "\n")
 	b.WriteString(label.Render("  Disable autostart: ") + cmd.Render(autostart) + "\n")
 	b.WriteString(label.Render("  View logs:         ") + cmd.Render(logs) + "\n")
 
 	if m.osInfo != nil {
-		if uninstall := uninstallCommand(m.osInfo.Distribution.ID, m.dependencies); uninstall != "" {
+		if uninstall := m.uninstallHint(); uninstall != "" {
 			b.WriteString(label.Render("  Uninstall:         ") + cmd.Render(uninstall) + "\n")
 		}
 	}

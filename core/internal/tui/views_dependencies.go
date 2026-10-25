@@ -89,13 +89,20 @@ func (m Model) dependencyStatus(dep deps.Dependency) (marker, status string) {
 	switch {
 	case m.disabledItems[dep.Name]:
 		return "✗ ", m.styles.Subtle.Render("Will skip")
+	case m.variantMarks[dep.Name]:
+		return "🔄 ", m.styles.Warning.Render("Will switch to " + variantLabel(dep.Variant))
 	case m.reinstallItems[dep.Name]:
 		return "🔄 ", m.styles.Warning.Render("Will upgrade")
+	case m.isImmutable() && !dep.Required && dep.Status == deps.StatusInstalled:
+		return "✓ ", m.styles.Success.Render("✓ Selected (installed)")
 	case dep.Name == dmsDepName:
 		switch dep.Status {
 		case deps.StatusInstalled:
 			return "⚡ ", m.styles.Success.Render("✓ Required (installed)")
 		case deps.StatusMissing:
+			if m.isImmutable() {
+				return "⚡ ", m.styles.Warning.Render("○ Required (not installed)")
+			}
 			return "⚡ ", m.styles.Warning.Render("○ Required (will install)")
 		case deps.StatusNeedsUpdate:
 			return "⚡ ", m.styles.Warning.Render("△ Required (needs update)")
@@ -105,17 +112,28 @@ func (m Model) dependencyStatus(dep deps.Dependency) (marker, status string) {
 		return "⚡ ", ""
 	}
 
+	verb := "Will install"
+	if m.isImmutable() {
+		verb = "Not installed"
+	}
 	switch dep.Status {
 	case deps.StatusInstalled:
 		return "", m.styles.Subtle.Render("✓ Already installed")
 	case deps.StatusMissing:
-		return "", m.styles.Warning.Render("○ Will install")
+		return "", m.styles.Warning.Render("○ " + verb)
 	case deps.StatusNeedsUpdate:
-		return "", m.styles.Warning.Render("△ Will install")
+		return "", m.styles.Warning.Render("△ " + verb)
 	case deps.StatusNeedsReinstall:
-		return "", m.styles.Error.Render("! Will install")
+		return "", m.styles.Error.Render("! " + verb)
 	}
 	return "", ""
+}
+
+func variantLabel(variant deps.PackageVariant) string {
+	if variant == deps.VariantGit {
+		return "git"
+	}
+	return "stable"
 }
 
 func (m Model) dependencyNote(name string) string {
@@ -144,6 +162,9 @@ func (m Model) updateDetectingDepsState(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, m.listenForLogs()
 	}
 
+	if m.isImmutable() {
+		depsMsg.deps = distros.ApplyImmutableDetection(depsMsg.deps)
+	}
 	m.dependencies = partitionOptionalLast(depsMsg.deps)
 	for _, dep := range m.dependencies {
 		m.detectedVariants[dep.Name] = dep.Variant
@@ -151,6 +172,9 @@ func (m Model) updateDetectingDepsState(msg tea.Msg) (tea.Model, tea.Cmd) {
 			continue
 		}
 		m.disabledItems[dep.Name] = true
+	}
+	if m.resume != nil {
+		return m.resumeAfterLayering()
 	}
 	m.state = StateDependencyReview
 	return m, m.listenForLogs()
@@ -172,6 +196,9 @@ func (m Model) updateDependencyReviewState(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case "g", "G":
 		m.toggleSelectedVariant()
 	case "enter":
+		if m.isImmutable() {
+			return m.continueOnImmutable()
+		}
 		if m.osInfo != nil {
 			if config, ok := distros.Registry[m.osInfo.Distribution.ID]; ok && config.Family == distros.FamilyGentoo {
 				m.state = StateGentooUseFlags
@@ -197,7 +224,8 @@ func (m Model) toggleSelectedDependency() {
 	}
 
 	installed := dep.Status == deps.StatusInstalled || dep.Status == deps.StatusNeedsReinstall
-	if installed {
+	// Nothing to reinstall on an image; enabling only drives the user-space setup.
+	if installed && !m.isImmutable() {
 		m.reinstallItems[dep.Name] = !m.reinstallItems[dep.Name]
 		m.disabledItems[dep.Name] = false
 		return

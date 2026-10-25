@@ -285,15 +285,15 @@ func checkSystemInfo() []checkResult {
 		if message == "" {
 			message = fmt.Sprintf("%s %s", osInfo.Distribution.ID, osInfo.VersionID)
 		}
-		if distros.IsUnsupportedDistro(osInfo.Distribution.ID, osInfo.VersionID) {
+		details := fmt.Sprintf("ID: %s, Version: %s, Arch: %s", osInfo.ID, osInfo.VersionID, osInfo.Architecture)
+		switch {
+		case osInfo.Immutable:
+			details += "; image-based (" + osInfo.ImmutableReason + "), dankinstall deploys configuration only"
+		case distros.IsUnsupportedDistro(osInfo.Distribution.ID, osInfo.VersionID):
 			status = statusWarn
 			message += " (version may not be fully supported)"
 		}
-		results = append(results, checkResult{
-			catSystem, "Operating System", status, message,
-			fmt.Sprintf("ID: %s, Version: %s, Arch: %s", osInfo.Distribution.ID, osInfo.VersionID, osInfo.Architecture),
-			doctorDocsURL + "#operating-system",
-		})
+		results = append(results, checkResult{catSystem, "Operating System", status, message, details, doctorDocsURL + "#operating-system"})
 	}
 
 	arch := runtime.GOARCH

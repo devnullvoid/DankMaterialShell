@@ -73,6 +73,9 @@ func (m Model) updateDeployingConfigsState(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.installationLogs = append(m.installationLogs, logLine)
 	}
 
+	if m.isImmutable() {
+		clearLayerResume()
+	}
 	m.state = StateInstallComplete
 	m.isLoading = false
 	return m, nil
@@ -101,14 +104,7 @@ func (m Model) optionalDepSelected(name string) bool {
 }
 
 func (m Model) useSystemdConfig() bool {
-	if m.osInfo == nil {
-		return true
-	}
-	distroConfig, exists := distros.Registry[m.osInfo.Distribution.ID]
-	if !exists {
-		return true
-	}
-	return distroConfig.Family != distros.FamilyVoid
+	return distros.HasSystemd()
 }
 
 func (m Model) viewConfigConfirmation() string {

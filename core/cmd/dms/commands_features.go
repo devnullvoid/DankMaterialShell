@@ -83,6 +83,10 @@ func runUpdate() {
 		log.Fatalf("Error detecting OS: %v", err)
 	}
 
+	if osInfo.Immutable {
+		log.Fatalf("%s is an image-based system (%s). dms lives in the read-only image; update it with 'dms system update' or your image tooling (rpm-ostree, bootc, transactional-update).", osInfo.PrettyName, osInfo.ImmutableReason)
+	}
+
 	config, exists := distros.Registry[osInfo.Distribution.ID]
 	if !exists {
 		log.Fatalf("Unsupported distribution: %s", osInfo.Distribution.ID)

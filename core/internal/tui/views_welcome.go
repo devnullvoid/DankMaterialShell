@@ -26,6 +26,14 @@ func (m Model) viewWelcome() string {
 	switch {
 	case m.osInfo == nil && m.isLoading:
 		fmt.Fprintf(&b, "%s %s\n\n", m.spinner.View(), m.styles.Normal.Render("Detecting system..."))
+	case m.osInfo != nil && m.osInfo.Immutable && !m.distroSupported():
+		m.writeImmutableSystem(&b)
+	case m.osInfo != nil && m.osInfo.Immutable && m.resume != nil:
+		m.writeSystemSummary(&b)
+		m.writeResumeNotice(&b)
+	case m.osInfo != nil && m.osInfo.Immutable:
+		m.writeSystemSummary(&b)
+		m.writeImmutableNotice(&b)
 	case m.osInfo != nil && distros.IsUnsupportedDistro(m.osInfo.Distribution.ID, m.osInfo.VersionID):
 		m.writeUnsupportedDistro(&b)
 	case m.osInfo != nil:
@@ -44,6 +52,49 @@ func (m Model) writeUnsupportedDistro(b *strings.Builder) {
 	msg := m.styles.Normal.Render(unsupportedDistroMessage(m.osInfo))
 	b.WriteString(m.styles.ErrorBox.Render(title + "\n\n" + msg))
 	b.WriteString("\n\n")
+}
+
+func (m Model) writeImmutableSystem(b *strings.Builder) {
+	title := m.styles.Warning.Bold(true).Render("⚠ IMAGE-BASED SYSTEM")
+	var paragraphs []string
+	for _, p := range strings.Split(distros.ImmutableGuidance(m.osInfo), "\n\n") {
+		paragraphs = append(paragraphs, wrapText(p, 70))
+	}
+	msg := m.styles.Normal.Render(strings.Join(paragraphs, "\n\n"))
+	b.WriteString(m.styles.ErrorBox.Render(title + "\n\n" + msg))
+	b.WriteString("\n\n")
+}
+
+func (m Model) writeImmutableNotice(b *strings.Builder) {
+	title := m.styles.Warning.Bold(true).Render("Image-based system: " + m.osInfo.ImmutableReason)
+	msg := wrapText("dankinstall will not install packages or ask for a password here. It checks what is installed, lists anything missing with the command to layer it, and deploys configuration into your home directory.", 70)
+	b.WriteString(m.styles.InfoBox.Render(title + "\n" + m.styles.Normal.Render(msg)))
+	b.WriteString("\n\n")
+}
+
+func (m Model) writeResumeNotice(b *strings.Builder) {
+	title := m.styles.Success.Bold(true).Render(fmt.Sprintf("▶ Resuming setup: %s with %s", m.resume.WindowManager, m.resume.Terminal))
+	msg := wrapText("Press Enter to finish. dankinstall checks that the layered packages are installed and deploys configuration into your home directory. No packages are installed and no password is needed.", 70)
+	b.WriteString(m.styles.InfoBox.Render(title + "\n" + m.styles.Normal.Render(msg)))
+	b.WriteString("\n\n")
+}
+
+func (m Model) isImmutable() bool {
+	return m.osInfo != nil && m.osInfo.Immutable
+}
+
+func (m Model) distroSupported() bool {
+	return m.osInfo != nil && distros.IsDistroSupported(m.osInfo.Distribution.ID)
+}
+
+func (m Model) cannotContinue() bool {
+	if m.osInfo == nil {
+		return true
+	}
+	if m.osInfo.Immutable {
+		return !m.distroSupported()
+	}
+	return distros.IsUnsupportedDistro(m.osInfo.Distribution.ID, m.osInfo.VersionID)
 }
 
 func unsupportedDistroMessage(info *distros.OSInfo) string {
@@ -114,12 +165,17 @@ func (m Model) writeWelcomeFooter(b *strings.Builder) {
 	}
 
 	ctrlKey := m.styles.Highlight.Render("Ctrl+C")
-	if distros.IsUnsupportedDistro(m.osInfo.Distribution.ID, m.osInfo.VersionID) {
+	if m.cannotContinue() {
 		b.WriteString(m.styles.Subtle.Render("Press ") + ctrlKey + m.styles.Subtle.Render(" to quit"))
 		return
 	}
 
 	enterKey := m.styles.Highlight.Render("Enter")
+	if m.resume != nil {
+		b.WriteString(m.styles.Subtle.Render("Press ") + enterKey + m.styles.Subtle.Render(" to resume setup, ") +
+			m.styles.Highlight.Render("S") + m.styles.Subtle.Render(" to start over, ") + ctrlKey + m.styles.Subtle.Render(" to quit"))
+		return
+	}
 	b.WriteString(m.styles.Subtle.Render("Press ") + enterKey +
 		m.styles.Subtle.Render(" to choose window manager, ") + ctrlKey + m.styles.Subtle.Render(" to quit"))
 }
@@ -134,15 +190,31 @@ func (m Model) updateWelcomeState(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, m.listenForLogs()
 		}
 		m.osInfo = msg.info
+		if m.isImmutable() && m.distroSupported() {
+			m.resume = loadLayerResume()
+		}
 
 	case tea.KeyMsg:
-		if msg.String() != "enter" {
+		if m.cannotContinue() {
 			break
 		}
-		if m.osInfo == nil || distros.IsUnsupportedDistro(m.osInfo.Distribution.ID, m.osInfo.VersionID) {
-			break
+		switch msg.String() {
+		case "s", "S":
+			if m.resume == nil {
+				break
+			}
+			clearLayerResume()
+			m.resume = nil
+		case "enter":
+			if m.applyLayerResume() {
+				m.state = StateDetectingDeps
+				m.isLoading = true
+				return m, tea.Batch(m.spinner.Tick, m.detectDependencies())
+			}
+			clearLayerResume()
+			m.resume = nil
+			m.state = StateSelectWindowManager
 		}
-		m.state = StateSelectWindowManager
 	}
 	return m, m.listenForLogs()
 }

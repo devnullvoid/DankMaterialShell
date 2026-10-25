@@ -3,6 +3,7 @@ package distros
 import (
 	"context"
 	"fmt"
+	"maps"
 	"os/exec"
 	"strings"
 
@@ -21,9 +22,6 @@ func init() {
 		return NewFedoraDistribution(config, logChan)
 	})
 	Register("fedora-asahi-remix", "#0B57A4", FamilyFedora, func(config DistroConfig, logChan chan<- string) Distribution {
-		return NewFedoraDistribution(config, logChan)
-	})
-	Register("bluefin", "#0B57A4", FamilyFedora, func(config DistroConfig, logChan chan<- string) Distribution {
 		return NewFedoraDistribution(config, logChan)
 	})
 	Register("ultramarine", "#00078b", FamilyFedora, func(config DistroConfig, logChan chan<- string) Distribution {
@@ -54,6 +52,8 @@ type FedoraDistribution struct {
 	*BaseDistribution
 	*ManualPackageInstaller
 	config DistroConfig
+
+	rpmInstalled func(pkg string) bool
 }
 
 func NewFedoraDistribution(config DistroConfig, logChan chan<- string) *FedoraDistribution {
@@ -138,6 +138,9 @@ func (f *FedoraDistribution) detectXDGPortal() deps.Dependency {
 }
 
 func (f *FedoraDistribution) packageInstalled(pkg string) bool {
+	if f.rpmInstalled != nil {
+		return f.rpmInstalled(pkg)
+	}
 	cmd := exec.Command("rpm", "-q", pkg)
 	err := cmd.Run()
 	return err == nil
@@ -150,19 +153,31 @@ func (f *FedoraDistribution) InstalledVariant(stable, git PackageMapping) (deps.
 	if !f.packageInstalled(stable.Name) {
 		return deps.VariantStable, false
 	}
-	if git.Repository == RepoTypeCOPR && fedoraInstalledFromCOPR(stable.Name, git.RepoURL) {
+	if git.Repository == RepoTypeCOPR && installedFromCOPR(stable.Name, git.RepoURL) {
 		return deps.VariantGit, true
 	}
 	return deps.VariantStable, true
 }
 
+var installedFromCOPR = fedoraInstalledFromCOPR
+
 // fedoraInstalledFromCOPR tells same-named variants apart (dms, niri), which only differ by COPR.
 func fedoraInstalledFromCOPR(pkg, coprRepo string) bool {
 	out, err := exec.Command("dnf", "repoquery", "--installed", "--qf", "%{from_repo}", pkg).Output()
 	if err != nil {
-		return false
+		return rpmLooksLikeGitBuild(pkg)
 	}
 	return strings.HasSuffix(strings.TrimSpace(string(out)), ":"+strings.ReplaceAll(coprRepo, "/", ":"))
+}
+
+// niri-git carries "git" in its version; dms-git only differs by its Epoch of 2.
+func rpmLooksLikeGitBuild(pkg string) bool {
+	out, err := exec.Command("rpm", "-q", "--qf", "%{EPOCH} %{VERSION}-%{RELEASE}", pkg).Output()
+	if err != nil {
+		return false
+	}
+	epoch, versionRelease, _ := strings.Cut(strings.TrimSpace(string(out)), " ")
+	return strings.Contains(versionRelease, "git") || (pkg == "dms" && epoch == "2")
 }
 
 func (f *FedoraDistribution) SwapVariants(ctx context.Context, swaps []VariantSwap, sudoPassword string, progressChan chan<- InstallProgressMsg) error {
@@ -743,4 +758,77 @@ func (f *FedoraDistribution) installDNFGroups(ctx context.Context, packages []st
 		}
 	}
 	return nil
+}
+
+// Image-based Fedora has rpm-ostree but no dnf, so the .repo file is fetched directly.
+func coprRepoFilePath(repo string) string {
+	owner, project, _ := strings.Cut(repo, "/")
+	return fmt.Sprintf("/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:%s:%s.repo", owner, project)
+}
+
+func (f *FedoraDistribution) coprRepoFileCommand(repo string) string {
+	owner, project, _ := strings.Cut(repo, "/")
+	chroot := "fedora-$(rpm -E %fedora)"
+	if f.isEL() {
+		chroot = "epel-$(rpm -E %rhel)"
+	}
+	return fmt.Sprintf("sudo curl -fsSLo %s https://copr.fedorainfracloud.org/coprs/%s/%s/repo/%s/%s-%s-%s.repo",
+		coprRepoFilePath(repo), owner, project, chroot, owner, project, chroot)
+}
+
+// Shown to the user, never run. Terra-only packages have no rpm-ostree path.
+func (f *FedoraDistribution) LayerCommands(dependencies []deps.Dependency, wm deps.WindowManager, reinstallFlags, disabledFlags map[string]bool) []string {
+	var commands []string
+	var uninstall []string
+	skip := maps.Clone(disabledFlags)
+	if skip == nil {
+		skip = map[string]bool{}
+	}
+	// rpm-ostree refuses to install what is already layered, so a reinstall mark only means a variant switch.
+	for _, dep := range dependencies {
+		if !reinstallFlags[dep.Name] || skip[dep.Name] || dep.Status != deps.StatusInstalled {
+			continue
+		}
+		swap, status := PlanVariantSwap(f, wm, dep.Name, dep.Variant)
+		if status != SwapNeeded {
+			skip[dep.Name] = true
+			continue
+		}
+		uninstall = append(uninstall, swap.From.Name)
+		if swap.From.Name == swap.To.Name && swap.From.Repository == RepoTypeCOPR {
+			commands = append(commands, "sudo rm -f "+coprRepoFilePath(swap.From.RepoURL))
+		}
+	}
+	dnfPkgs, coprPkgs, manualPkgs, _ := f.categorizePackages(dependencies, wm, reinstallFlags, skip)
+
+	seen := map[string]bool{}
+	pkgs := append([]string{}, dnfPkgs...)
+	for _, pkg := range coprPkgs {
+		pkgs = append(pkgs, pkg.Name)
+		if pkg.RepoURL == "" || seen[pkg.RepoURL] {
+			continue
+		}
+		seen[pkg.RepoURL] = true
+		commands = append(commands, f.coprRepoFileCommand(pkg.RepoURL))
+		if pkg.RepoURL == "yalter/niri-git" {
+			commands = append(commands, "echo priority=1 | sudo tee -a /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:yalter:niri-git.repo")
+		}
+	}
+	for _, dep := range dependencies {
+		if dep.Status == deps.StatusNeedsUpdate && !disabledFlags[dep.Name] {
+			commands = append(commands, "sudo rpm-ostree upgrade")
+			break
+		}
+	}
+	if len(pkgs) > 0 {
+		install := "sudo rpm-ostree install " + strings.Join(pkgs, " ")
+		if len(uninstall) > 0 {
+			install += " --uninstall " + strings.Join(uninstall, " ")
+		}
+		commands = append(commands, install)
+	}
+	for _, name := range manualPkgs {
+		commands = append(commands, fmt.Sprintf("# %s has no package for image-based Fedora", name))
+	}
+	return append(commands, "systemctl reboot")
 }

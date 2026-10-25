@@ -2,6 +2,7 @@ package headless
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"strings"
@@ -16,6 +17,8 @@ import (
 // ErrConfirmationRequired is returned when --yes is not set and the user
 // must explicitly confirm the operation.
 var ErrConfirmationRequired = fmt.Errorf("confirmation required: pass --yes to proceed")
+
+var ErrPackagesNotLayered = fmt.Errorf("packages must be layered into the image before configuration can be deployed")
 
 // validConfigNames maps lowercase CLI input to the deployer key used in
 // replaceConfigs. Keep in sync with the config types checked by
@@ -101,11 +104,17 @@ func (r *Runner) Run() error {
 		return fmt.Errorf("OS detection failed: %w", err)
 	}
 
-	if distros.IsUnsupportedDistro(osInfo.Distribution.ID, osInfo.VersionID) {
+	switch {
+	case osInfo.Immutable && !distros.IsDistroSupported(osInfo.Distribution.ID):
+		return errors.New(distros.ImmutableGuidance(osInfo))
+	case osInfo.Immutable:
+		fmt.Fprintf(os.Stdout, "Detected: %s (%s), image-based: %s\n", osInfo.PrettyName, osInfo.Architecture, osInfo.ImmutableReason)
+		fmt.Fprintln(os.Stdout, "No packages will be installed; only configuration is deployed.")
+	case distros.IsUnsupportedDistro(osInfo.Distribution.ID, osInfo.VersionID):
 		return fmt.Errorf("unsupported distribution: %s %s", osInfo.PrettyName, osInfo.VersionID)
+	default:
+		fmt.Fprintf(os.Stdout, "Detected: %s (%s)\n", osInfo.PrettyName, osInfo.Architecture)
 	}
-
-	fmt.Fprintf(os.Stdout, "Detected: %s (%s)\n", osInfo.PrettyName, osInfo.Architecture)
 
 	// 4. Create distribution instance
 	distro, err := distros.NewDistribution(osInfo.Distribution.ID, r.logChan)
@@ -119,6 +128,9 @@ func (r *Runner) Run() error {
 	dependencies, err := distro.DetectDependenciesWithTerminal(context.Background(), wm, terminal)
 	if err != nil {
 		return fmt.Errorf("dependency detection failed: %w", err)
+	}
+	if osInfo.Immutable {
+		dependencies = distros.ApplyImmutableDetection(dependencies)
 	}
 
 	reinstallItems, err := r.applyGitVariants(dependencies, gitVariantChecker(distro, wm, dependencies))
@@ -158,14 +170,25 @@ func (r *Runner) Run() error {
 				marker = "  RE   "
 				status = "(will reinstall)"
 			}
+			if osInfo.Immutable && dep.Status != deps.StatusInstalled {
+				status = "(not installed)"
+			}
 		}
 		fmt.Fprintf(os.Stdout, "%s%-30s %s\n", marker, dep.Name, status)
 	}
 	fmt.Fprintln(os.Stdout)
 
+	if osInfo.Immutable {
+		if err := r.requireLayeredPackages(distro, dependencies, wm, reinstallItems, disabledItems); err != nil {
+			return err
+		}
+	}
+
 	// 6b. Require explicit confirmation unless --yes is set
 	if !r.cfg.Yes {
-		if replaceConfigs == nil {
+		if osInfo.Immutable {
+			fmt.Fprintln(os.Stdout, "All packages are present. Only configurations will be deployed.")
+		} else if replaceConfigs == nil {
 			// --replace-configs-all
 			fmt.Fprintln(os.Stdout, "Packages will be installed and all configurations will be replaced.")
 			fmt.Fprintln(os.Stdout, "Existing config files will be backed up before replacement.")
@@ -186,57 +209,21 @@ func (r *Runner) Run() error {
 		return ErrConfirmationRequired
 	}
 
-	// 7. Authenticate sudo
-	sudoPassword, err := r.resolveSudoPassword()
-	if err != nil {
-		return err
-	}
-
-	// 8. Install packages
-	fmt.Fprintln(os.Stdout, "Installing packages...")
-	r.log("Starting package installation")
-
-	progressChan := make(chan distros.InstallProgressMsg, 100)
-
-	installErr := make(chan error, 1)
-	go func() {
-		defer close(progressChan)
-		installErr <- distro.InstallPackages(
-			context.Background(),
-			dependencies,
-			wm,
-			sudoPassword,
-			reinstallItems,
-			disabledItems,
-			false, // skipGlobalUseFlags
-			progressChan,
-		)
-	}()
-
-	// Consume progress messages and print them
-	for msg := range progressChan {
-		if msg.Error != nil {
-			fmt.Fprintf(os.Stderr, "Error: %v\n", msg.Error)
-		} else if msg.Step != "" {
-			fmt.Fprintf(os.Stdout, "  [%3.0f%%] %s\n", msg.Progress*100, msg.Step)
-		}
-		if msg.LogOutput != "" {
-			r.log(msg.LogOutput)
-			fmt.Fprintf(os.Stdout, "    %s\n", msg.LogOutput)
+	sudoPassword := ""
+	if !osInfo.Immutable {
+		sudoPassword, err = r.installPackages(distro, dependencies, wm, reinstallItems, disabledItems)
+		if err != nil {
+			return err
 		}
 	}
 
-	if err := <-installErr; err != nil {
-		return fmt.Errorf("package installation failed: %w", err)
-	}
+	useSystemd := distros.HasSystemd()
 
-	useSystemd := true
-	if distroConfig, exists := distros.Registry[osInfo.Distribution.ID]; exists && distroConfig.Family == distros.FamilyVoid {
-		useSystemd = false
+	// 9. Greeter setup. On images dms-greeter escalates itself, so it is left to the user.
+	if osInfo.Immutable && !disabledItems["dms-greeter"] && r.depExists(dependencies, "dms-greeter") {
+		fmt.Fprintln(os.Stdout, "Greeter: run 'dms-greeter install --yes' to configure greetd.")
 	}
-
-	// 9. Greeter setup (if dms-greeter was included)
-	if !disabledItems["dms-greeter"] && r.depExists(dependencies, "dms-greeter") {
+	if !osInfo.Immutable && !disabledItems["dms-greeter"] && r.depExists(dependencies, "dms-greeter") {
 		fmt.Fprintln(os.Stdout, "Configuring DMS greeter...")
 		logFunc := func(line string) {
 			r.log(line)
@@ -568,4 +555,70 @@ func (r *Runner) depExists(dependencies []deps.Dependency, name string) bool {
 		}
 	}
 	return false
+}
+
+func (r *Runner) requireLayeredPackages(distro distros.Distribution, dependencies []deps.Dependency, wm deps.WindowManager, reinstallItems, disabledItems map[string]bool) error {
+	pending := distros.PendingDependencies(dependencies, reinstallItems, disabledItems)
+	if len(pending) == 0 {
+		return nil
+	}
+
+	layerer, ok := distro.(distros.PackageLayerer)
+	if !ok {
+		return fmt.Errorf("this image has no known way to add packages; install them with the image's own tooling, reboot, and run dankinstall again")
+	}
+	fmt.Fprintln(os.Stdout, "Packages must be added to the image first. Run these, reboot, then run dankinstall again:")
+	fmt.Fprintln(os.Stdout)
+	for _, cmd := range layerer.LayerCommands(dependencies, wm, reinstallItems, disabledItems) {
+		fmt.Fprintf(os.Stdout, "  %s\n", cmd)
+	}
+	fmt.Fprintln(os.Stdout)
+	r.log("Aborted: packages not layered on image-based host")
+	return ErrPackagesNotLayered
+}
+
+func (r *Runner) installPackages(distro distros.Distribution, dependencies []deps.Dependency, wm deps.WindowManager, reinstallItems, disabledItems map[string]bool) (string, error) {
+	// 7. Authenticate sudo
+	sudoPassword, err := r.resolveSudoPassword()
+	if err != nil {
+		return "", err
+	}
+
+	// 8. Install packages
+	fmt.Fprintln(os.Stdout, "Installing packages...")
+	r.log("Starting package installation")
+
+	progressChan := make(chan distros.InstallProgressMsg, 100)
+
+	installErr := make(chan error, 1)
+	go func() {
+		defer close(progressChan)
+		installErr <- distro.InstallPackages(
+			context.Background(),
+			dependencies,
+			wm,
+			sudoPassword,
+			reinstallItems,
+			disabledItems,
+			false, // skipGlobalUseFlags
+			progressChan,
+		)
+	}()
+
+	for msg := range progressChan {
+		if msg.Error != nil {
+			fmt.Fprintf(os.Stderr, "Error: %v\n", msg.Error)
+		} else if msg.Step != "" {
+			fmt.Fprintf(os.Stdout, "  [%3.0f%%] %s\n", msg.Progress*100, msg.Step)
+		}
+		if msg.LogOutput != "" {
+			r.log(msg.LogOutput)
+			fmt.Fprintf(os.Stdout, "    %s\n", msg.LogOutput)
+		}
+	}
+
+	if err := <-installErr; err != nil {
+		return "", fmt.Errorf("package installation failed: %w", err)
+	}
+	return sudoPassword, nil
 }
