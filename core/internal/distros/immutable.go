@@ -81,7 +81,7 @@ func detectImmutable(fs afero.Fs, osRelease map[string]string) (bool, string) {
 func ImmutableGuidance(info *OSInfo) string {
 	var b strings.Builder
 	fmt.Fprintf(&b, "%s is an image-based system: %s.\n\n", info.PrettyName, info.ImmutableReason)
-	b.WriteString("dankinstall has no package mapping for this image, so it cannot tell what is installed or deploy configuration for it. Nothing was changed on this system.\n\n")
+	b.WriteString("duxinstall has no package mapping for this image, so it cannot tell what is installed or deploy configuration for it. Nothing was changed on this system.\n\n")
 	b.WriteString("See " + site.Docs + "/getting-started for other options.")
 	return b.String()
 }

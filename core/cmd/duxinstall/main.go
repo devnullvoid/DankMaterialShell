@@ -32,9 +32,9 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "dankinstall",
+	Use:   "duxinstall",
 	Short: "Install Dux Shell and its dependencies",
-	Long: `dankinstall sets up Dux Shell with your chosen compositor and terminal.
+	Long: `duxinstall sets up Dux Shell with your chosen compositor and terminal.
 
 Without flags, it launches an interactive TUI. Providing either --compositor
 or --term activates headless (unattended) mode, which requires both flags.
@@ -42,7 +42,7 @@ or --term activates headless (unattended) mode, which requires both flags.
 Headless mode requires cached credentials or a passwordless rule for your
 privilege escalation tool (sudo, doas, or run0).`,
 	Args:          cobra.NoArgs,
-	RunE:          runDankinstall,
+	RunE:          runDuxinstall,
 	SilenceErrors: true,
 	SilenceUsage:  true,
 }
@@ -66,7 +66,7 @@ func init() {
 
 func main() {
 	if os.Getuid() == 0 {
-		fmt.Fprintln(os.Stderr, "Error: dankinstall must not be run as root")
+		fmt.Fprintln(os.Stderr, "Error: duxinstall must not be run as root")
 		os.Exit(1)
 	}
 
@@ -76,7 +76,7 @@ func main() {
 	}
 }
 
-func runDankinstall(cmd *cobra.Command, args []string) error {
+func runDuxinstall(cmd *cobra.Command, args []string) error {
 	headlessMode := compositor != "" || term != ""
 
 	if !headlessMode {

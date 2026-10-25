@@ -518,14 +518,14 @@ func (r *Runner) resolveSudoPassword() (string, error) {
 		return "", fmt.Errorf(
 			"sudo authentication required but no cached credentials found\n" +
 				"Options:\n" +
-				"  1. Run 'sudo -v' before dankinstall to cache credentials\n" +
+				"  1. Run 'sudo -v' before duxinstall to cache credentials\n" +
 				"  2. Configure passwordless sudo for your user",
 		)
 	case privesc.ToolDoas:
 		return "", fmt.Errorf(
 			"doas authentication required but no cached credentials found\n" +
 				"Options:\n" +
-				"  1. Run 'doas true' before dankinstall to cache credentials (requires 'persist' in /etc/doas.conf)\n" +
+				"  1. Run 'doas true' before duxinstall to cache credentials (requires 'persist' in /etc/doas.conf)\n" +
 				"  2. Configure a 'nopass' rule in /etc/doas.conf for your user",
 		)
 	case privesc.ToolRun0:
@@ -565,9 +565,9 @@ func (r *Runner) requireLayeredPackages(distro distros.Distribution, dependencie
 
 	layerer, ok := distro.(distros.PackageLayerer)
 	if !ok {
-		return fmt.Errorf("this image has no known way to add packages; install them with the image's own tooling, reboot, and run dankinstall again")
+		return fmt.Errorf("this image has no known way to add packages; install them with the image's own tooling, reboot, and run duxinstall again")
 	}
-	fmt.Fprintln(os.Stdout, "Packages must be added to the image first. Run these, reboot, then run dankinstall again:")
+	fmt.Fprintln(os.Stdout, "Packages must be added to the image first. Run these, reboot, then run duxinstall again:")
 	fmt.Fprintln(os.Stdout)
 	for _, cmd := range layerer.LayerCommands(dependencies, wm, reinstallItems, disabledItems) {
 		fmt.Fprintf(os.Stdout, "  %s\n", cmd)

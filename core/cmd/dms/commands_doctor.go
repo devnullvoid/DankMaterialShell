@@ -288,7 +288,7 @@ func checkSystemInfo() []checkResult {
 		details := fmt.Sprintf("ID: %s, Version: %s, Arch: %s", osInfo.ID, osInfo.VersionID, osInfo.Architecture)
 		switch {
 		case osInfo.Immutable:
-			details += "; image-based (" + osInfo.ImmutableReason + "), dankinstall deploys configuration only"
+			details += "; image-based (" + osInfo.ImmutableReason + "), duxinstall deploys configuration only"
 		case distros.IsUnsupportedDistro(osInfo.Distribution.ID, osInfo.VersionID):
 			status = statusWarn
 			message += " (version may not be fully supported)"

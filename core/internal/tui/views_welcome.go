@@ -18,7 +18,7 @@ func (m Model) viewWelcome() string {
 	b.WriteString(m.styles.Accent.Render(strings.Repeat("━", 58)))
 	b.WriteByte('\n')
 	b.WriteString(m.styles.TitleBox.Render(
-		m.styles.Highlight.Render("dankinstall") + m.styles.AccentItalic.Render(" // Dux Labs Installer")))
+		m.styles.Highlight.Render("duxinstall") + m.styles.AccentItalic.Render(" // Dux Labs Installer")))
 	b.WriteByte('\n')
 	b.WriteString(m.styles.SubtleItalic.Render("Quickstart for a Dux Desktop"))
 	b.WriteString("\n\n")
@@ -67,14 +67,14 @@ func (m Model) writeImmutableSystem(b *strings.Builder) {
 
 func (m Model) writeImmutableNotice(b *strings.Builder) {
 	title := m.styles.Warning.Bold(true).Render("Image-based system: " + m.osInfo.ImmutableReason)
-	msg := wrapText("dankinstall will not install packages or ask for a password here. It checks what is installed, lists anything missing with the command to layer it, and deploys configuration into your home directory.", 70)
+	msg := wrapText("duxinstall will not install packages or ask for a password here. It checks what is installed, lists anything missing with the command to layer it, and deploys configuration into your home directory.", 70)
 	b.WriteString(m.styles.InfoBox.Render(title + "\n" + m.styles.Normal.Render(msg)))
 	b.WriteString("\n\n")
 }
 
 func (m Model) writeResumeNotice(b *strings.Builder) {
 	title := m.styles.Success.Bold(true).Render(fmt.Sprintf("▶ Resuming setup: %s with %s", m.resume.WindowManager, m.resume.Terminal))
-	msg := wrapText("Press Enter to finish. dankinstall checks that the layered packages are installed and deploys configuration into your home directory. No packages are installed and no password is needed.", 70)
+	msg := wrapText("Press Enter to finish. duxinstall checks that the layered packages are installed and deploys configuration into your home directory. No packages are installed and no password is needed.", 70)
 	b.WriteString(m.styles.InfoBox.Render(title + "\n" + m.styles.Normal.Render(msg)))
 	b.WriteString("\n\n")
 }

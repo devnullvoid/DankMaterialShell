@@ -78,10 +78,10 @@ func (m Model) viewLayerPackages() string {
 
 	commands := m.layerCommands()
 	if len(commands) == 0 {
-		b.WriteString(m.styles.Normal.Render(wrapText("This image has no known way to add these packages. Install them from the image's own tooling, reboot, and run dankinstall again.", 70)))
+		b.WriteString(m.styles.Normal.Render(wrapText("This image has no known way to add these packages. Install them from the image's own tooling, reboot, and run duxinstall again.", 70)))
 		b.WriteString("\n\n")
 	} else {
-		b.WriteString(m.styles.Normal.Render("Run these, reboot, then run dankinstall again. It picks up from here and deploys configuration:"))
+		b.WriteString(m.styles.Normal.Render("Run these, reboot, then run duxinstall again. It picks up from here and deploys configuration:"))
 		b.WriteString("\n\n")
 		for _, cmd := range commands {
 			b.WriteString("  " + m.styles.Accent.Render(cmd))

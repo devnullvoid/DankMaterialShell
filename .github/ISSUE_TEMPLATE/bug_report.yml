@@ -47,7 +47,7 @@ body:
     attributes:
       label: Select your Installation Method
       options:
-        - DankInstaller
+        - Dux Installer
         - Distro Packaging
         - Source
     validations:

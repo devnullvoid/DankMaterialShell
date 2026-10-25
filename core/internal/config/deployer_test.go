@@ -182,7 +182,7 @@ layout {
 }
 
 func TestConfigDeploymentFlow(t *testing.T) {
-	tempDir, err := os.MkdirTemp("", "dankinstall-test")
+	tempDir, err := os.MkdirTemp("", "duxinstall-test")
 	require.NoError(t, err)
 	defer os.RemoveAll(tempDir)
 
@@ -312,7 +312,7 @@ func TestHyprlangMonitorLineToLuaPreservesOptions(t *testing.T) {
 }
 
 func TestHyprlandConfigDeployment(t *testing.T) {
-	tempDir, err := os.MkdirTemp("", "dankinstall-hyprland-test")
+	tempDir, err := os.MkdirTemp("", "duxinstall-hyprland-test")
 	require.NoError(t, err)
 	defer os.RemoveAll(tempDir)
 
@@ -324,7 +324,7 @@ func TestHyprlandConfigDeployment(t *testing.T) {
 	cd := NewConfigDeployer(logChan)
 
 	t.Run("deploy hyprland config to empty directory", func(t *testing.T) {
-		td, err := os.MkdirTemp("", "dankinstall-hyprland-empty")
+		td, err := os.MkdirTemp("", "duxinstall-hyprland-empty")
 		require.NoError(t, err)
 		defer os.RemoveAll(td)
 		os.Setenv("HOME", td)
@@ -344,7 +344,7 @@ func TestHyprlandConfigDeployment(t *testing.T) {
 	})
 
 	t.Run("deploy hyprland config with existing monitors", func(t *testing.T) {
-		td, err := os.MkdirTemp("", "dankinstall-hyprland-merge")
+		td, err := os.MkdirTemp("", "duxinstall-hyprland-merge")
 		require.NoError(t, err)
 		defer os.RemoveAll(td)
 		os.Setenv("HOME", td)
@@ -408,7 +408,7 @@ general {
 	})
 
 	t.Run("deploy hyprland config removes root legacy symlink when lua exists", func(t *testing.T) {
-		td, err := os.MkdirTemp("", "dankinstall-hyprland-lua-conf-symlink")
+		td, err := os.MkdirTemp("", "duxinstall-hyprland-lua-conf-symlink")
 		require.NoError(t, err)
 		defer os.RemoveAll(td)
 		os.Setenv("HOME", td)
@@ -431,7 +431,7 @@ general {
 	})
 
 	t.Run("deploy hyprland config refreshes managed binds but preserves user binds", func(t *testing.T) {
-		td, err := os.MkdirTemp("", "dankinstall-hyprland-refresh-binds")
+		td, err := os.MkdirTemp("", "duxinstall-hyprland-refresh-binds")
 		require.NoError(t, err)
 		defer os.RemoveAll(td)
 		os.Setenv("HOME", td)
@@ -457,7 +457,7 @@ general {
 }
 
 func TestKittyConfigDeployment(t *testing.T) {
-	tempDir, err := os.MkdirTemp("", "dankinstall-kitty-test")
+	tempDir, err := os.MkdirTemp("", "duxinstall-kitty-test")
 	require.NoError(t, err)
 	defer os.RemoveAll(tempDir)
 
@@ -495,7 +495,7 @@ func TestKittyConfigDeployment(t *testing.T) {
 }
 
 func TestAlacrittyConfigDeployment(t *testing.T) {
-	tempDir, err := os.MkdirTemp("", "dankinstall-alacritty-test")
+	tempDir, err := os.MkdirTemp("", "duxinstall-alacritty-test")
 	require.NoError(t, err)
 	defer os.RemoveAll(tempDir)
 
@@ -570,7 +570,7 @@ func TestShouldReplaceConfigDeployIfMissing(t *testing.T) {
 	}
 
 	t.Run("replaceConfigs nil deploys config", func(t *testing.T) {
-		tempDir, err := os.MkdirTemp("", "dankinstall-replace-nil-test")
+		tempDir, err := os.MkdirTemp("", "duxinstall-replace-nil-test")
 		require.NoError(t, err)
 		defer os.RemoveAll(tempDir)
 
@@ -603,7 +603,7 @@ func TestShouldReplaceConfigDeployIfMissing(t *testing.T) {
 	})
 
 	t.Run("replaceConfigs all false and config missing deploys config", func(t *testing.T) {
-		tempDir, err := os.MkdirTemp("", "dankinstall-replace-missing-test")
+		tempDir, err := os.MkdirTemp("", "duxinstall-replace-missing-test")
 		require.NoError(t, err)
 		defer os.RemoveAll(tempDir)
 
@@ -636,7 +636,7 @@ func TestShouldReplaceConfigDeployIfMissing(t *testing.T) {
 	})
 
 	t.Run("replaceConfigs false and config exists skips config", func(t *testing.T) {
-		tempDir, err := os.MkdirTemp("", "dankinstall-replace-exists-test")
+		tempDir, err := os.MkdirTemp("", "duxinstall-replace-exists-test")
 		require.NoError(t, err)
 		defer os.RemoveAll(tempDir)
 
@@ -678,7 +678,7 @@ func TestShouldReplaceConfigDeployIfMissing(t *testing.T) {
 	})
 
 	t.Run("replaceConfigs true and config exists deploys config", func(t *testing.T) {
-		tempDir, err := os.MkdirTemp("", "dankinstall-replace-true-test")
+		tempDir, err := os.MkdirTemp("", "duxinstall-replace-true-test")
 		require.NoError(t, err)
 		defer os.RemoveAll(tempDir)
 
@@ -725,7 +725,7 @@ func TestShouldReplaceConfigDeployIfMissing(t *testing.T) {
 	})
 
 	t.Run("hyprland legacy config exists skips when replace false", func(t *testing.T) {
-		tempDir, err := os.MkdirTemp("", "dankinstall-hyprland-legacy-skip-test")
+		tempDir, err := os.MkdirTemp("", "duxinstall-hyprland-legacy-skip-test")
 		require.NoError(t, err)
 		defer os.RemoveAll(tempDir)
 

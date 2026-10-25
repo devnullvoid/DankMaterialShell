@@ -19,7 +19,7 @@ func resumePath() string {
 	if dir == "" {
 		dir = filepath.Join(os.Getenv("HOME"), ".local", "state")
 	}
-	return filepath.Join(dir, "dankinstall", "resume.json")
+	return filepath.Join(dir, "duxinstall", "resume.json")
 }
 
 func saveLayerResume(r layerResume) error {

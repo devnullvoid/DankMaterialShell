@@ -95,8 +95,8 @@ func (m *ManualPackageInstaller) installNiri(ctx context.Context, sudoPassword s
 	m.log("Installing niri from source...")
 
 	homeDir, _ := os.UserHomeDir()
-	buildDir := filepath.Join(homeDir, ".cache", "dankinstall", "niri-build")
-	tmpDir := filepath.Join(homeDir, ".cache", "dankinstall", "tmp")
+	buildDir := filepath.Join(homeDir, ".cache", "duxinstall", "niri-build")
+	tmpDir := filepath.Join(homeDir, ".cache", "duxinstall", "tmp")
 	if err := os.MkdirAll(buildDir, 0o755); err != nil {
 		return fmt.Errorf("failed to create build directory: %w", err)
 	}
@@ -173,7 +173,7 @@ func (m *ManualPackageInstaller) installQuickshell(ctx context.Context, variant 
 		return fmt.Errorf("HOME environment variable not set")
 	}
 
-	cacheDir := filepath.Join(homeDir, ".cache", "dankinstall")
+	cacheDir := filepath.Join(homeDir, ".cache", "duxinstall")
 	if err := os.MkdirAll(cacheDir, 0o755); err != nil {
 		return fmt.Errorf("failed to create cache directory: %w", err)
 	}
@@ -279,7 +279,7 @@ func (m *ManualPackageInstaller) installHyprland(ctx context.Context, sudoPasswo
 		return fmt.Errorf("HOME environment variable not set")
 	}
 
-	cacheDir := filepath.Join(homeDir, ".cache", "dankinstall")
+	cacheDir := filepath.Join(homeDir, ".cache", "duxinstall")
 	if err := os.MkdirAll(cacheDir, 0o755); err != nil {
 		return fmt.Errorf("failed to create cache directory: %w", err)
 	}
@@ -342,7 +342,7 @@ func (m *ManualPackageInstaller) installGhostty(ctx context.Context, sudoPasswor
 		return fmt.Errorf("HOME environment variable not set")
 	}
 
-	cacheDir := filepath.Join(homeDir, ".cache", "dankinstall")
+	cacheDir := filepath.Join(homeDir, ".cache", "duxinstall")
 	if err := os.MkdirAll(cacheDir, 0o755); err != nil {
 		return fmt.Errorf("failed to create cache directory: %w", err)
 	}

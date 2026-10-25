@@ -703,7 +703,7 @@ func (o *OpenSUSEDistribution) installQuickshell(ctx context.Context, variant de
 		return fmt.Errorf("HOME environment variable not set")
 	}
 
-	cacheDir := filepath.Join(homeDir, ".cache", "dankinstall")
+	cacheDir := filepath.Join(homeDir, ".cache", "duxinstall")
 	if err := os.MkdirAll(cacheDir, 0o755); err != nil {
 		return fmt.Errorf("failed to create cache directory: %w", err)
 	}

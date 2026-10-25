@@ -126,4 +126,4 @@ sudo ln -sf /etc/sv/dbus /var/service/dbus
 sudo ln -sf /etc/sv/elogind /var/service/elogind
 ```
 
-The `dankinstall` Void path enables both services after installing packages.
+The `duxinstall` Void path enables both services after installing packages.

@@ -33,7 +33,7 @@ dux-shell/
 │   ├── Widgets/        # Reusable UI controls
 │   └── Common/         # Shared resources and themes
 ├── core/               # Go backend and CLI
-│   ├── cmd/            # dms CLI and dankinstall binaries
+│   ├── cmd/            # dms CLI and duxinstall binaries
 │   ├── internal/       # System integration, IPC, distro support
 │   └── pkg/            # Shared packages
 ├── distro/             # Distribution packaging
@@ -159,12 +159,12 @@ See component-specific documentation:
 
 ### Building from Source
 
-**Core + Dankinstall:**
+**Core + Duxinstall:**
 
 ```bash
 cd core
 make              # Build dms CLI
-make dankinstall  # Build installer
+make duxinstall   # Build installer
 ```
 
 **Shell:**

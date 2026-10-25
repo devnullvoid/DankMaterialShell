@@ -130,6 +130,6 @@ distro/void/masterdir*/
 
 # Often gets built
 core/dms
-core/dankinstall
+core/duxinstall
 
 core/internal/shellembed/dist

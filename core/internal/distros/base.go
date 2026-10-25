@@ -659,7 +659,7 @@ func (b *BaseDistribution) installDMSBinary(ctx context.Context, sudoPassword st
 	if err != nil {
 		return fmt.Errorf("failed to get user home directory: %w", err)
 	}
-	tmpDir := filepath.Join(homeDir, ".cache", "dankinstall", "manual-builds")
+	tmpDir := filepath.Join(homeDir, ".cache", "duxinstall", "manual-builds")
 	if err := os.MkdirAll(tmpDir, 0o755); err != nil {
 		return fmt.Errorf("failed to create temp directory: %w", err)
 	}

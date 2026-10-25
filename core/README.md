@@ -9,7 +9,7 @@ Go-based backend for Dux Shell providing system integration, IPC, and installati
 **dms CLI**
 Command-line interface and daemon for shell management and system control.
 
-**dankinstall**
+**duxinstall**
 Distribution-aware installer for deploying DMS and compositor configurations on Arch, Fedora, Debian, Ubuntu, openSUSE, Gentoo, and Void. Supports both an interactive TUI and a headless (unattended) mode via CLI flags.
 
 ## System Integration
@@ -102,7 +102,7 @@ Requires Go 1.25+
 
 ```bash
 make              # Build dms CLI
-make dankinstall  # Build installer
+make duxinstall   # Build installer
 make test         # Run tests
 ```
 
@@ -142,12 +142,12 @@ go run github.com/duxlabs-dev/dux-go/cmd/go-wayland-scanner@latest \
 
 **Module Structure:**
 
-- `cmd/` - Binary entrypoints (dms, dankinstall)
+- `cmd/` - Binary entrypoints (dms, duxinstall)
 - `internal/distros/` - Distribution-specific installation logic
 - `internal/proto/` - Wayland protocol bindings
 - `pkg/` - Shared packages
 
-## Installation via dankinstall
+## Installation via duxinstall
 
 **Interactive (TUI):**
 
@@ -186,7 +186,7 @@ Headless mode requires `--yes` to proceed; without it, the installer exits with 
 Configuration files are not replaced by default unless `--replace-configs` or `--replace-configs-all` is specified.
 Optional packages (`dms-greeter`, `danksearch`, `dankcalendar`) are disabled by default; enable them with their dedicated flags, `--include-deps`, or `--all-features`.
 
-When no flags are provided, `dankinstall` launches the interactive TUI.
+When no flags are provided, `duxinstall` launches the interactive TUI.
 
 ### Headless mode validation rules
 
@@ -198,8 +198,8 @@ Headless mode activates when `--compositor` or `--term` is provided.
 
 ### Log file location
 
-`dankinstall` writes logs to `/tmp` by default.
-Set the `DANKINSTALL_LOG_DIR` environment variable to override the log directory.
+`duxinstall` writes logs to `/tmp` by default.
+Set the `DUXINSTALL_LOG_DIR` environment variable to override the log directory.
 
 ## Supported Distributions
 

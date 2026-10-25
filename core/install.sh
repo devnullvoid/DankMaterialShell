@@ -43,7 +43,7 @@ if [ -z "$LATEST_VERSION" ]; then
     exit 1
 fi
 
-printf "%bInstalling Dankinstall %s for %s...%b\n" "$GREEN" "$LATEST_VERSION" "$ARCH" "$NC"
+printf "%bInstalling Duxinstall %s for %s...%b\n" "$GREEN" "$LATEST_VERSION" "$ARCH" "$NC"
 
 # Download and install
 TEMP_DIR=$(mktemp -d)
@@ -52,8 +52,8 @@ cd "$TEMP_DIR" || exit 1
 
 # Download the gzipped binary and its checksum
 printf "%bDownloading installer...%b\n" "$GREEN" "$NC"
-curl -L "https://github.com/duxlabs-dev/dux-shell/releases/download/$LATEST_VERSION/dankinstall-$ARCH.gz" -o "installer.gz"
-curl -L "https://github.com/duxlabs-dev/dux-shell/releases/download/$LATEST_VERSION/dankinstall-$ARCH.gz.sha256" -o "expected.sha256"
+curl -L "https://github.com/duxlabs-dev/dux-shell/releases/download/$LATEST_VERSION/duxinstall-$ARCH.gz" -o "installer.gz"
+curl -L "https://github.com/duxlabs-dev/dux-shell/releases/download/$LATEST_VERSION/duxinstall-$ARCH.gz.sha256" -o "expected.sha256"
 
 # Get the expected checksum
 EXPECTED_CHECKSUM=$(awk '{print $1}' expected.sha256)

@@ -88,7 +88,7 @@ jobs:
         if: matrix.goos == 'linux'
         run: go test -v ./...
 
-      - name: Build dankinstall (${{ env.ASSET }})
+      - name: Build duxinstall (${{ env.ASSET }})
         if: matrix.goos == 'linux'
         env:
           GOOS: ${{ matrix.goos }}
@@ -96,12 +96,12 @@ jobs:
           GOARCH: ${{ matrix.arch }}
         run: |
           set -eux
-          cd cmd/dankinstall
+          cd cmd/duxinstall
           go build -trimpath -ldflags "-s -w -X main.Version=${TAG}" \
-            -o ../../dankinstall-${{ env.ASSET }}
+            -o ../../duxinstall-${{ env.ASSET }}
           cd ../..
-          gzip -9 -k dankinstall-${{ env.ASSET }}
-          sha256sum dankinstall-${{ env.ASSET }}.gz > dankinstall-${{ env.ASSET }}.gz.sha256
+          gzip -9 -k duxinstall-${{ env.ASSET }}
+          sha256sum duxinstall-${{ env.ASSET }}.gz > duxinstall-${{ env.ASSET }}.gz.sha256
 
       - name: Sync embedded shell
         run: make sync-shell
@@ -149,8 +149,8 @@ jobs:
         with:
           name: core-assets-${{ env.ASSET }}
           path: |
-            core/dankinstall-${{ env.ASSET }}.gz
-            core/dankinstall-${{ env.ASSET }}.gz.sha256
+            core/duxinstall-${{ env.ASSET }}.gz
+            core/duxinstall-${{ env.ASSET }}.gz.sha256
             core/dms-${{ env.ASSET }}.gz
             core/dms-${{ env.ASSET }}.gz.sha256
             core/dms-distropkg-${{ env.ASSET }}.gz
@@ -175,8 +175,8 @@ jobs:
         with:
           name: core-assets-${{ env.ASSET }}
           path: |
-            core/dankinstall-${{ env.ASSET }}.gz
-            core/dankinstall-${{ env.ASSET }}.gz.sha256
+            core/duxinstall-${{ env.ASSET }}.gz
+            core/duxinstall-${{ env.ASSET }}.gz.sha256
             core/dms-${{ env.ASSET }}.gz
             core/dms-${{ env.ASSET }}.gz.sha256
             core/dms-distropkg-${{ env.ASSET }}.gz
@@ -302,8 +302,8 @@ jobs:
           - **`dms-distropkg-arm64.gz`** - DMS CLI binary built with distro_package tag for ARM64 systems
           - **`dms-distropkg-freebsd-amd64.gz`** - DMS CLI binary built with distro_package tag for FreeBSD x86_64 systems
           - **`dms-distropkg-freebsd-arm64.gz`** - DMS CLI binary built with distro_package tag for FreeBSD ARM64 systems
-          - **`dankinstall-amd64.gz`** - Installer binary for x86_64 systems
-          - **`dankinstall-arm64.gz`** - Installer binary for ARM64 systems
+          - **`duxinstall-amd64.gz`** - Installer binary for x86_64 systems
+          - **`duxinstall-arm64.gz`** - Installer binary for ARM64 systems
           - **`dms-cli-<version>.tar.gz`** - Go source code with vendored modules (for distro packaging)
           - **`dms-qml.tar.gz`** - QML source code only
           - **`dms-source.tar.gz`** - Full repository source with bundled DCommon (for distro packaging)
@@ -348,8 +348,8 @@ jobs:
             fi
           done
 
-          # Copy dankinstall binaries
-          cp _core_assets/dankinstall-*.gz* _release_assets/
+          # Copy duxinstall binaries
+          cp _core_assets/duxinstall-*.gz* _release_assets/
 
           # Copy completions
           cp _core_assets/completion.* _release_assets/ 2>/dev/null || true

@@ -735,7 +735,7 @@ func (a *ArchDistribution) installSingleAURPackageInternal(ctx context.Context, 
 		return fmt.Errorf("failed to get user home directory: %w", err)
 	}
 
-	buildDir := filepath.Join(homeDir, ".cache", "dankinstall", "aur-builds", pkg)
+	buildDir := filepath.Join(homeDir, ".cache", "duxinstall", "aur-builds", pkg)
 
 	// Clean up any existing cache first
 	if err := os.RemoveAll(buildDir); err != nil {
