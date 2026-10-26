@@ -665,7 +665,7 @@ func userConfigSection(opts *Options) string {
 	if err != nil {
 		return "[config]\n\n"
 	}
-	section := extractTOMLSection(string(data), "[config]", "[templates]")
+	section := extractTOMLSection(string(data), "[config]", "\n[templates")
 	if section == "" {
 		return "[config]\n\n"
 	}
@@ -741,7 +741,7 @@ output_path = '%s'
 
 	if opts.RunUserTemplates {
 		if data, err := os.ReadFile(userConfigPath); err == nil {
-			templatesSection := extractTOMLSection(string(data), "[templates]", "")
+			templatesSection := extractTOMLSection("\n"+string(data), "\n[templates", "\n[config]")
 			if templatesSection != "" {
 				cfgFile.WriteString(templatesSection)
 				cfgFile.WriteString("\n")
@@ -1211,11 +1211,7 @@ func writeDryRunConfig(opts *Options) (string, error) {
 	}
 	defer cfgFile.Close()
 
-	section := userConfigSection(opts)
-	if idx := strings.Index(section, "\n[templates"); idx != -1 {
-		section = section[:idx+1]
-	}
-	cfgFile.WriteString(section)
+	cfgFile.WriteString(userConfigSection(opts))
 	cfgFile.WriteString("[templates]\n")
 	return cfgFile.Name(), nil
 }
