@@ -795,7 +795,7 @@ func handleSubscribe(ctx context.Context, conn *ipc.ConnWriter, req ipc.Request)
 		mgr := dbusManager
 		events := mgr.SubscribeSignals(dbusClient)
 		forwardSubscription(&wg, eventChan, stopChan, "dbus", events, func() {
-			mgr.UnsubscribeSignals(dbusClient)
+			mgr.UnsubscribeSignals(dbusClient, events)
 		}, nil)
 	}
 
