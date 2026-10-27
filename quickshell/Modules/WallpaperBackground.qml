@@ -102,8 +102,7 @@ Variants {
             property bool contentReady: false
             property bool surfaceBounce: false
 
-            property string scrollMode: SettingsData.wallpaperFillMode
-            property bool scrollingEnabled: scrollMode === "Scrolling"
+            readonly property bool scrollingEnabled: SessionData.getMonitorWallpaperFillMode(modelData.name) === "Scrolling"
             property int currentWorkspaceIndex: 0
             property int totalWorkspaces: 1
             // Also requires the image to overflow on the compositor's scroll
