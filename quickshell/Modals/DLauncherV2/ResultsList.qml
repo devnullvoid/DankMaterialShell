@@ -33,6 +33,7 @@ Item {
     readonly property real contentHeight: _visualModel.height
     readonly property int pageRows: Math.max(1, Math.floor(height / (LauncherMetrics.rowHeight + LauncherMetrics.rowGap)))
     property real availableHeight: 0
+    property bool fitGridRows: false
     readonly property real fittedHeight: {
         const rows = _visualModel.rows;
         const starts = _visualModel.heights;
@@ -125,6 +126,9 @@ Item {
                 var cols = root.controller?.getGridColumns(sectionId) ?? root.gridColumns;
                 var cellWidth = Math.floor(root.width / cols);
                 var cellHeight = mode === "tile" ? cellWidth * LauncherMetrics.tileImageRatio : cellWidth + LauncherMetrics.tileLabelHeight;
+                var gridSpace = root.height - sectionBand;
+                if (root.fitGridRows && mode === "grid" && gridSpace > 0)
+                    cellHeight = gridSpace / Math.max(1, Math.round(gridSpace / cellHeight));
                 var numRows = Math.ceil(items.length / cols);
 
                 for (var r = 0; r < numRows; r++) {
@@ -190,6 +194,10 @@ Item {
 
     onGridColumnsChanged: rebuildTimer.restart()
     onWidthChanged: rebuildTimer.restart()
+    onHeightChanged: {
+        if (fitGridRows)
+            rebuildTimer.restart();
+    }
     onLeadingSectionHeaderAtBottomChanged: rebuildTimer.restart()
 
     Connections {
