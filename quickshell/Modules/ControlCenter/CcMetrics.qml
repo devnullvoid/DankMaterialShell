@@ -68,8 +68,9 @@ Singleton {
     readonly property real smallRowFraction: 0.5
     readonly property real shapeButtonSize: Theme.iconSize
 
-    readonly property real detailDialogInset: Theme.spacingL
     readonly property real detailDialogPadding: Theme.spacingS
+    readonly property real detailHeaderHeight: Theme.iconButtonSize
+    readonly property real detailTitleSize: Theme.fontSizeLarge
     readonly property real detailMinContentHeight: Theme.listItemTwoLineHeight * 3
     readonly property real headerActionSize: Theme.buttonHeightXS
     readonly property real headerActionIconSize: Theme.iconSizeMedium
@@ -134,9 +135,8 @@ Singleton {
 
     readonly property bool animationsEnabled: !SettingsData.reduceMotion && Theme.currentAnimationSpeed !== SettingsData.AnimationSpeed.None
 
-    function preferredDetailHeight(section, pluginHeight) {
-        if (!section)
-            return 0;
+    // The 1.6 detail heights: a detail never shows less than it did there, whatever the grid leaves free.
+    function detailHeightFloor(section, pluginHeight) {
         if (section.startsWith("plugin_"))
             return pluginHeight > 0 ? pluginHeight : detailHeightDefault;
         if (section.startsWith("brightnessSlider_"))
@@ -145,13 +145,8 @@ Singleton {
         case "wifi":
         case "network":
         case "bluetooth":
-        case "battery":
         case "builtin_vpn":
         case "builtin_tailscale":
-        case "audioOutput":
-        case "audioInput":
-        case "diskUsage":
-        case "runningApps":
             return detailHeightList;
         default:
             return detailHeightDefault;

@@ -190,9 +190,8 @@ function parse(root, jsonObj) {
         // would wipe values set by detection processes on every reload.
         if (SPEC[k].persist === false)
             continue;
-        if (!(k in jsonObj)) {
-            root[k] = Util.cloneDef(SPEC[k].def);
-        }
+        if (!(k in jsonObj))
+            assign(root, k, Util.cloneDef(SPEC[k].def));
     }
 
     for (var k in jsonObj) {
@@ -203,7 +202,16 @@ function parse(root, jsonObj) {
         var raw = jsonObj[k];
         var spec = SPEC[k];
         var coerce = spec.coerce;
-        root[k] = coerce ? (coerce(raw) !== undefined ? coerce(raw) : root[k]) : raw;
+        assign(root, k, coerce ? (coerce(raw) !== undefined ? coerce(raw) : root[k]) : raw);
+    }
+}
+
+// A QML root throws on an undeclared property; a shared spec key the shell has not declared must not abort the load.
+function assign(root, key, value) {
+    try {
+        root[key] = value;
+    } catch (e) {
+        console.warn("settings: no SettingsData property for spec key, skipped:", key);
     }
 }
 
@@ -216,6 +224,8 @@ function toJson(root, setKeys) {
         if (k === "pluginSettings")
             continue;
         var value = root[k];
+        if (value === undefined)
+            continue;
         if (k === "desktopWidgetInstances")
             value = withoutInstancePositions(value);
         if (k === "builtInPluginSettings")

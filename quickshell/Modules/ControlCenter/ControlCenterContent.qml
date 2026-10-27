@@ -24,12 +24,13 @@ FocusScope {
 
     readonly property bool pageOpen: (host.expandedSection ?? "") !== ""
     readonly property real gridHeight: widgetGrid.gridHeight
+    readonly property real gridTargetHeight: widgetGrid.targetHeight
     // Reserved from the grid in both modes so the island growing into edit mode never reflows tiles.
     readonly property real editRoom: host.editRoom ?? 0
     readonly property real chromeHeight: (host.editRoomShown ?? false) ? editRoom : 0
     readonly property bool stripAbove: host.stripAbove ?? false
     readonly property bool widgetSheetOpen: widgetSheetLoader.item?.active ?? false
-    readonly property real coveredAmount: Math.max(detailPage.opacity, widgetSheetLoader.item?.progress ?? 0)
+    readonly property real coveredAmount: Math.max(widgetSheetLoader.item?.progress ?? 0, codecSelectorLoader.item?.presence ?? 0, portSelectorLoader.item?.presence ?? 0)
     property bool widgetSheetRequested: false
     property int toplevelRevision: 0
     readonly property var runningToplevels: {
@@ -46,13 +47,8 @@ FocusScope {
     readonly property real dragRoom: widgetGrid.dragging && (host.growsFromTop ?? true) && widgetGrid.pinnedHeight + newRowUnit <= availableGridHeight ? newRowUnit : 0
     readonly property real newRowUnit: CcMetrics.gridGap + widgetGrid.slotLayout.rowUnit
     // Held during a drag so the trash never moves under the pointer.
-    readonly property real heldGridHeight: widgetGrid.dragging ? widgetGrid.pinnedHeight + dragRoom : gridHeight
-    readonly property real targetImplicitHeight: {
-        const total = CcMetrics.sheetPadding * 2 + heldGridHeight;
-        if (detailPage.shownSection === "")
-            return total;
-        return Math.max(total, detailPage.topInset + detailPage.minimumHeight + CcMetrics.detailDialogInset);
-    }
+    readonly property real heldGridHeight: widgetGrid.dragging ? widgetGrid.pinnedHeight + dragRoom : gridTargetHeight
+    readonly property real targetImplicitHeight: CcMetrics.sheetPadding * 2 + heldGridHeight
     property Item detailReturnFocus: null
     property var pageHistory: []
     // One string so Discard and undo can compare and restore the whole session state at once.
@@ -115,13 +111,13 @@ FocusScope {
             return;
         if (host.expandedSection)
             pageHistory = pageHistory.concat([host.expandedSection]);
-        else if (detailPage.shownSection === "")
+        else if (detailBand.shownSection === "")
             detailReturnFocus = root.Window.window?.activeFocusItem ?? null;
         host.expandedSection = section;
     }
 
     function goBack() {
-        if (detailPage.dismissTransient())
+        if (detailBand.dismissTransient())
             return;
         if (pageHistory.length > 0) {
             const previous = pageHistory[pageHistory.length - 1];
@@ -130,6 +126,14 @@ FocusScope {
             return;
         }
         host.collapseAll();
+    }
+
+    // Followed while the band grows, so it stays in view however the popout and the grid settle around it.
+    function revealDetail() {
+        if (detailBand.section === "")
+            return;
+        const top = mainColumn.y + body.y + detailBand.y;
+        contentFlickable.revealRange(top, top + detailBand.height);
     }
 
     function openWidgetPage(widgetData) {
@@ -366,7 +370,7 @@ FocusScope {
         anchors.bottomMargin: -contentInset - (editActions.joined && !root.stripAbove ? editActions.height : 0)
         z: 1
         visible: root.host.editMode
-        enabled: detailPage.shownSection === "" && !root.widgetSheetOpen
+        enabled: detailBand.shownSection === "" && !root.widgetSheetOpen
         edgeResize: root.panelResizing ? resizeSide < 0 : root.panelResizer.sideMovable(-1, root.gridColumns)
         cornerResize: root.panelResizing ? resizeSide > 0 : root.panelResizer.sideMovable(1, root.gridColumns)
         horizontalResize: true
@@ -451,7 +455,11 @@ FocusScope {
                     anchors.top: parent.top
                     editMode: root.host.editMode
                     model: widgetModel
-                    live: root.host.shouldBeVisible && detailPage.shownSection === ""
+                    live: root.host.shouldBeVisible
+                    expandedSection: detailBand.shownSection
+                    bandHeight: detailBand.height
+                    bandTargetHeight: detailBand.targetHeight
+                    bandMoving: detailBand.shownSection !== ""
                     screenName: root.host.triggerScreen?.name || ""
                     tapToClose: root.host.headerTogglesClose ?? false
                     runningToplevels: root.runningToplevels
@@ -481,6 +489,37 @@ FocusScope {
                         loader.item.openFromControlCenter(bounds, root.host.screen);
                     }
                 }
+
+                CcDetailBand {
+                    id: detailBand
+
+                    x: 0
+                    y: widgetGrid.bandY
+                    width: parent.width
+                    section: root.host.expandedSection ?? ""
+                    maximumHeight: root.availableGridHeight - widgetGrid.baseHeight
+                    coverage: Math.max(codecSelectorLoader.item?.presence ?? 0, portSelectorLoader.item?.presence ?? 0)
+                    model: widgetModel
+                    screenName: root.host.triggerScreen?.name || ""
+                    screenModel: root.host.triggerScreen?.model || ""
+                    transientSurfaceTracker: root.host.transientSurfaceTracker
+                    runningToplevels: root.runningToplevels
+                    onCodecSelectorRequested: device => root.showCodecSelector(device)
+                    onPortSelectorRequested: node => root.showPortSelector(node)
+                    onBackRequested: root.goBack()
+                    onCollapseRequested: root.host.collapseAll()
+                    onCloseRequested: root.host.close()
+                    onHeightChanged: root.revealDetail()
+                    onDismissed: {
+                        const target = root.detailReturnFocus;
+                        root.detailReturnFocus = null;
+                        if (target?.visible && target.enabled) {
+                            target.forceActiveFocus();
+                            return;
+                        }
+                        root.forceActiveFocus();
+                    }
+                }
             }
         }
     }
@@ -495,7 +534,7 @@ FocusScope {
         // Below the edit rings so the shoulder fill never covers them.
         z: -1
         editMode: root.host.editMode
-        enabled: detailPage.shownSection === "" && !root.widgetSheetOpen
+        enabled: detailBand.shownSection === "" && !root.widgetSheetOpen
         dragging: root.gridDragWidget !== null
         dragRemovable: WidgetUtils.isRemovable(root.gridDragWidget)
         overTrash: root.overTrash
@@ -512,36 +551,6 @@ FocusScope {
         onClearRequested: widgetModel.clearAll()
         onFinishRequested: root.host.editMode = false
         onCancelRequested: root.cancelEdit()
-    }
-
-    CcDetailPage {
-        id: detailPage
-
-        z: 1
-        anchors.fill: parent
-        section: root.host.expandedSection ?? ""
-        topInset: CcMetrics.sheetPadding
-        cornerRadii: root.surfaceCornerRadii
-        coverage: Math.max(codecSelectorLoader.item?.presence ?? 0, portSelectorLoader.item?.presence ?? 0)
-        model: widgetModel
-        screenName: root.host.triggerScreen?.name || ""
-        screenModel: root.host.triggerScreen?.model || ""
-        transientSurfaceTracker: root.host.transientSurfaceTracker
-        onCodecSelectorRequested: device => root.showCodecSelector(device)
-        onPortSelectorRequested: node => root.showPortSelector(node)
-        runningToplevels: root.runningToplevels
-        onBackRequested: root.goBack()
-        onCollapseRequested: root.host.collapseAll()
-        onCloseRequested: root.host.close()
-        onDismissed: {
-            const target = root.detailReturnFocus;
-            root.detailReturnFocus = null;
-            if (target?.visible && target.enabled) {
-                target.forceActiveFocus();
-                return;
-            }
-            root.forceActiveFocus();
-        }
     }
 
     Loader {

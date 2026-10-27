@@ -578,13 +578,15 @@ var LOCAL_SPEC = {
                 id: "brightnessSlider",
                 enabled: true,
                 w: 4,
-                h: 1
+                h: 1,
+                small: true
             },
             {
                 id: "volumeSlider",
                 enabled: true,
                 w: 4,
-                h: 1
+                h: 1,
+                small: true
             },
             {
                 id: "wifi",
