@@ -1836,7 +1836,7 @@ Singleton {
         let obj = _getSettingsObjectFromFiles();
         let loadedSettings = JSON.stringify(obj);
 
-        const oldVersion = obj?.configVersion ?? 0;
+        const oldVersion = obj?.configVersion ?? settingsConfigVersion;
         if (oldVersion > settingsConfigVersion) {
             newerSettingsBackup.path = `${_configDir}/dms/settings.v${oldVersion}.json`;
             newerSettingsBackup.setText(JSON.stringify(obj, null, 2));

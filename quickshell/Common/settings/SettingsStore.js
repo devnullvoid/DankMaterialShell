@@ -232,8 +232,11 @@ function migrateToVersion(obj, targetVersion) {
     if (!obj)
         return null;
 
+    // hand-written and nix-generated files carry no version and are authored against the current format
+    if (obj.configVersion === undefined)
+        return null;
     var settings = JSON.parse(JSON.stringify(obj));
-    var currentVersion = settings.configVersion || 0;
+    var currentVersion = settings.configVersion;
 
     if (currentVersion >= targetVersion) {
         return null;
