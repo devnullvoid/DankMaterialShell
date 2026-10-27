@@ -607,31 +607,16 @@ Singleton {
         }
     }
 
-    Timer {
-        id: timeUpdateTimer
-        interval: 30000
-        repeat: true
-        running: root.overlayOpen && (root.allWrappers.length > 0 || visibleNotifications.length > 0)
-        triggeredOnStart: false
-        onTriggered: {
-            root.timeUpdateTick = !root.timeUpdateTick;
-        }
-    }
-
-    // Date.now() inside a QML binding is not reactive, so anything counting
-    // down to a rule's expiresAt needs a ticking time source. Minute
-    // precision matches the countdown granularity, and the clock only runs
-    // while timed rules exist, so shells without them pay nothing.
     SystemClock {
-        id: ruleExpiryClock
+        id: minuteClock
         precision: SystemClock.Minutes
-        enabled: SettingsData.hasTimedNotificationRules
+        enabled: root.overlayOpen || SettingsData.hasTimedNotificationRules
     }
 
     // Current time in ms for rule-expiry bindings. Reads 0 while the clock is
     // off, which is safe: the clock is off exactly when no rule carries an
     // expiry, so no binding can depend on the value moving.
-    readonly property double notificationRuleNowMs: ruleExpiryClock.enabled ? ruleExpiryClock.date.getTime() : 0
+    readonly property double notificationRuleNowMs: SettingsData.hasTimedNotificationRules ? minuteClock.date.getTime() : 0
 
     // Formatted remaining time for a rule's expiresAt, driven by the ticking
     // clock above so bindings calling this refresh every minute. Single home
@@ -686,7 +671,6 @@ Singleton {
         onTriggered: _recomputeGroups()
     }
 
-    property bool timeUpdateTick: false
     property bool clockFormatChanged: false
 
     readonly property var groupedNotifications: _groupCache.notifications
@@ -931,7 +915,8 @@ Singleton {
 
         readonly property date time: new Date()
         readonly property string timeStr: {
-            root.timeUpdateTick;
+            if (root.overlayOpen)
+                minuteClock.date;
             root.clockFormatChanged;
 
             const now = new Date();
