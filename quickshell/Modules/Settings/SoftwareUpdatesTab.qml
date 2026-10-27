@@ -43,6 +43,10 @@ Item {
         {
             label: I18n.tr("Once a day"),
             seconds: 86400
+        },
+        {
+            label: I18n.tr("Never"),
+            seconds: 0
         }
     ]
 
