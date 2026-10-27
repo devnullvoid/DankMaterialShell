@@ -16,6 +16,8 @@ PanelWindow {
     property var targetScreen: null
     property bool alignLeft: false
     property bool alignRight: false
+    property bool persistent: false
+    property bool shown: false
 
     function show(text, x, y, screen, leftAlign, rightAlign) {
         root.text = text;
@@ -24,11 +26,11 @@ PanelWindow {
         targetY = y;
         alignLeft = leftAlign ?? false;
         alignRight = rightAlign ?? false;
-        visible = true;
+        shown = true;
     }
 
     function hide() {
-        visible = false;
+        shown = false;
     }
 
     screen: targetScreen
@@ -36,7 +38,7 @@ PanelWindow {
     implicitHeight: textContent.implicitHeight + Theme.spacingS * 2
     color: "transparent"
     mask: Region {}
-    visible: false
+    visible: persistent || shown
     WlrLayershell.layer: WlrLayershell.Overlay
     WlrLayershell.exclusiveZone: -1
 
@@ -68,6 +70,7 @@ PanelWindow {
 
     Rectangle {
         anchors.fill: parent
+        visible: root.shown
         color: Theme.inverseSurface
         radius: Theme.cornerRadiusXS
 
