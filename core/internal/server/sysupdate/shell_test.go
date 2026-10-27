@@ -85,11 +85,11 @@ func TestDetectChannel(t *testing.T) {
 }
 
 func TestFindShellPackagePrefersOwner(t *testing.T) {
-	pkgs := []Package{{Name: "dms-shell"}, {Name: "dms-shell-git"}, {Name: "firefox"}}
-	if got := findShellPackage(pkgs, "dms-shell-git"); got == nil || got.Name != "dms-shell-git" {
+	pkgs := []Package{{Name: "dux-shell"}, {Name: "dux-shell-git"}, {Name: "firefox"}}
+	if got := findShellPackage(pkgs, "dux-shell-git"); got == nil || got.Name != "dux-shell-git" {
 		t.Errorf("owner match = %v", got)
 	}
-	if got := findShellPackage(pkgs, ""); got == nil || got.Name != "dms-shell" {
+	if got := findShellPackage(pkgs, ""); got == nil || got.Name != "dux-shell" {
 		t.Errorf("fallback = %v", got)
 	}
 	if got := findShellPackage([]Package{{Name: "firefox"}}, "dms"); got != nil {

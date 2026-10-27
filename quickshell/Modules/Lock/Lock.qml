@@ -284,7 +284,7 @@ Scope {
 
     Pam {
         id: sharedPam
-        lockSecured: root.shouldLock
+        lockSecured: root.shouldLock && sessionLock.secure
         buffer: root.sharedPasswordBuffer
         onUnlockRequested: root.unlock()
     }
