@@ -13,7 +13,7 @@ Singleton {
     readonly property real tileLabelHeight: Theme.spacingXL
     readonly property real tileLabelBlockHeight: tileLabelMetrics.lineSpacing * 2
     readonly property real tileImageRatio: Theme.launcherImageRatio
-    readonly property real pillHeight: Theme.listItemHeight
+    readonly property real pillHeight: Theme.fieldHeightLarge
     readonly property real sectionHeight: Theme.buttonHeightXS
     readonly property real resultsGap: Theme.spacingXS
     readonly property real sectionBand: sectionHeight + resultsGap
