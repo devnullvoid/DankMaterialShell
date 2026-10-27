@@ -3705,14 +3705,14 @@ Singleton {
                 return;
             }
 
-            settings = newSettings;
+            settings = JSON.parse(newSettingsJson);
             fileUnsavedUserChanges = fileUnsavedUserChanges || userChanges;
 
             selfWrite = true;
             settingsFileView.setText(newSettingsJson);
         }
         function getSettings() {
-            return Object.assign({}, settings);
+            return JSON.parse(JSON.stringify(settings));
         }
 
         property Timer timer: Timer {
