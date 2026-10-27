@@ -106,6 +106,7 @@ Scope {
     }
 
     function spawnCustomLocker() {
+        log.info("Handing the lock to the custom lock command instead of the session lock");
         IdleService.lockPowerOffRequested = false;
         Quickshell.execDetached(["sh", "-c", SettingsData.customPowerActionLock]);
         // The custom locker manages its own surface; DMS never engages
@@ -443,6 +444,8 @@ Scope {
                 lockRetryAttempts: root.lockRetryAttempts,
                 lockInitiatedLocally: root.lockInitiatedLocally,
                 pendingLock: root.pendingLock,
+                customLocker: SettingsData.customPowerActionLock?.length > 0,
+                customLockerSpawned: root.customLockerSpawned,
                 loginctlLocked: SessionService.locked,
                 loginctlActive: SessionService.active
             });

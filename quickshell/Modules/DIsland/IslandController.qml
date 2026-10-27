@@ -496,6 +496,7 @@ QtObject {
 
     readonly property bool systemActivityActive: isSystemActivity(activeActivity)
     readonly property bool notificationActive: activeActivity === "notification"
+    readonly property bool outsideClickCollapses: expanded && !notificationActive
     readonly property bool notificationHeldForSystem: root.systemActivityActive && root.transientReturnActivity === "notification"
     readonly property bool transientActive: systemActivityActive || notificationActive
     readonly property bool timeoutSuspended: pointerInside || (expanded && !notificationActive)
