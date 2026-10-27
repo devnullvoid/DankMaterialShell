@@ -47,8 +47,10 @@ FocusScope {
     readonly property real dragRoom: widgetGrid.dragging && (host.growsFromTop ?? true) && widgetGrid.pinnedHeight + newRowUnit <= availableGridHeight ? newRowUnit : 0
     readonly property real newRowUnit: CcMetrics.gridGap + widgetGrid.slotLayout.rowUnit
     // Held during a drag so the trash never moves under the pointer.
-    readonly property real heldGridHeight: widgetGrid.dragging ? widgetGrid.pinnedHeight + dragRoom : gridTargetHeight
-    readonly property real targetImplicitHeight: CcMetrics.sheetPadding * 2 + heldGridHeight
+    readonly property real heldGridHeight: widgetGrid.dragging ? widgetGrid.pinnedHeight + dragRoom : gridHeight
+    // The popout sizes to where the band is going; the content inside follows the band frame by frame.
+    readonly property real targetImplicitHeight: CcMetrics.sheetPadding * 2 + (widgetGrid.dragging ? heldGridHeight : gridTargetHeight)
+    readonly property bool contentOverflows: targetImplicitHeight > (host.availableHeight ?? Infinity)
     property Item detailReturnFocus: null
     property var pageHistory: []
     // One string so Discard and undo can compare and restore the whole session state at once.
@@ -128,9 +130,9 @@ FocusScope {
         host.collapseAll();
     }
 
-    // Followed while the band grows, so it stays in view however the popout and the grid settle around it.
+    // Only a popout the screen has capped scrolls; otherwise it grows around the band and any scroll would bounce.
     function revealDetail() {
-        if (detailBand.section === "")
+        if (detailBand.section === "" || !contentOverflows)
             return;
         const top = mainColumn.y + body.y + detailBand.y;
         contentFlickable.revealRange(top, top + detailBand.height);

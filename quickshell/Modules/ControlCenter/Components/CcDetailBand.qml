@@ -31,17 +31,21 @@ FocusScope {
 
     property string shownSection: ""
     readonly property var pageItem: pageLoader.item
+    readonly property bool pluginPage: shownSection.startsWith("plugin_") || shownSection.startsWith("builtin_")
+    // A page measures itself a tick after it loads; waiting for that keeps the first target the final one.
     readonly property real pageHeight: {
         const own = pageItem?.implicitHeight ?? 0;
         if (own > 0)
             return own;
+        if (!pluginPage)
+            return 0;
         const preferred = pageItem?.preferredHeight ?? 0;
         return preferred > 0 ? preferred : CcMetrics.detailHeightDefault;
     }
     // The band's extent includes the gap above and below its card, so they grow and shrink with it.
     readonly property real chromeHeight: CcMetrics.gridGap * 2 + CcMetrics.detailHeaderHeight + CcMetrics.detailDialogPadding * 2
     readonly property real contentCap: Math.max(CcMetrics.detailHeightFloor(shownSection, pageItem?.preferredHeight ?? 0), maximumHeight - chromeHeight)
-    readonly property real targetHeight: section === "" ? 0 : chromeHeight + Math.min(pageHeight, contentCap)
+    readonly property real targetHeight: section === "" || pageHeight <= 0 ? 0 : chromeHeight + Math.min(pageHeight, contentCap)
     readonly property bool transitioning: heightAnimation.running
     // Only IPC can ask for a plugin section whose tile is not placed, so there is nothing to show.
     readonly property bool pageEmpty: pageItem?.empty === true
