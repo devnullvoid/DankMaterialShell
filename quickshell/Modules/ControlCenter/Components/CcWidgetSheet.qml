@@ -108,11 +108,13 @@ DBottomSheet {
                         visible: item.modelData.id !== "user" || PortalService.profileImageUrl === ""
                     }
 
-                    DCircularImage {
+                    Loader {
                         anchors.fill: parent
-                        imageSource: PortalService.profileImageUrl
-                        fallbackIcon: "material:person"
-                        visible: item.modelData.id === "user" && PortalService.profileImageUrl !== ""
+                        active: item.modelData.id === "user" && PortalService.profileImageUrl !== ""
+                        sourceComponent: DCircularImage {
+                            imageSource: PortalService.profileImageUrl
+                            fallbackIcon: "material:person"
+                        }
                     }
 
                     FocusRing {
