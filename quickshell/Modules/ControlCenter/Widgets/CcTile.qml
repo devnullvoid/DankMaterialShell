@@ -80,9 +80,9 @@ Item {
     readonly property bool hasIconBox: (showExpand || opensPage || expanded) && !compact
     readonly property bool showsActive: active && interactive
     readonly property real restRadius: {
-        if (showsActive)
+        if (showsActive && Theme.shapeMorph)
             return Math.min(CcMetrics.tileActiveRadius, width / 2, bodyHeight / 2);
-        return tall ? Math.min(CcMetrics.tallTileRadius, width / 2, height / 2) : Theme.fullRadius(width, bodyHeight);
+        return tall ? Math.min(CcMetrics.tallTileRadius, width / 2, height / 2) : CcMetrics.pillRadius(width, bodyHeight);
     }
     property bool acceptsInput: interactive && enabled
     readonly property bool bodyActive: showsActive && !hasIconBox && !bare
@@ -121,13 +121,13 @@ Item {
         return showsActive ? CcMetrics.tileActiveColor : CcMetrics.iconBoxInactiveColor;
     }
 
-    property real bodyRadius: bodyLayer.pressed ? Math.min(Theme.cornerRadiusM, width / 2, bodyHeight / 2) : restRadius
+    property real bodyRadius: bodyLayer.pressed && Theme.shapeMorph ? Math.min(Theme.cornerRadiusM, width / 2, bodyHeight / 2) : restRadius
     property real iconBoxRadius: {
-        if (boxLayer.pressed)
+        if (boxLayer.pressed && Theme.shapeMorph)
             return Math.min(Theme.cornerRadiusS, CcMetrics.iconBoxSize / 2);
-        if (showsActive)
+        if (showsActive && Theme.shapeMorph)
             return Math.min(CcMetrics.iconBoxActiveRadius, CcMetrics.iconBoxSize / 2);
-        return Theme.fullRadius(CcMetrics.iconBoxSize, CcMetrics.iconBoxSize);
+        return CcMetrics.pillRadius(CcMetrics.iconBoxSize, CcMetrics.iconBoxSize);
     }
 
     width: parent?.width ?? 0

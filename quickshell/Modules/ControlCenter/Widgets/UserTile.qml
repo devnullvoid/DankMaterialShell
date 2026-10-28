@@ -34,7 +34,7 @@ Item {
     readonly property real bodyRadius: {
         if (!background)
             return Theme.fullRadius(avatarSide, avatarSide);
-        return tall ? Math.min(CcMetrics.tallTileRadius, width / 2, height / 2) : Theme.fullRadius(width, height);
+        return tall ? Math.min(CcMetrics.tallTileRadius, width / 2, height / 2) : CcMetrics.pillRadius(width, height);
     }
     readonly property real fallbackGlyphRatio: 0.5
     readonly property string avatarSource: PortalService.profileImageUrl

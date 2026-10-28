@@ -33,6 +33,12 @@ Singleton {
     function sheetWidthFor(columns) {
         return sheetPadding * 2 + columns * columnWidth + (columns - 1) * gridGap;
     }
+
+    function pillRadius(width, height) {
+        if (Theme.pillControls)
+            return Theme.fullRadius(width, height);
+        return Math.min(Theme.cornerRadiusL, width / 2, height / 2);
+    }
     readonly property real maxHeightInset: 100
     // Short-grid floors scale with the row unit, or compact would pad small layouts back out.
     readonly property real gridScale: tileHeight / baseTileHeight

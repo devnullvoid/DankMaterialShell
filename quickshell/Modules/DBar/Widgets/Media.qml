@@ -220,7 +220,13 @@ BasePill {
             height: parent.height
             buttonSize: parent.width
             iconSize: 14 * root.contentScale
-            radius: pressed ? Theme.cornerRadiusXS : (checked ? Theme.cornerRadiusFull : Theme.cornerRadiusS)
+            radius: {
+                if (!Theme.shapeMorph)
+                    return Theme.cornerRadiusS;
+                if (pressed)
+                    return Theme.cornerRadiusXS;
+                return checked ? Theme.cornerRadiusFull : Theme.cornerRadiusS;
+            }
             variant: "filled"
             round: false
             checkable: true

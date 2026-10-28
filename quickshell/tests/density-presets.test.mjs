@@ -137,8 +137,10 @@ test("an unknown previous level moves sizes from comfortable, the level Theme re
 
 test("resets land on the current level's preset", () => {
     const changes = [];
-    const settings = settingsFunctions(["barConfigDefault", "dockConfigDefaults", "specDefault", "isDefault", "resetToDefault", "isManaged"], vm.createContext({
+    const settings = settingsFunctions(["barConfigDefault", "dockConfigDefaults", "specDefault", "isDefault", "resetToDefault", "isManaged", "presetDefault"], vm.createContext({
         DensityPresets: presets,
+        Store: loadScript(new URL("../Common/settings/SettingsStore.js", import.meta.url)),
+        interfaceStyle: "expressive",
         DockConfig: loadScript(new URL("../Common/settings/DockConfig.js", import.meta.url)),
         SpecUtil: loadScript(new URL("../DCommon/Common/settings/SpecUtil.js", import.meta.url)),
         Spec: { SPEC: Spec.SPEC, set: (root, key, value) => changes.push([key, value]) },

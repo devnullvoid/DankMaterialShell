@@ -36,6 +36,14 @@ Singleton {
     readonly property real sectionLabelTopGap: Math.max(Theme.spacingXS, Theme.spacingS + Theme.densityStepS)
     readonly property real sectionLabelBottomGap: Theme.spacingM
     readonly property real navIconSize: Theme.avatarSize
+    readonly property bool navIconBadges: !Theme.classicStyle
+    readonly property bool continuousGroups: Theme.classicStyle
+    readonly property real groupGap: continuousGroups ? 0 : Theme.groupedListGap
+    readonly property real groupInnerRadius: continuousGroups ? 0 : Theme.groupedListInnerRadius
+    // Rows share one frame in a continuous group so Layer outline never doubles up between them
+    readonly property real groupEdgeWidth: continuousGroups ? 0 : Theme.layerOutlineWidth
+    readonly property real groupFrameWidth: continuousGroups ? Theme.layerOutlineWidth : 0
+    readonly property color groupDividerColor: Theme.withAlpha(Theme.outline, SettingsData.sectionDividerOpacity)
     readonly property real navItemMinHeight: rowMinHeight
     readonly property real sidebarGroupGap: Theme.spacingS
     readonly property real searchBarGap: Theme.spacingM

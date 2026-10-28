@@ -251,7 +251,20 @@ Column {
 
     SettingsCard {
         tab: "theme"
-        title: I18n.tr("Density", "appearance settings section label")
+        title: I18n.tr("Appearance")
+        settingKey: "surfaceAppearance"
+
+        SettingsButtonGroupRow {
+            tab: "theme"
+            tags: ["style", "classic", "expressive", "pill", "round", "shape", "morph", "corners", "buttons"]
+            settingKey: "interfaceStyle"
+            text: I18n.tr("Style")
+            model: [I18n.tr("Expressive"), I18n.tr("Classic", "interface style option with one corner radius on controls and no shape change on press")]
+            values: ["expressive", "classic"]
+            value: SettingsData.interfaceStyle
+            fallbackValue: "expressive"
+            onValueSelected: value => SettingsData.set("interfaceStyle", value)
+        }
 
         SettingsButtonGroupRow {
             tab: "theme"
@@ -263,6 +276,20 @@ Column {
             value: SettingsData.density
             fallbackValue: "comfortable"
             onValueSelected: value => SettingsData.set("density", value)
+        }
+
+        SettingsSliderRow {
+            tab: "theme"
+            tags: ["classic", "divider", "dividers", "lines", "rows", "sections", "sidebar", "outline"]
+            settingKey: "sectionDividerOpacity"
+            visible: SettingsData.interfaceStyle === "classic"
+            text: I18n.tr("Section dividers", "classic interface style: strength of the lines between rows of a settings section")
+            minimumLabel: I18n.tr("Off")
+            minimum: 0
+            maximum: 40
+            step: 1
+            value: Math.round((SettingsData.sectionDividerOpacity ?? 0) * 100)
+            onSliderValueChanged: newValue => SettingsData.set("sectionDividerOpacity", newValue / 100)
         }
     }
 
@@ -277,7 +304,7 @@ Column {
             tags: ["corner", "radius", "rounded", "square", "fixed", "material", "shape"]
             settingKey: "radiusMode"
             text: I18n.tr("Corner style")
-            model: [I18n.tr("Material scale", "corner style: Material shape scale with a strength slider"), I18n.tr("Fixed", "corner style: one radius for every corner")]
+            model: [I18n.tr("Material", "corner style: Material shape scale with a strength slider"), I18n.tr("Fixed", "corner style: one radius for every corner")]
             currentIndex: SettingsData.radiusMode === "fixed" ? 1 : 0
             onSelectionChanged: (index, selected) => {
                 if (selected)

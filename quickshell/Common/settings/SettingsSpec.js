@@ -474,6 +474,10 @@ var LOCAL_SPEC = {
         def: "comfortable",
         onChange: "applyDensityPresets"
     },
+    interfaceStyle: {
+        def: "expressive",
+        onChange: "applyInterfaceStyle"
+    },
     m3ElevationEnabled: {
         def: true
     },
@@ -517,6 +521,10 @@ var LOCAL_SPEC = {
     },
     blurLayerOutlineOpacity: {
         def: 0,
+        coerce: Util.percentToUnit
+    },
+    sectionDividerOpacity: {
+        def: 0.1,
         coerce: Util.percentToUnit
     },
     focusRingEnabled: {

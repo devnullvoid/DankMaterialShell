@@ -173,9 +173,15 @@ function extractPins(obj) {
     return pins;
 }
 
+function styleDefault(key, style) {
+    if (key === "radiusMode" && style === "classic")
+        return "fixed";
+    return undefined;
+}
+
 // Sizes absent from the file load at the saved density's preset, as a reset would; a save omits only that preset.
-function densityDefault(key, density) {
-    var def = SpecModule.SPEC[key].def;
+function densityDefault(key, density, style) {
+    var def = styleDefault(key, style) ?? SpecModule.SPEC[key].def;
     if (key === "barConfigs" || key === "dockConfigs") {
         var presets = DensityPresets.values(key === "barConfigs" ? "bar" : "dock", density);
         return def.map(function (config) {
@@ -204,7 +210,7 @@ function parse(root, jsonObj) {
         if (SPEC[k].persist === false)
             continue;
         if (!(k in jsonObj))
-            assign(root, k, Util.cloneDef(densityDefault(k, jsonObj.density)));
+            assign(root, k, Util.cloneDef(densityDefault(k, jsonObj.density, jsonObj.interfaceStyle)));
     }
 
     for (var k in jsonObj) {
@@ -243,7 +249,7 @@ function toJson(root, setKeys) {
             value = withoutInstancePositions(value);
         if (k === "builtInPluginSettings")
             value = withoutSessionBackedPluginState(value);
-        if (!setKeys.has(k) && Util.isDefault(value, densityDefault(k, root.density)))
+        if (!setKeys.has(k) && Util.isDefault(value, densityDefault(k, root.density, root.interfaceStyle)))
             continue;
         out[k] = value;
     }

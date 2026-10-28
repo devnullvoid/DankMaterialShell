@@ -67,7 +67,7 @@ DEditableGrid {
     gravity: true
     rowStep: CcMetrics.gridStep
     packer: items => GridUtils.packCells(clamped(items), placementOrder, columns, null, CcMetrics.gridStep, true).cells
-    placeholderRadius: draggingSlot?.small ? Theme.fullRadius(draggingSlot.width, draggingSlot.height) : (draggingSlot?.tileItem?.bodyRadius ?? Theme.fullRadius(width, CcMetrics.tileHeight))
+    placeholderRadius: draggingSlot?.small ? CcMetrics.pillRadius(draggingSlot.width, draggingSlot.height) : (draggingSlot?.tileItem?.bodyRadius ?? CcMetrics.pillRadius(width, CcMetrics.tileHeight))
 
     commitHandler: items => model.setLayout(withHidden(items))
     onEditModeChanged: {

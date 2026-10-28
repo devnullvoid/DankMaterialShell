@@ -161,12 +161,14 @@ test("set and reset refuse managed keys and change the others", () => {
         AdminPolicy: { lockSettings: { lockBeforeSuspend: true } },
         Spec: { SPEC, set: (root, key, value) => changes.push([key, value]) },
         DensityPresets: loadScript(new URL("../Common/settings/DensityPresets.js", import.meta.url)),
+        Store: SettingsStore,
         density: "comfortable",
+        interfaceStyle: "expressive",
         log: { warn: (...args) => warnings.push(args.at(-1)) },
         saveSettings() {},
         _hooks: {},
         lockBeforeSuspend: true
-    }, ["isManaged", "set", "resetToDefault"]);
+    }, ["isManaged", "set", "resetToDefault", "presetDefault"]);
     context.set("lockBeforeSuspend", false);
     context.set("lockAtStartup", true);
     context.resetToDefault(["lockBeforeSuspend", "acLockTimeout"]);
@@ -235,6 +237,25 @@ test("settings set refuses an unknown density, from IPC too, without saving or m
         assert.equal(context.set("density", value), "SETTINGS_SET_FAILURE", value);
     assert.equal(context.set("density", "dense"), "SETTINGS_SET_SUCCESS");
     assert.deepEqual([moves, saves, SettingsData.density], [[["comfortable", "dense"]], 1, "dense"]);
+});
+
+test("settings set refuses an unknown interface style, from IPC too, without saving", () => {
+    let saves = 0;
+    const SettingsData = settingsDataContext({
+        AdminPolicy: { lockSettings: {} },
+        Spec: loadScript(new URL("../Common/settings/SettingsSpec.js", import.meta.url)),
+        log: { warn() {} },
+        saveSettings: () => saves++,
+        _hooks: {},
+        interfaceStyle: "expressive"
+    }, ["isManaged", "hasSetting", "set"]);
+    const context = vm.createContext({ AdminPolicy: { disableSettingsIpcSet: false }, SettingsData, log: { warn() {} } });
+    for (const handler of settingsIpcHandlers())
+        vm.runInContext(handler, context);
+    for (const value of ["Classic", "flat", ""])
+        assert.equal(context.set("interfaceStyle", value), "SETTINGS_SET_FAILURE", value);
+    assert.equal(context.set("interfaceStyle", "classic"), "SETTINGS_SET_SUCCESS");
+    assert.deepEqual([saves, SettingsData.interfaceStyle], [1, "classic"]);
 });
 
 test("the legacy session migration leaves managed lock settings alone", () => {

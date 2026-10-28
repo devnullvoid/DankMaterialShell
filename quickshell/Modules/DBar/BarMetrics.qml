@@ -30,11 +30,13 @@ Singleton {
             return Math.min(Theme.cornerRadiusS, thickness / 2);
         if (thickness < compactPillThickness)
             return Math.min(Theme.cornerRadiusM, thickness / 2);
-        return Theme.fullRadius(thickness, thickness);
+        return Theme.pillControls ? Theme.fullRadius(thickness, thickness) : Math.min(Theme.cornerRadiusL, thickness / 2);
     }
 
     function cornerRadius(thickness, style, joined, pressProgress) {
         const resting = joined ? Math.min(segmentInnerRadius, thickness / 2) : pillRadius(thickness, style);
+        if (!Theme.shapeMorph)
+            return resting;
         const pressed = Math.min(resting, joined || style === "flat" ? segmentPressedInnerRadius : pressedRadius);
         return Math.max(0, resting + (pressed - resting) * Math.max(0, Math.min(1, pressProgress)));
     }

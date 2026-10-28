@@ -1127,7 +1127,7 @@ Singleton {
 
     readonly property real notificationExpandedIconSizeNormal: avatarSize
     readonly property real notificationExpandedIconSizeCompact: avatarSize
-    readonly property real notificationButtonCornerRadius: cornerRadiusFull
+    readonly property real notificationButtonCornerRadius: pillControls ? cornerRadiusFull : cornerRadiusL
     readonly property real notificationHoverRevealMargin: spacingXL
     readonly property real notificationContentSpacing: spacingXS
     readonly property real notificationCardPadding: spacingM
@@ -1184,12 +1184,20 @@ Singleton {
         return Shape.scaledRadius(radius, limit, shapeScale, fixedRadius);
     }
 
+    function innerRadius(token) {
+        return Shape.innerRadius(token, shapeScale, fixedRadius);
+    }
+
     function fullRadius(width, height) {
         return Shape.fullRadius(width, height, shapeScale, fixedRadius);
     }
 
+    readonly property bool classicStyle: typeof SettingsData !== "undefined" && SettingsData.interfaceStyle === "classic"
+    readonly property bool shapeMorph: !classicStyle
+    readonly property bool pillControls: !classicStyle
+
     function buttonRadius(width, height, sizeHeight, pressed, round) {
-        return Shape.buttonRadius(width, height, sizeHeight, pressed, round, shapeScale, fixedRadius);
+        return Shape.buttonRadius(width, height, sizeHeight, pressed, round, shapeScale, fixedRadius, shapeMorph, pillControls);
     }
 
     readonly property int densityLevel: {
@@ -1209,7 +1217,7 @@ Singleton {
     readonly property real densityStepM: densityLevel * spacingS
     readonly property real densityStepXS: densityLevel * spacingXXS
     readonly property real groupedListGap: spacingXXS
-    readonly property real groupedListInnerRadius: cornerRadiusXS
+    readonly property real groupedListInnerRadius: innerRadius("xs")
     readonly property real groupedListOuterRadius: cornerRadiusL
 
     property string fontFamily: typeof SettingsData !== "undefined" ? resolvedFontFamily(SettingsData.fontFamily) : DCommon.Fonts.sans
@@ -1287,11 +1295,11 @@ Singleton {
     readonly property real avatarSize: 36
     readonly property real sliderTrackHeight: 16
     readonly property real sliderHandleWidth: 4
-    readonly property real sliderHandleWidthPressed: 2
+    readonly property real sliderHandleWidthPressed: shapeMorph ? 2 : sliderHandleWidth
     readonly property real sliderHandleHeight: 28
     readonly property real sliderHandleGap: 6
-    readonly property real sliderTrackHeightS: 24
-    readonly property real sliderHandleHeightS: 36
+    readonly property real sliderTrackHeightS: classicStyle ? sliderTrackHeight : 24
+    readonly property real sliderHandleHeightS: classicStyle ? sliderHandleHeight : 36
     readonly property real sliderTrackHeightM: 40
     readonly property real sliderHandleHeightM: 52
     readonly property real sliderTrackHeightL: 56

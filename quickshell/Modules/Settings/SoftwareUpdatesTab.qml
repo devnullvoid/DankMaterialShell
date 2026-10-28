@@ -472,7 +472,7 @@ Item {
 
             Column {
                 width: parent?.width ?? 0
-                spacing: Theme.groupedListGap
+                spacing: SettingsMetrics.groupGap
 
                 Repeater {
                     model: root.packagesExpanded && !SystemUpdateService.isUpgrading ? SystemUpdateService.systemUpdates.slice(0, root.packageListCap) : []

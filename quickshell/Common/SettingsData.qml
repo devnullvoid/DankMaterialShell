@@ -308,6 +308,7 @@ Singleton {
     property int motionEffect: SettingsData.AnimationEffect.Standard
     onMotionEffectChanged: saveSettings()
     property string density: Spec.SPEC.density.def
+    property string interfaceStyle: Spec.SPEC.interfaceStyle.def
     property bool m3ElevationEnabled: Spec.SPEC.m3ElevationEnabled.def
     onM3ElevationEnabledChanged: saveSettings()
     property int m3ElevationIntensity: Spec.SPEC.m3ElevationIntensity.def
@@ -337,6 +338,8 @@ Singleton {
     property real foregroundLayerTransparency: Spec.SPEC.foregroundLayerTransparency.def
     property real blurLayerOutlineOpacity: Spec.SPEC.blurLayerOutlineOpacity.def
     onBlurLayerOutlineOpacityChanged: saveSettings()
+    property real sectionDividerOpacity: Spec.SPEC.sectionDividerOpacity.def
+    onSectionDividerOpacityChanged: saveSettings()
     property string tooltipSurfaceColor: Spec.SPEC.tooltipSurfaceColor.def
     onTooltipSurfaceColorChanged: saveSettings()
     property string tooltipSurfaceCustomColor: Spec.SPEC.tooltipSurfaceCustomColor.def
@@ -1747,8 +1750,17 @@ Singleton {
         }
     }
 
+    function applyInterfaceStyle(who, key, previous) {
+        const from = Store.styleDefault("radiusMode", previous) ?? Spec.SPEC.radiusMode.def;
+        if (radiusMode !== from || isManaged("radiusMode"))
+            return;
+        radiusMode = presetDefault("radiusMode") ?? Spec.SPEC.radiusMode.def;
+        updateCompositorLayout();
+    }
+
     readonly property var _hooks: ({
             "applyDensityPresets": applyDensityPresets,
+            "applyInterfaceStyle": applyInterfaceStyle,
             "applyStoredTheme": applyStoredTheme,
             "regenSystemThemes": regenSystemThemes,
             "updateCompositorLayout": updateCompositorLayout,
@@ -1772,6 +1784,10 @@ Singleton {
             log.warn("Refusing an unknown density:", value);
             return false;
         }
+        if (key === "interfaceStyle" && !["expressive", "classic"].includes(value)) {
+            log.warn("Refusing an unknown interface style:", value);
+            return false;
+        }
         if (key === "cornerRadius")
             return setCornerRadius(value);
         if (key === "radiusStrength")
@@ -1790,18 +1806,22 @@ Singleton {
         return key in AdminPolicy.lockSettings;
     }
 
+    function presetDefault(key) {
+        return DensityPresets.value("frame", key, density) ?? Store.styleDefault(key, interfaceStyle);
+    }
+
     function specDefault(key) {
-        return DensityPresets.value("frame", key, density) ?? SpecUtil.cloneDef(Spec.SPEC[key]?.def);
+        return presetDefault(key) ?? SpecUtil.cloneDef(Spec.SPEC[key]?.def);
     }
 
     function isDefault(keys) {
-        return keys.every(key => !(key in Spec.SPEC) || SpecUtil.isDefault(root[key], DensityPresets.value("frame", key, density) ?? Spec.SPEC[key].def));
+        return keys.every(key => !(key in Spec.SPEC) || SpecUtil.isDefault(root[key], presetDefault(key) ?? Spec.SPEC[key].def));
     }
 
     function resetToDefault(keys) {
         for (const key of keys) {
             if (key in Spec.SPEC && !isManaged(key))
-                Spec.set(root, key, DensityPresets.value("frame", key, density) ?? null, saveSettings, _hooks);
+                Spec.set(root, key, presetDefault(key) ?? null, saveSettings, _hooks);
         }
     }
 
