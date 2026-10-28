@@ -2,6 +2,7 @@ package clipboard
 
 import (
 	"bytes"
+	"cmp"
 	"encoding/binary"
 	"errors"
 	"fmt"
@@ -249,6 +250,9 @@ func (m *Manager) setupRegistry() error {
 			m.dataControlMgr = dataControlMgr
 			log.Info("Bound ext_data_control_manager_v1")
 		case "wl_seat":
+			if m.seat != nil {
+				return
+			}
 			seat := wlclient.NewSeat(ctx)
 			if err := registry.Bind(e.Name, e.Interface, e.Version, seat); err != nil {
 				log.Errorf("Failed to bind wl_seat: %v", err)
@@ -634,18 +638,27 @@ func (m *Manager) trimLengthInTx(b *bolt.Bucket) error {
 	if maxHistory < 0 {
 		return nil
 	}
+
+	type row struct {
+		key   []byte
+		entry Entry
+	}
+	var rows []row
 	c := b.Cursor()
-	var count int
-	for k, v := c.Last(); k != nil; k, v = c.Prev() {
+	for k, v := c.First(); k != nil; k, v = c.Next() {
 		entry, err := decodeEntryMeta(v)
-		if err == nil && entry.Pinned {
+		if err != nil || entry.Pinned {
 			continue
 		}
-		if count < maxHistory {
-			count++
-			continue
-		}
-		if err := b.Delete(k); err != nil {
+		rows = append(rows, row{slices.Clone(k), entry})
+	}
+
+	slices.SortFunc(rows, func(a, b row) int {
+		return compareEntriesNewestFirst(a.entry, b.entry)
+	})
+
+	for _, r := range rows[min(maxHistory, len(rows)):] {
+		if err := b.Delete(r.key); err != nil {
 			return err
 		}
 	}
@@ -663,7 +676,7 @@ func encodeEntry(e Entry) ([]byte, error) {
 	binary.Write(buf, binary.BigEndian, uint32(len(e.Preview)))
 	buf.WriteString(e.Preview)
 	binary.Write(buf, binary.BigEndian, int32(e.Size))
-	binary.Write(buf, binary.BigEndian, e.Timestamp.Unix())
+	binary.Write(buf, binary.BigEndian, e.Timestamp.UnixNano())
 	if e.IsImage {
 		buf.WriteByte(1)
 	} else {
@@ -729,7 +742,13 @@ func decodeEntryFields(data []byte, withData bool) (Entry, error) {
 
 	var timestamp int64
 	binary.Read(buf, binary.BigEndian, &timestamp)
-	e.Timestamp = time.Unix(timestamp, 0)
+	// Rows written before the switch to nanosecond precision hold seconds;
+	// no second-resolution stamp reaches 1e12 until the year 33658.
+	if timestamp < 1e12 {
+		e.Timestamp = time.Unix(timestamp, 0)
+	} else {
+		e.Timestamp = time.Unix(0, timestamp)
+	}
 
 	var isImage byte
 	binary.Read(buf, binary.BigEndian, &isImage)
@@ -1105,7 +1124,23 @@ func (m *Manager) GetHistory() []Entry {
 		go m.deleteStaleEntries(stale)
 	}
 
+	sortEntriesNewestFirst(history)
+
 	return history
+}
+
+// sortEntriesNewestFirst orders by timestamp, falling back to id: TouchEntry
+// rewrites a row in place to keep its id stable, so bucket key order stops
+// tracking recency.
+func sortEntriesNewestFirst(entries []Entry) {
+	slices.SortFunc(entries, compareEntriesNewestFirst)
+}
+
+func compareEntriesNewestFirst(a, b Entry) int {
+	if c := b.Timestamp.Compare(a.Timestamp); c != 0 {
+		return c
+	}
+	return cmp.Compare(b.ID, a.ID)
 }
 
 func (m *Manager) deleteStaleEntries(ids []uint64) {
@@ -1243,9 +1278,24 @@ func (m *Manager) TouchEntry(id uint64) error {
 		return err
 	}
 
-	entry.Timestamp = time.Now()
+	// Round(0) drops the monotonic reading so the in-memory stamp compares the
+	// same way as the one decoded back from the bucket.
+	entry.Timestamp = time.Now().Round(0)
 
-	if err := m.storeEntry(*entry); err != nil {
+	// storeEntry would dedupe the row against itself and hand out a fresh
+	// sequence number, invalidating the id the UI is still holding.
+	err = m.dbUpdate(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte("clipboard"))
+		if b == nil {
+			return fmt.Errorf("clipboard bucket missing")
+		}
+		encoded, err := encodeEntry(*entry)
+		if err != nil {
+			return err
+		}
+		return b.Put(itob(id), encoded)
+	})
+	if err != nil {
 		return err
 	}
 
@@ -2199,6 +2249,8 @@ func (m *Manager) GetPinnedEntries() []Entry {
 	}); err != nil {
 		log.Errorf("Failed to get pinned entries: %v", err)
 	}
+
+	sortEntriesNewestFirst(pinned)
 
 	return pinned
 }
