@@ -184,6 +184,8 @@ Singleton {
     property string hostSurfaceCustomColor: Spec.SPEC.hostSurfaceCustomColor.def
     property string cardSurfaceColor: Spec.SPEC.cardSurfaceColor.def
     property string cardSurfaceCustomColor: Spec.SPEC.cardSurfaceCustomColor.def
+    property string tooltipSurfaceColor: Spec.SPEC.tooltipSurfaceColor.def
+    property string tooltipSurfaceCustomColor: Spec.SPEC.tooltipSurfaceCustomColor.def
     property string chipSurfaceColor: Spec.SPEC.chipSurfaceColor.def
     property string chipSurfaceCustomColor: Spec.SPEC.chipSurfaceCustomColor.def
     property string chipSurfaceNestedColor: Spec.SPEC.chipSurfaceNestedColor.def
@@ -340,10 +342,6 @@ Singleton {
     onBlurLayerOutlineOpacityChanged: saveSettings()
     property real sectionDividerOpacity: Spec.SPEC.sectionDividerOpacity.def
     onSectionDividerOpacityChanged: saveSettings()
-    property string tooltipSurfaceColor: Spec.SPEC.tooltipSurfaceColor.def
-    onTooltipSurfaceColorChanged: saveSettings()
-    property string tooltipSurfaceCustomColor: Spec.SPEC.tooltipSurfaceCustomColor.def
-    onTooltipSurfaceCustomColorChanged: saveSettings()
     property bool blurBorderEnabled: Spec.SPEC.blurBorderEnabled.def
     onBlurBorderEnabledChanged: saveSettings()
     property string blurBorderColor: Spec.SPEC.blurBorderColor.def

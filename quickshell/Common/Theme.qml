@@ -222,6 +222,8 @@ Singleton {
             "surfaceContainer": getMatugenColorForMode(colorMode, "surface_container", "#1e2023"),
             "surfaceContainerHigh": getMatugenColorForMode(colorMode, "surface_container_high", "#292b2f"),
             "surfaceContainerHighest": getMatugenColorForMode(colorMode, "surface_container_highest", "#343740"),
+            "inverseSurface": getMatugenColorForMode(colorMode, "inverse_surface", getMatugenColorForMode(colorMode === "light" ? "dark" : "light", "surface", "#fdf7fe")),
+            "inverseOnSurface": getMatugenColorForMode(colorMode, "inverse_on_surface", getMatugenColorForMode(colorMode === "light" ? "dark" : "light", "on_surface", "#302e33")),
             "error": getMatugenColorForMode(colorMode, "error", "#F2B8B5"),
             "errorText": getMatugenColorForMode(colorMode, "on_error"),
             "errorContainer": getMatugenColorForMode(colorMode, "error_container"),
@@ -368,6 +370,8 @@ Singleton {
     readonly property color cardSurface: typeof SettingsData === "undefined" ? surfaceContainer : surfaceRoleColor(SettingsData.cardSurfaceColor, SettingsData.cardSurfaceCustomColor, surfaceContainer)
     readonly property color chipSurface: typeof SettingsData === "undefined" ? surfaceContainerHigh : surfaceRoleColor(SettingsData.chipSurfaceColor, SettingsData.chipSurfaceCustomColor, surfaceContainerHigh)
     readonly property color chipSurfaceNested: typeof SettingsData === "undefined" ? surfaceContainerHighest : surfaceRoleColor(SettingsData.chipSurfaceNestedColor, SettingsData.chipSurfaceNestedCustomColor, surfaceContainerHighest)
+    readonly property color tooltipSurface: typeof SettingsData === "undefined" ? surfaceContainerHighest : surfaceRoleColor(SettingsData.tooltipSurfaceColor, SettingsData.tooltipSurfaceCustomColor, surfaceContainerHighest)
+    readonly property color tooltipText: Contrast.readableOn(tooltipSurface, [surfaceText, (isLightColor(tooltipSurface) ? contrastDark : contrastLight)])
     readonly property real containerSaturation: typeof SettingsData === "undefined" ? 1 : SettingsData.containerSaturation / 100
     readonly property real containerTint: (currentThemeData.containerTint ?? Tonal.defaultTint(surfaceContainer)) * containerSaturation
     property color primaryContainer: currentThemeData.softPrimaryContainer || Tonal.softContainer(primary, surfaceContainer, containerTint)
@@ -631,6 +635,8 @@ Singleton {
             return surfaceContainerHigh;
         case "schh":
             return surfaceContainerHighest;
+        case "inverseSurface":
+            return inverseSurface;
         case "sth":
             return surfaceTextHover;
         case "error":
