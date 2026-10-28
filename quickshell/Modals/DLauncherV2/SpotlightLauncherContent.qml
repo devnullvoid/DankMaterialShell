@@ -440,6 +440,7 @@ FocusScope {
             keyForwardTargets: [searchKeyHandler]
             readonly property real bottomInset: Theme.spacingS
             availableHeight: Math.max(0, root._maxResultsH - root._resultsTopGap - bottomInset)
+            resizing: actionPanel.animating
             anchors.fill: parent
             anchors.topMargin: root._resultsTopGap
             controller: root.controller

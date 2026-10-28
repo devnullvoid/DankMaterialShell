@@ -675,7 +675,6 @@ FocusScope {
                     focusReturnTarget: searchField
                     keyForwardTargets: [root]
                     anchors.fill: parent
-                    fitGridRows: true
                     resizing: actionPanel.animating
                     controller: root.controller
                     leadingSectionHeaderAtBottom: contentHolder.inverted

@@ -34,9 +34,10 @@ Item {
     readonly property int _densityLevel: Theme.densityLevel
     readonly property int pageRows: Math.max(1, Math.floor((height - LauncherMetrics.fadeLength) / (LauncherMetrics.rowHeight + LauncherMetrics.rowGap)))
     property real availableHeight: 0
-    property bool fitGridRows: false
     // Set while the host animates height, so fitted cells settle once instead of every frame
-    property bool resizing: false
+    required property bool resizing
+    // Content-sized hosts follow fittedHeight, so their cells fit the budget rather than the current height
+    readonly property real _fitSpace: availableHeight > 0 ? availableHeight : height
     readonly property real fittedHeight: {
         const rows = _visualModel.rows;
         const starts = _visualModel.heights;
@@ -132,8 +133,8 @@ Item {
                 var cols = root.controller?.getGridColumns(sectionId) ?? root.gridColumns;
                 var cellWidth = Math.floor(root.width / cols);
                 var cellHeight = mode === "tile" ? cellWidth * LauncherMetrics.tileImageRatio : cellWidth + LauncherMetrics.tileLabelHeight;
-                var gridSpace = root.height - sectionBand - LauncherMetrics.fadeLength;
-                if (root.fitGridRows && mode === "grid" && gridSpace > 0) {
+                var gridSpace = root._fitSpace - sectionBand - LauncherMetrics.fadeLength;
+                if (mode === "grid" && gridSpace > 0) {
                     // Never aim below what the icon and label need
                     var target = Math.max(cellHeight * LauncherMetrics.gridDensityScale, Math.min(cellHeight, LauncherMetrics.tileMinHeight));
                     cellHeight = gridSpace / Math.max(1, Math.round(gridSpace / target));
@@ -204,12 +205,12 @@ Item {
 
     onGridColumnsChanged: rebuildTimer.restart()
     onWidthChanged: rebuildTimer.restart()
-    onHeightChanged: _settleHeight()
+    on_FitSpaceChanged: _settleHeight()
     onResizingChanged: _settleHeight()
 
     // Only fitted grid cells depend on height
     function _settleHeight() {
-        if (!fitGridRows || resizing)
+        if (resizing)
             return;
         if (_visualModel.hasGrid)
             rebuildTimer.restart();

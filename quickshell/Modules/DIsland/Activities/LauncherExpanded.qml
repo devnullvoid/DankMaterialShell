@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Modals.DLauncherV2
-import qs.Modals.DLauncherV2.Components
 
 FocusScope {
     id: root
@@ -16,7 +15,6 @@ FocusScope {
     property real screenHeight: effectiveScreen?.height ?? 1080
     property real alignedX: 0
     property real alignedY: 0
-    property real bottomInset: LauncherMetrics.islandBottomInset
 
     clip: true
 
@@ -69,17 +67,14 @@ FocusScope {
         id: launcherContent
 
         anchors.fill: parent
-        anchors.leftMargin: Theme.spacingM
-        anchors.rightMargin: Theme.spacingM
-        anchors.topMargin: Theme.spacingM
-        anchors.bottomMargin: root.bottomInset
+        anchors.margins: Theme.spacingM
         parentModal: hostContract
         resultsInset: 0
         controllerOverride: root.launcherController
         transientSurfaceTracker: root.transientSurfaceTracker
         showResultsWithoutQuery: true
         resizeAnimated: false
-        maxResultsHeight: Math.max(120, root.controller.launcherExpandedTarget.height - Theme.spacingM - root.bottomInset - launcherContent.searchAreaHeight - launcherContent.actionPanelHeight)
+        maxResultsHeight: Math.max(120, root.controller.launcherExpandedTarget.height - Theme.spacingM * 2 - launcherContent.searchAreaHeight - launcherContent.actionPanelHeight)
     }
 
     onActiveFocusChanged: root.controller.launcherInputFocused = activeFocus

@@ -41,9 +41,8 @@ Singleton {
     readonly property real spotlightWidth: Theme.launcherWidthWide
     readonly property real spotlightTopFraction: 0.33
     readonly property real spotlightInset: Theme.spacingM
-    readonly property real islandBottomInset: 18
-    // The footerless island sheet ends in ResultsList's spacingS plus its bottom inset, not spacingM.
-    readonly property real islandEdgeInset: islandBottomInset + Theme.spacingS - Theme.spacingM
+    // The footerless island sheet adds ResultsList's spacingS below its spacingM margin.
+    readonly property real islandEdgeInset: Theme.spacingS
 
     FontMetrics {
         id: tileLabelMetrics
