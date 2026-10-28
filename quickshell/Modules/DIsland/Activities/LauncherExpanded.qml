@@ -74,7 +74,9 @@ FocusScope {
         transientSurfaceTracker: root.transientSurfaceTracker
         showResultsWithoutQuery: true
         resizeAnimated: false
-        maxResultsHeight: Math.max(120, root.controller.launcherExpandedTarget.height - Theme.spacingM * 2 - launcherContent.searchAreaHeight - launcherContent.actionPanelHeight)
+        maxResultsHeight: Math.max(120, root.controller.launcherMaxHeight - Theme.spacingM * 2 - launcherContent.searchAreaHeight - launcherContent.actionPanelHeight)
+
+        onImplicitHeightChanged: root.controller.setDestinationContentHeight("launcher", implicitHeight + Theme.spacingM * 2)
     }
 
     onActiveFocusChanged: root.controller.launcherInputFocused = activeFocus
