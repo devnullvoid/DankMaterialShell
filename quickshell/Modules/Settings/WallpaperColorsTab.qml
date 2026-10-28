@@ -806,71 +806,80 @@ Column {
 
     SettingsCard {
         tab: "wallpaper"
-        tags: ["surface", "color", "bar", "popout", "modal", "card", "chip", "background", "elevation"]
+        tags: ["surface", "color", "bar", "popout", "modal", "card", "chip", "tooltip", "background", "elevation"]
         title: I18n.tr("Surfaces")
-        settingKey: "surfaceColors"
+        settingKey: "surfaceRoles"
 
         SettingsRow {
-            settingKey: "surfaceColorsPreview"
+            settingKey: "surfaceRolesPreview"
             body: SettingsSurfacePreview {
                 width: parent.width
             }
         }
 
-        Repeater {
-            model: [
-                {
-                    "key": "hostSurfaceColor",
-                    "customKey": "hostSurfaceCustomColor",
-                    "fallback": "s",
-                    "text": I18n.tr("Host"),
-                    "tags": ["host", "bar", "popout", "modal", "window"]
-                },
-                {
-                    "key": "cardSurfaceColor",
-                    "customKey": "cardSurfaceCustomColor",
-                    "fallback": "sc",
-                    "text": I18n.tr("Cards"),
-                    "tags": ["card", "row", "section"]
-                },
-                {
-                    "key": "chipSurfaceColor",
-                    "customKey": "chipSurfaceCustomColor",
-                    "fallback": "sch",
-                    "text": I18n.tr("Chip", "surface role"),
-                    "tags": ["chip", "field", "dropdown", "input"]
-                },
-                {
-                    "key": "chipSurfaceNestedColor",
-                    "customKey": "chipSurfaceNestedCustomColor",
-                    "fallback": "schh",
-                    "text": I18n.tr("Nested chip", "surface role"),
-                    "tags": ["nested", "chip", "control"]
-                },
-                {
-                    "key": "tooltipSurfaceColor",
-                    "customKey": "tooltipSurfaceCustomColor",
-                    "fallback": "schh",
-                    "text": I18n.tr("Tooltip", "surface role"),
-                    "tags": ["tooltip", "hint", "hover", "toast"]
-                }
-            ]
+        SurfaceColorRow {
+            tab: "wallpaper"
+            tags: ["surface", "color", "host", "bar", "popout", "modal", "window"]
+            settingKey: "hostSurfaceColor"
+            resetKeys: ["hostSurfaceColor", "hostSurfaceCustomColor"]
+            text: I18n.tr("Host")
+            defaultColor: Theme.roleColor("s")
+            currentMode: SettingsData.hostSurfaceColor
+            customColor: SettingsData.hostSurfaceCustomColor
+            onModeSelected: mode => SettingsData.set("hostSurfaceColor", mode)
+            onCustomColorSelected: selectedColor => SettingsData.set("hostSurfaceCustomColor", selectedColor.toString())
+        }
 
-            SurfaceColorRow {
-                required property var modelData
+        SurfaceColorRow {
+            tab: "wallpaper"
+            tags: ["surface", "color", "card", "row", "section"]
+            settingKey: "cardSurfaceColor"
+            resetKeys: ["cardSurfaceColor", "cardSurfaceCustomColor"]
+            text: I18n.tr("Cards")
+            defaultColor: Theme.roleColor("sc")
+            currentMode: SettingsData.cardSurfaceColor
+            customColor: SettingsData.cardSurfaceCustomColor
+            onModeSelected: mode => SettingsData.set("cardSurfaceColor", mode)
+            onCustomColorSelected: selectedColor => SettingsData.set("cardSurfaceCustomColor", selectedColor.toString())
+        }
 
-                tab: "wallpaper"
-                tags: ["surface", "color"].concat(modelData.tags)
-                settingKey: modelData.key
-                resetKeys: [modelData.key, modelData.customKey]
-                text: modelData.text
-                defaultColor: Theme.roleColor(modelData.fallback)
-                currentMode: SettingsData[modelData.key]
-                customColor: SettingsData[modelData.customKey]
-                pickerTitle: modelData.text
-                onModeSelected: mode => SettingsData.set(modelData.key, mode)
-                onCustomColorSelected: selectedColor => SettingsData.set(modelData.customKey, selectedColor.toString())
-            }
+        SurfaceColorRow {
+            tab: "wallpaper"
+            tags: ["surface", "color", "chip", "field", "dropdown", "input"]
+            settingKey: "chipSurfaceColor"
+            resetKeys: ["chipSurfaceColor", "chipSurfaceCustomColor"]
+            text: I18n.tr("Chip", "surface role")
+            defaultColor: Theme.roleColor("sch")
+            currentMode: SettingsData.chipSurfaceColor
+            customColor: SettingsData.chipSurfaceCustomColor
+            onModeSelected: mode => SettingsData.set("chipSurfaceColor", mode)
+            onCustomColorSelected: selectedColor => SettingsData.set("chipSurfaceCustomColor", selectedColor.toString())
+        }
+
+        SurfaceColorRow {
+            tab: "wallpaper"
+            tags: ["surface", "color", "nested", "chip", "control"]
+            settingKey: "chipSurfaceNestedColor"
+            resetKeys: ["chipSurfaceNestedColor", "chipSurfaceNestedCustomColor"]
+            text: I18n.tr("Nested chip", "surface role")
+            defaultColor: Theme.roleColor("schh")
+            currentMode: SettingsData.chipSurfaceNestedColor
+            customColor: SettingsData.chipSurfaceNestedCustomColor
+            onModeSelected: mode => SettingsData.set("chipSurfaceNestedColor", mode)
+            onCustomColorSelected: selectedColor => SettingsData.set("chipSurfaceNestedCustomColor", selectedColor.toString())
+        }
+
+        SurfaceColorRow {
+            tab: "wallpaper"
+            tags: ["surface", "color", "tooltip", "hint", "hover", "toast"]
+            settingKey: "tooltipSurfaceColor"
+            resetKeys: ["tooltipSurfaceColor", "tooltipSurfaceCustomColor"]
+            text: I18n.tr("Tooltip", "surface role")
+            defaultColor: Theme.roleColor("inverseSurface")
+            currentMode: SettingsData.tooltipSurfaceColor
+            customColor: SettingsData.tooltipSurfaceCustomColor
+            onModeSelected: mode => SettingsData.set("tooltipSurfaceColor", mode)
+            onCustomColorSelected: selectedColor => SettingsData.set("tooltipSurfaceCustomColor", selectedColor.toString())
         }
     }
 

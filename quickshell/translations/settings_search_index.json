@@ -513,6 +513,60 @@
     "page": "theme_surfaces"
   },
   {
+    "section": "cardSurfaceColor",
+    "label": "Cards",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "background",
+      "bg",
+      "card",
+      "cards",
+      "color",
+      "colors",
+      "colour",
+      "colours",
+      "desktop",
+      "hue",
+      "image",
+      "palette",
+      "picture",
+      "row",
+      "section",
+      "surface",
+      "tint",
+      "wallpaper"
+    ],
+    "page": "personalization"
+  },
+  {
+    "section": "chipSurfaceColor",
+    "label": "Chip",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "background",
+      "bg",
+      "chip",
+      "color",
+      "colors",
+      "colour",
+      "colours",
+      "desktop",
+      "dropdown",
+      "field",
+      "hue",
+      "image",
+      "input",
+      "palette",
+      "picture",
+      "surface",
+      "tint",
+      "wallpaper"
+    ],
+    "page": "personalization"
+  },
+  {
     "section": "focusRingColor",
     "label": "Color",
     "tabIndex": -1,
@@ -1302,6 +1356,34 @@
     "icon": "view_in_ar"
   },
   {
+    "section": "hostSurfaceColor",
+    "label": "Host",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "background",
+      "bar",
+      "bg",
+      "color",
+      "colors",
+      "colour",
+      "colours",
+      "desktop",
+      "host",
+      "hue",
+      "image",
+      "modal",
+      "palette",
+      "picture",
+      "popout",
+      "surface",
+      "tint",
+      "wallpaper",
+      "window"
+    ],
+    "page": "personalization"
+  },
+  {
     "section": "materialSeedHue",
     "label": "Hue",
     "tabIndex": -1,
@@ -1666,6 +1748,32 @@
       "toast"
     ],
     "page": "notifications"
+  },
+  {
+    "section": "chipSurfaceNestedColor",
+    "label": "Nested chip",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "background",
+      "bg",
+      "chip",
+      "color",
+      "colors",
+      "colour",
+      "colours",
+      "control",
+      "desktop",
+      "hue",
+      "image",
+      "nested",
+      "palette",
+      "picture",
+      "surface",
+      "tint",
+      "wallpaper"
+    ],
+    "page": "personalization"
   },
   {
     "section": "_hub_network",
@@ -2395,6 +2503,37 @@
     "page": "notifications"
   },
   {
+    "section": "surfaceRoles",
+    "label": "Surfaces",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "background",
+      "bar",
+      "bg",
+      "card",
+      "chip",
+      "color",
+      "colors",
+      "colour",
+      "colours",
+      "desktop",
+      "elevation",
+      "hue",
+      "image",
+      "modal",
+      "palette",
+      "picture",
+      "popout",
+      "surface",
+      "surfaces",
+      "tint",
+      "tooltip",
+      "wallpaper"
+    ],
+    "page": "personalization"
+  },
+  {
     "section": "surfaceStyling",
     "label": "Surfaces",
     "tabIndex": -1,
@@ -2624,6 +2763,33 @@
     ],
     "page": "theme_surfaces",
     "description": "Off lets the compositor decorate DMS windows. Open windows update when reopened."
+  },
+  {
+    "section": "tooltipSurfaceColor",
+    "label": "Tooltip",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "background",
+      "bg",
+      "color",
+      "colors",
+      "colour",
+      "colours",
+      "desktop",
+      "hint",
+      "hover",
+      "hue",
+      "image",
+      "palette",
+      "picture",
+      "surface",
+      "tint",
+      "toast",
+      "tooltip",
+      "wallpaper"
+    ],
+    "page": "personalization"
   },
   {
     "section": "wallpaperTransition",
