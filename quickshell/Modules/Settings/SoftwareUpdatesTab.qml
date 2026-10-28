@@ -83,7 +83,7 @@ Item {
             seconds: 0
         },
         {
-            label: I18n.tr("Every %1", "update check interval option, %1 is a duration such as 30 minutes").arg(I18n.duration(3600)),
+            label: I18n.tr("Every hour"),
             seconds: 3600
         },
         {
