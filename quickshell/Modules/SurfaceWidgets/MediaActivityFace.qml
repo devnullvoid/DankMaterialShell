@@ -232,11 +232,7 @@ Item {
                 id: clockText
 
                 anchors.centerIn: parent
-                isMonospace: false
                 text: root.timeText
-                reserveText: root.timeText.replace(/\d/g, "0")
-                width: Math.ceil(Math.max(implicitWidth, reservedWidth))
-                horizontalAlignment: Text.AlignHCenter
                 color: Theme.surfaceText
                 font.pixelSize: Theme.fontSizeSmall * root.contentScale
                 font.weight: Theme.fontWeightMedium
@@ -293,10 +289,8 @@ Item {
 
                 NumericText {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    isMonospace: false
                     text: root.hourText
                     reserveText: "00"
-                    horizontalAlignment: Text.AlignHCenter
                     color: Theme.surfaceText
                     font.pixelSize: Theme.fontSizeSmall * root.contentScale
                     font.weight: Theme.fontWeightMedium
@@ -304,10 +298,8 @@ Item {
 
                 NumericText {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    isMonospace: false
                     text: root.minuteText
                     reserveText: "00"
-                    horizontalAlignment: Text.AlignHCenter
                     color: Theme.surfaceTextMedium
                     font.pixelSize: Theme.fontSizeSmall * root.contentScale
                     font.weight: Theme.fontWeightMedium

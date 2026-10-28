@@ -121,9 +121,6 @@ Rectangle {
                     font.weight: Theme.fontWeightMedium
                     color: toneColors.contentColor
                     elide: Text.ElideRight
-                    font.features: ({
-                            "tnum": 1
-                        })
                 }
             }
         }

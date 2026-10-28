@@ -760,7 +760,7 @@ BasePill {
                                     font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
                                     color: Theme.widgetTextColor
                                     anchors.verticalCenter: parent.verticalCenter
-                                    width: visible ? implicitWidth : 0
+                                    width: visible ? reservedWidth : 0
                                 }
                             }
                         }
@@ -797,7 +797,7 @@ BasePill {
                                     font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
                                     color: Theme.widgetTextColor
                                     anchors.verticalCenter: parent.verticalCenter
-                                    width: visible ? implicitWidth : 0
+                                    width: visible ? reservedWidth : 0
                                 }
                             }
                         }
@@ -834,7 +834,7 @@ BasePill {
                                     font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
                                     color: Theme.widgetTextColor
                                     anchors.verticalCenter: parent.verticalCenter
-                                    width: visible ? implicitWidth : 0
+                                    width: visible ? reservedWidth : 0
                                 }
                             }
                         }

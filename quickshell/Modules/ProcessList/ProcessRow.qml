@@ -94,7 +94,6 @@ DListItem {
             maximumLineCount: 1
             reserveText: "9999.9%"
             text: (root.process?.cpu ?? 0).toFixed(1) + "%"
-            isMonospace: false
             horizontalAlignment: Text.AlignRight
             font.pixelSize: Theme.fontSizeSmall
             color: root.contentColor
@@ -107,7 +106,6 @@ DListItem {
             maximumLineCount: 1
             reserveText: "999.9 GB"
             text: Format.formatBytes((root.process?.memoryKB ?? 0) * 1024)
-            isMonospace: false
             horizontalAlignment: Text.AlignRight
             font.pixelSize: Theme.fontSizeSmall
             color: root.contentColor
@@ -120,7 +118,6 @@ DListItem {
             maximumLineCount: 1
             reserveText: "9999999"
             text: (root.process?.pid ?? 0).toString()
-            isMonospace: false
             horizontalAlignment: Text.AlignRight
             font.pixelSize: Theme.fontSizeSmall
             color: root.supportingContentColor

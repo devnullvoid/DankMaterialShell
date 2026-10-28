@@ -67,11 +67,8 @@ BasePill {
                 }
 
                 NumericText {
-                    isMonospace: false
                     text: root.verticalLabel(root.currentLayout)
                     reserveText: root.widestLabel(root._allVerticalLabels, labelMetrics)
-                    width: Math.ceil(Math.max(implicitWidth, reservedWidth))
-                    horizontalAlignment: Text.AlignHCenter
                     font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
                     color: root.contentColor
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -95,11 +92,8 @@ BasePill {
                 NumericText {
                     id: horizontalLabel
 
-                    isMonospace: false
                     text: root.displayLabel(root.currentLayout)
                     reserveText: root.widestLabel(root._allLayoutLabels, labelMetrics)
-                    width: Math.ceil(Math.max(implicitWidth, reservedWidth))
-                    horizontalAlignment: Text.AlignHCenter
                     font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
                     color: root.contentColor
                     anchors.verticalCenter: parent.verticalCenter

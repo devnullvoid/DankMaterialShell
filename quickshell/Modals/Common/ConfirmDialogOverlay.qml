@@ -93,7 +93,7 @@ Item {
 
         Rectangle {
             anchors.fill: parent
-            color: Theme.scrimColor
+            color: Theme.backdropColor
             opacity: root.backgroundOpacity
         }
 

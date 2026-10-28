@@ -1345,6 +1345,7 @@ Singleton {
     readonly property color screenOffColor: "#000000"
     readonly property real scrimAlpha: 0.55
     readonly property color scrimColor: currentThemeData.scrim || "#000000"
+    readonly property color backdropColor: surface.hslLightness >= 0.5 ? surfaceDim : scrimColor
     readonly property real buttonHeightXXS: 28
     readonly property real buttonHeightXS: 32
     readonly property real buttonHeightS: 40

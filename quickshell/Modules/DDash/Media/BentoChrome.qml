@@ -345,7 +345,7 @@ MediaChromeBase {
                             anchors.verticalCenter: parent.verticalCenter
                             visible: root.hasSeekbar
                             text: Format.formatDuration(seekbar.value * (root.presentation?.length ?? 0))
-                            reserveText: duration.text.replace(/\d/g, "8")
+                            reserveText: duration.text
                         }
 
                         MediaSeekbar {
@@ -364,7 +364,6 @@ MediaChromeBase {
                             anchors.verticalCenter: parent.verticalCenter
                             visible: root.hasSeekbar
                             text: Format.formatDuration(root.presentation?.length ?? 0)
-                            reserveText: text.replace(/\d/g, "8")
                         }
                     }
                 }
@@ -414,8 +413,6 @@ MediaChromeBase {
     }
 
     component TimeLabel: NumericText {
-        width: Math.ceil(reservedWidth)
-        isMonospace: false
         color: Theme.onSurfaceVariant
         font.pixelSize: Theme.fontSizeSmall
         font.weight: Theme.fontWeightMedium

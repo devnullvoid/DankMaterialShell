@@ -405,7 +405,7 @@ FocusScope {
         topRightRadius: root.surfaceCornerRadii.y
         bottomRightRadius: root.surfaceCornerRadii.z
         bottomLeftRadius: root.surfaceCornerRadii.w
-        color: Qt.rgba(0, 0, 0, Theme.scrimAlpha)
+        color: Theme.withAlpha(Theme.backdropColor, Theme.scrimAlpha)
         opacity: root.host.powerMenuOpen ? 1 : 0
         visible: opacity > 0
         z: CcMetrics.overlayZ

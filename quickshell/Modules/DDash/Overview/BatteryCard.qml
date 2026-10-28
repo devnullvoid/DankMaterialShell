@@ -62,9 +62,6 @@ Card {
                 text: root.levelText
                 font.pixelSize: root.tall ? Theme.fontSizeDisplay : Theme.fontSizeXXLarge
                 font.weight: Theme.fontWeightMedium
-                font.features: ({
-                        "tnum": 1
-                    })
                 color: root.contentColor
                 elide: Text.ElideRight
             }
@@ -108,9 +105,6 @@ Card {
             text: root.levelText
             font.pixelSize: Theme.fontSizeXLarge
             font.weight: Theme.fontWeightMedium
-            font.features: ({
-                    "tnum": 1
-                })
             color: root.contentColor
             horizontalAlignment: Text.AlignHCenter
             elide: Text.ElideRight

@@ -1236,7 +1236,7 @@ Item {
             Rectangle {
                 id: backgroundDarken
                 anchors.fill: parent
-                color: Theme.scrimColor
+                color: Theme.backdropColor
                 opacity: root.floatingMotionVisible && root.useBackgroundDarken ? Theme.scrimAlpha : 0
                 visible: (root.spotlightOpen || root.isClosing) && (root.useBackgroundDarken || opacity > 0)
                 z: -3

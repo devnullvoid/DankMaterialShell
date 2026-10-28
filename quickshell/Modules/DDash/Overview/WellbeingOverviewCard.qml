@@ -62,9 +62,6 @@ Card {
         text: WellbeingService.formatDuration(root.today.active)
         font.pixelSize: root.wide ? Theme.fontSizeXXLarge : DashMetrics.tileValueSizeCompact
         font.weight: Theme.fontWeightMedium
-        font.features: ({
-                "tnum": 1
-            })
         color: root.overLimit ? Theme.error : root.contentColor
         elide: Text.ElideRight
     }
@@ -112,9 +109,6 @@ Card {
                     anchors.verticalCenter: parent.verticalCenter
                     text: WellbeingService.formatDuration(appRow.modelData.seconds)
                     font.pixelSize: Theme.fontSizeSmall
-                    font.features: ({
-                            "tnum": 1
-                        })
                     color: root.mutedColor
                 }
             }

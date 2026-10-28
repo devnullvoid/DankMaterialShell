@@ -270,7 +270,7 @@ DFloatingWindow {
 
             Rectangle {
                 anchors.fill: parent
-                color: Theme.scrimColor
+                color: Theme.backdropColor
                 opacity: Theme.scrimAlpha
             }
 

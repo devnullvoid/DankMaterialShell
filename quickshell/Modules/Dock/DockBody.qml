@@ -628,7 +628,7 @@ FocusScope {
 
     Rectangle {
         anchors.fill: parent
-        color: Theme.withAlpha(Theme.scrimColor, Theme.scrimAlpha)
+        color: Theme.withAlpha(Theme.backdropColor, Theme.scrimAlpha)
         opacity: dock.editMode ? 1 : 0
         visible: opacity > 0
 

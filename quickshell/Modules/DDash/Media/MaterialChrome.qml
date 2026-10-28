@@ -115,12 +115,10 @@ MediaChromeBase {
 
                 readonly property string durationText: (root.presentation?.length ?? 0) > 0 ? Format.formatDuration(root.presentation.length) : "--:--"
 
-                width: Math.ceil(reservedWidth)
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 text: Format.formatDuration(Math.max(0, Math.min(root.activePlayer?.position ?? 0, root.player.stableLength || Infinity))) + " / " + durationText
-                reserveText: (durationText + " / " + durationText).replace(/\d/g, "8")
-                isMonospace: false
+                reserveText: durationText + " / " + durationText
                 color: Theme.surfaceText
                 font.pixelSize: Theme.fontSizeSmall
                 font.weight: Theme.fontWeightMedium

@@ -53,7 +53,7 @@ Item {
         topRightRadius: root.cornerRadii.y
         bottomRightRadius: root.cornerRadii.z
         bottomLeftRadius: root.cornerRadii.w
-        color: Theme.withAlpha(Theme.scrimColor, Theme.scrimAlpha)
+        color: Theme.withAlpha(Theme.backdropColor, Theme.scrimAlpha)
         opacity: root.shown ? 1 : 0
 
         Behavior on opacity {
