@@ -881,6 +881,10 @@ var LOCAL_SPEC = {
             {
                 id: "notifications",
                 enabled: false
+            },
+            {
+                id: "settings",
+                enabled: false
             }
         ]
     },

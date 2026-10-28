@@ -53,8 +53,9 @@ DPopout {
     readonly property string activeTabId: detailTabId !== "" ? detailTabId : currentTabId
     readonly property var detailEntry: detailTabId !== "" ? DashRegistry.entry(detailTabId) : null
     readonly property var orderedTabIds: DashRegistry.visibleTabIds
-    readonly property int currentTabIndex: orderedTabIds.indexOf(currentTabId)
-    readonly property bool showTabs: orderedTabIds.length > 1 && currentTabIndex >= 0 && detailTabId === ""
+    readonly property var navigationIds: DashRegistry.navigationIds
+    readonly property int currentTabIndex: navigationIds.indexOf(currentTabId)
+    readonly property bool showTabs: navigationIds.length > 1 && currentTabIndex >= 0 && detailTabId === ""
     readonly property bool canReturn: detailTabId !== "" && currentTabIndex >= 0
     readonly property bool showHeader: detailTabId === "" || editMode
     readonly property int navigationEdge: {
@@ -108,6 +109,14 @@ DPopout {
         }
         detailTabId = "";
         currentTabId = DashRegistry.defaultTabId;
+    }
+
+    function runAction(id) {
+        if (id !== "settings")
+            return;
+        dashVisible = false;
+        instantClose();
+        PopoutService.focusOrToggleSettings();
     }
 
     function closeDetail() {
@@ -630,9 +639,14 @@ DPopout {
                             previousFocusTarget: pages.currentItem?.previousFocusTarget ?? pages.focusTarget
                             model: DashRegistry.tabBarModel
                             onActivated: index => {
-                                const id = root.orderedTabIds[index];
-                                if (id !== undefined)
-                                    root.currentTabId = id;
+                                const id = root.navigationIds[index];
+                                if (id === undefined)
+                                    return;
+                                if (DashRegistry.isAction(id)) {
+                                    root.runAction(id);
+                                    return;
+                                }
+                                root.currentTabId = id;
                             }
                         }
 

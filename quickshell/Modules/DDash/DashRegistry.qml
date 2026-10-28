@@ -219,6 +219,13 @@ Singleton {
             }
         },
         {
+            "id": "settings",
+            "text": I18n.tr("Settings"),
+            "icon": "settings",
+            "description": I18n.tr("Opens %1", "dashboard tab description, %1 is the settings window name").arg(I18n.tr("Settings")),
+            "action": true
+        },
+        {
             "id": "clock",
             "text": I18n.tr("Clock"),
             "icon": "schedule",
@@ -436,7 +443,7 @@ Singleton {
     }
 
     readonly property var tabEntries: {
-        const known = entries.filter(e => e.tab);
+        const known = entries.filter(e => e.tab || e.action);
         const result = [];
         const seen = {};
         for (const tab of SettingsData.getDashTabs()) {
@@ -457,14 +464,16 @@ Singleton {
         }
         return result;
     }
-    readonly property var tabIds: tabEntries.filter(e => e.available !== false).map(e => e.id)
+    readonly property var tabIds: tabEntries.filter(e => !e.action && e.available !== false).map(e => e.id)
     readonly property int widestPanelColumns: Math.max(DashMetrics.defaultGridColumns, ...tabIds.map(id => DashMetrics.panelColumnsFor(id)))
-    readonly property var visibleTabIds: tabEntries.filter(e => e.available !== false && e.enabled).map(e => e.id)
-    readonly property var tabBarModel: visibleTabIds.map(id => {
+    readonly property var navigationIds: tabEntries.filter(e => e.available !== false && e.enabled).map(e => e.id)
+    readonly property var visibleTabIds: tabEntries.filter(e => !e.action && e.available !== false && e.enabled).map(e => e.id)
+    readonly property var tabBarModel: navigationIds.map(id => {
         const e = entry(id);
         return {
             "icon": e.icon,
-            "text": e.text
+            "text": e.text,
+            "action": e.action === true
         };
     })
 
@@ -639,6 +648,10 @@ Singleton {
 
     function entry(id) {
         return entries.find(e => e.id === id) ?? null;
+    }
+
+    function isAction(id) {
+        return entry(id)?.action === true;
     }
 
     function hasTab(id) {

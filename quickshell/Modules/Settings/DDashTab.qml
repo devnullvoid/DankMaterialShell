@@ -153,6 +153,7 @@ FocusScope {
                             iconName: "edit"
                             tooltipText: I18n.tr("Edit")
                             Accessible.description: tabRow.modelData.text
+                            visible: !tabRow.modelData.action
                             enabled: tabRow.available
                             onClicked: PopoutService.openDankDashEditor(tabRow.modelData.id, root.Window.window?.screen)
                         }

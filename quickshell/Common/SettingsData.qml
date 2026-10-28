@@ -522,6 +522,10 @@ Singleton {
         {
             "id": "notifications",
             "enabled": false
+        },
+        {
+            "id": "settings",
+            "enabled": false
         }
     ]
     property string dashTabPosition: Spec.SPEC.dashTabPosition.def
