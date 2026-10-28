@@ -47,13 +47,18 @@ DModal {
     readonly property bool isCertificateChangedPrompt: promptReason === "server-certificate-changed"
     readonly property bool isCertificatePrompt: promptReason === "server-certificate" || isCertificateChangedPrompt
     readonly property string serverCertificateFingerprint: promptHints.length > 0 ? promptHints[0] : ""
+    readonly property string vpnPromptMessage: {
+        const hint = promptHints.find(h => typeof h === "string" && h.startsWith("x-vpn-message:"));
+        return hint ? hint.slice("x-vpn-message:".length) : "";
+    }
+    readonly property bool isChallengePrompt: promptHints.some(h => typeof h === "string" && h.startsWith("x-dynamic-challenge"))
     readonly property bool showUsernameField: requiresEnterprise && !isVpnPrompt && fieldsInfo.length === 0
     readonly property bool showPasswordField: fieldsInfo.length === 0 && !isCertificatePrompt
     readonly property bool showEapFields: requiresEnterprise && !isVpnPrompt && !isPromptMode
     readonly property bool showPhase2Dropdown: eapMethodValue === "peap" || eapMethodValue === "ttls"
     readonly property bool showAnonField: requiresEnterprise && !isVpnPrompt && !isPromptMode && eapMethodValue !== "pwd"
     readonly property bool showDomainField: showAnonField
-    readonly property bool showSavePasswordCheckbox: (isVpnPrompt || fieldsInfo.length > 0) && promptReason !== "pkcs11" && !isCertificatePrompt
+    readonly property bool showSavePasswordCheckbox: (isVpnPrompt || fieldsInfo.length > 0) && promptReason !== "pkcs11" && !isCertificatePrompt && !isChallengePrompt
 
     readonly property int certificateWarningHeight: certificateWarningColumn.implicitHeight + Theme.spacingM * 2
 
@@ -318,6 +323,8 @@ DModal {
                 return I18n.tr("Enter PIN for %1", "%1 is the device or network name").arg(wifiPasswordSSID);
             if (isCertificatePrompt)
                 return wifiPasswordSSID;
+            if (vpnPromptMessage)
+                return vpnPromptMessage;
             if (fieldsInfo.length > 0)
                 return I18n.tr("Enter credentials for %1", "%1 is the network name").arg(wifiPasswordSSID);
             if (isVpnPrompt)
