@@ -77,12 +77,12 @@ QtObject {
     property int hoverOpenDelay: 150
     property int hoverCloseDelay: 150
     property int mediaReturnDelay: 1800
-    property real controlCenterMaxHeight: CcMetrics.islandMaxHeight
+    readonly property real controlCenterMaxHeight: dashboardAvailableHeight
     property string editingActivity: ""
     property real editRoom: 0
     // The bar host grants the room once its surface has presented a frame at the grown size.
     property bool editRoomGranted: false
-    readonly property real controlCenterSheetInset: CcMetrics.islandSheetInset
+    readonly property real controlCenterSheetInset: CcMetrics.islandInset * 2
     readonly property int controlCenterColumnCap: CcMetrics.columnCapFor(dashboardAvailableWidth - controlCenterSheetInset - PopoutMetrics.editOverflow * 2)
     readonly property int controlCenterColumns: Math.min(CcMetrics.gridColumns, controlCenterColumnCap)
     readonly property real controlCenterSheetWidth: CcMetrics.sheetWidthFor(controlCenterColumns)
@@ -161,7 +161,7 @@ QtObject {
     }
 
     function controlCenterHeightFor(withEditRoom) {
-        return Math.max(CcMetrics.islandMinHeight, Math.min(controlCenterMaxHeight, destinationContentHeight("controlcenter") + (withEditRoom ? root.editRoom : 0)));
+        return Math.max(CcMetrics.minHeight + controlCenterSheetInset, Math.min(controlCenterMaxHeight, destinationContentHeight("controlcenter") + (withEditRoom ? root.editRoom : 0)));
     }
 
     function dashboardTargetFor(activityId) {

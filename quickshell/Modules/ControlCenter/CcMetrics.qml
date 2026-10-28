@@ -41,15 +41,13 @@ Singleton {
     }
     readonly property real maxHeightInset: 100
     // Short-grid floors scale with the row unit, or compact would pad small layouts back out.
-    readonly property real gridScale: tileHeight / baseTileHeight
-    readonly property real minHeight: Math.round(300 * gridScale)
-    readonly property real islandMinHeight: Math.round(320 * gridScale)
-    readonly property real islandMaxHeight: 640
-    readonly property real islandSheetInset: 30
+    readonly property int minimumRows: 4
+    readonly property real minHeight: sheetPadding * 2 + gridRowUnit * minimumRows
+    readonly property real islandInset: Theme.spacingXS
     readonly property real fallbackScreenHeight: 1080
     readonly property real triggerWidth: 80
 
-    // Density-free bases for Dash and gridScale.
+    // Density-free bases for Dash.
     readonly property real baseTileHeight: Theme.minimumTouchTargetSize + Theme.spacingS * 2
     readonly property real baseIconBoxSize: Theme.minimumTouchTargetSize * iconScale
 
