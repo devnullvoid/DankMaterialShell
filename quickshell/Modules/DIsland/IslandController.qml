@@ -183,7 +183,7 @@ QtObject {
         powerMenuContentWidth = next;
     }
 
-    readonly property var destinations: ["launcher", "controlcenter", "wallpaper", "weather", "notificationcenter", "clipboard", "powermenu"]
+    readonly property var destinations: ["launcher", "controlcenter", "wallpaper", "weather", "wellbeing", "notificationcenter", "clipboard", "powermenu"]
     readonly property var blankClickOwners: ["launcher", "controlcenter", "wallpaper", "notificationcenter", "clipboard", "powermenu"]
     readonly property var destinationDefaults: ({
             "launcher": {
@@ -199,6 +199,10 @@ QtObject {
                 "contentHeight": 0
             },
             "weather": {
+                "contentLength": 130,
+                "contentHeight": 0
+            },
+            "wellbeing": {
                 "contentLength": 130,
                 "contentHeight": 0
             },
@@ -725,6 +729,8 @@ QtObject {
         if (activityId === "media" && !mediaAvailable)
             return false;
         if (activityId === "weather" && !SettingsData.weatherEnabled)
+            return false;
+        if (activityId === "wellbeing" && !SettingsData.wellbeingEnabled)
             return false;
 
         if (activityId !== "launcher")

@@ -419,7 +419,7 @@ Item {
         }
 
         function close(): string {
-            const islandClosed = SettingsData.islandDashActivities.filter(activity => PopoutService.closeIslandActivity(activity)).length > 0;
+            const islandClosed = [...SettingsData.islandDashActivities, "wellbeing"].filter(activity => PopoutService.closeIslandActivity(activity)).length > 0;
             if (root.dankDashPopoutLoaderRef.item)
                 root.dankDashPopoutLoaderRef.item.dashVisible = false;
             return islandClosed || root.dankDashPopoutLoaderRef.item ? "DASH_CLOSE_SUCCESS" : "DASH_CLOSE_FAILED";
