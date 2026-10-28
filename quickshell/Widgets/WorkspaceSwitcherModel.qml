@@ -94,20 +94,26 @@ QtObject {
         const live = {};
         const slots = raw.map(ws => {
             const key = ws.id !== null && ws.id !== undefined && !ws.special ? ws.id : (ws.special ? "special:" : "name:") + (ws.name ?? "");
-            let slot = _slotPool[key];
-            if (!slot) {
-                slot = _slotComponent.createObject(root);
-                _slotPool[key] = slot;
+            let entry = _slotPool[key];
+            if (!entry) {
+                entry = {
+                    "slot": _slotComponent.createObject(root),
+                    "ws": null
+                };
+                _slotPool[key] = entry;
             }
-            if (slot.ws !== ws)
-                slot.ws = ws;
+            // Compare against the cached record: reading slot.ws here would make workspaceList depend on the write below (binding loop)
+            if (entry.ws !== ws) {
+                entry.ws = ws;
+                entry.slot.ws = ws;
+            }
             live[key] = true;
-            return slot;
+            return entry.slot;
         });
         for (const key in _slotPool) {
             if (live[key])
                 continue;
-            _slotPool[key].destroy();
+            _slotPool[key].slot.destroy();
             delete _slotPool[key];
         }
         return slots;
