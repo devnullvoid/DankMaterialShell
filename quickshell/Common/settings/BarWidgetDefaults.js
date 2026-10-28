@@ -37,6 +37,7 @@ var ISLAND_DEFAULTS = {
     islandPalette: "default",
     islandHighContrast: false,
     islandMediaClockVisible: true,
+    islandMediaLyrics: false,
     islandMediaAutoSwitch: false,
     islandNotificationBadgeClearOnOpen: false,
     islandNotificationExpand: false,

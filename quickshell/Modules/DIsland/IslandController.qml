@@ -67,6 +67,7 @@ QtObject {
     property real compactThickness: 38
     property string batteryStyle: "duo"
     property bool mediaClockVisible: true
+    property bool mediaLyrics: false
     property int transientTimeout: 2200
     property int notificationTimeout: 5000
     property string transientReturnActivity: ""

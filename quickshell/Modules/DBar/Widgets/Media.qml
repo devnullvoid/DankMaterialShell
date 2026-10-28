@@ -7,6 +7,7 @@ import qs.Modules.Plugins
 import qs.Services
 import qs.DCommon.Widgets
 import qs.Widgets
+import "../../../Common/LyricLayout.js" as LyricLayout
 
 BasePill {
     id: root
@@ -47,7 +48,7 @@ BasePill {
         if (!controller.enabled || !controller.synced)
             return false;
         const parts = controller.lines[controller.activeIndex]?.parts ?? [];
-        return parts.some(part => part.x.trim() !== "");
+        return parts.some(part => LyricLayout.hasWords(part.x));
     }
     readonly property int maxTextWidth: {
         const size = SettingsData.widgetOption("music", widgetData, "mediaSize");

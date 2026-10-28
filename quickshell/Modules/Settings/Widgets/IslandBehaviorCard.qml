@@ -184,6 +184,16 @@ SettingsCard {
     }
 
     SettingsToggleRow {
+        settingKey: root.keyPrefix + "MediaLyrics"
+        tags: ["island", "media", "lyrics", "compact"]
+        visible: !root.isDot
+        text: I18n.tr("Lyrics", "Media player lyrics button")
+        description: I18n.tr("Shows the line being sung instead of the title and artist while synced lyrics are available", "media widget lyrics toggle description")
+        checked: root.store.setting("islandMediaLyrics")
+        onToggled: checked => root.store.apply("islandMediaLyrics", checked)
+    }
+
+    SettingsToggleRow {
         settingKey: root.keyPrefix + "MediaAutoSwitch"
         tags: ["island", "media", "playback", "auto", "switch", "compact"]
         visible: !root.isDot
