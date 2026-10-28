@@ -76,12 +76,12 @@ QtObject {
     property int hoverOpenDelay: 150
     property int hoverCloseDelay: 150
     property int mediaReturnDelay: 1800
-    property real controlCenterMaxHeight: 640
+    property real controlCenterMaxHeight: CcMetrics.islandMaxHeight
     property string editingActivity: ""
     property real editRoom: 0
     // The bar host grants the room once its surface has presented a frame at the grown size.
     property bool editRoomGranted: false
-    readonly property real controlCenterSheetInset: 30
+    readonly property real controlCenterSheetInset: CcMetrics.islandSheetInset
     readonly property int controlCenterColumnCap: CcMetrics.columnCapFor(dashboardAvailableWidth - controlCenterSheetInset - PopoutMetrics.editOverflow * 2)
     readonly property int controlCenterColumns: Math.min(CcMetrics.gridColumns, controlCenterColumnCap)
     readonly property real controlCenterSheetWidth: CcMetrics.sheetWidthFor(controlCenterColumns)
@@ -160,7 +160,7 @@ QtObject {
     }
 
     function controlCenterHeightFor(withEditRoom) {
-        return Math.max(320, Math.min(controlCenterMaxHeight, destinationContentHeight("controlcenter") + (withEditRoom ? root.editRoom : 0)));
+        return Math.max(CcMetrics.islandMinHeight, Math.min(controlCenterMaxHeight, destinationContentHeight("controlcenter") + (withEditRoom ? root.editRoom : 0)));
     }
 
     function dashboardTargetFor(activityId) {
@@ -482,7 +482,7 @@ QtObject {
     readonly property var mediaCompactTarget: pillTarget(mediaCompactLength, compactFaceThickness)
     readonly property var homeExpandedTarget: dashboardTargetFor("home")
     readonly property var mediaExpandedTarget: dashboardTargetFor("media")
-    readonly property var launcherExpandedTarget: sheetTarget(Math.min(dashboardAvailableWidth, LauncherMetrics.sizeWidth(SettingsData.dankLauncherV2Size)), Math.min(dashboardAvailableHeight, LauncherMetrics.sizeHeight(SettingsData.dankLauncherV2Size)))
+    readonly property var launcherExpandedTarget: sheetTarget(Math.min(dashboardAvailableWidth, LauncherMetrics.sizeWidth(SettingsData.dankLauncherV2Size)), Math.min(dashboardAvailableHeight, LauncherMetrics.sizeHeight(SettingsData.dankLauncherV2Size, LauncherMetrics.islandEdgeInset, false)))
     readonly property var controlCenterExpandedTarget: sheetTarget(controlCenterSheetWidth + controlCenterSheetInset, controlCenterHeight)
     readonly property var systemCompactTarget: pillTarget(root.isVertical ? 240 : (SettingsData.osdAlwaysShowValue ? 330 : 282), compactFaceThickness)
     property real systemStateContentLength: 0

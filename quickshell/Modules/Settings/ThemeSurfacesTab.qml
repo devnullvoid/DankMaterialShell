@@ -251,6 +251,23 @@ Column {
 
     SettingsCard {
         tab: "theme"
+        title: I18n.tr("Density", "appearance settings section label")
+
+        SettingsButtonGroupRow {
+            tab: "theme"
+            tags: ["density", "compact", "dense", "spacious", "comfortable", "spacing", "padding", "rows", "menus", "control center", "bar", "dock", "island", "frame", "size"]
+            settingKey: "density"
+            text: I18n.tr("Interface density", "interface density setting label")
+            model: [I18n.tr("Spacious", "interface density option with the most room between items"), I18n.tr("Comfortable", "interface density option with the default spacing"), I18n.tr("Compact", "interface density option fitting the most items on screen"), I18n.tr("Dense", "interface density option denser than compact for small text and tight rows")]
+            values: ["spacious", "comfortable", "compact", "dense"]
+            value: SettingsData.density
+            fallbackValue: "comfortable"
+            onValueSelected: value => SettingsData.set("density", value)
+        }
+    }
+
+    SettingsCard {
+        tab: "theme"
         tags: ["corner", "radius", "rounded", "square", "fixed", "material", "shape", "window"]
         title: I18n.tr("Corners")
         settingKey: "surfaceCorners"

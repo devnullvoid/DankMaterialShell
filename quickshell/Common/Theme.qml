@@ -1068,7 +1068,13 @@ Singleton {
     readonly property var springSpecs: {
         "expressive": [560, 37],
         "fast": [220, 23],
-        "default": [300, 24]
+        "default": [300, 24],
+        "fastSpatial": [800, 33.9],
+        "defaultSpatial": [380, 31.2],
+        "slowSpatial": [200, 22.6],
+        "fastEffects": [3800, 123.3],
+        "defaultEffects": [1600, 80],
+        "slowEffects": [800, 56.6]
     }
 
     // Damping multipliers for the user-facing spring bounce setting:
@@ -1128,8 +1134,8 @@ Singleton {
     readonly property real notificationCardPaddingCompact: spacingS
 
     readonly property real stateLayerHover: 0.08
-    readonly property real stateLayerFocus: 0.12
-    readonly property real stateLayerPressed: 0.12
+    readonly property real stateLayerFocus: 0.1
+    readonly property real stateLayerPressed: 0.1
     readonly property real stateLayerDrag: 0.16
 
     readonly property int popoutAnimationDuration: {
@@ -1186,6 +1192,22 @@ Singleton {
         return Shape.buttonRadius(width, height, sizeHeight, pressed, round, shapeScale, fixedRadius);
     }
 
+    readonly property int densityLevel: {
+        switch (typeof SettingsData !== "undefined" ? SettingsData.density : "") {
+        case "spacious":
+            return 1;
+        case "compact":
+            return -1;
+        case "dense":
+            return -2;
+        default:
+            return 0;
+        }
+    }
+    // Added by surface metrics; shared tokens stay fixed so bar, dock and lock never move.
+    readonly property real densityStepS: densityLevel * spacingXS
+    readonly property real densityStepM: densityLevel * spacingS
+    readonly property real densityStepXS: densityLevel * spacingXXS
     readonly property real groupedListGap: spacingXXS
     readonly property real groupedListInnerRadius: cornerRadiusXS
     readonly property real groupedListOuterRadius: cornerRadiusL

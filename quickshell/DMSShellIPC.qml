@@ -1106,7 +1106,7 @@ Item {
                 return "SETTINGS_SET_DISABLED";
             if (SettingsData.isManaged(key))
                 return "SETTINGS_SET_MANAGED";
-            if (!(key in SettingsData)) {
+            if (!SettingsData.hasSetting(key)) {
                 log.warn("Cannot set property, not found:", key);
                 return "SETTINGS_INVALID_KEY";
             }
@@ -1141,8 +1141,8 @@ Item {
                 }
 
                 log.warn("Setting:", key, value);
-                SettingsData[key] = value;
-                SettingsData.saveSettings();
+                if (!SettingsData.set(key, value))
+                    throw `${value} is not a valid ${key}`;
                 return "SETTINGS_SET_SUCCESS";
             } catch (e) {
                 log.warn("Failed to set property:", key, "error:", e);

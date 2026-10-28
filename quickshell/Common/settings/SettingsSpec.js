@@ -470,6 +470,10 @@ var LOCAL_SPEC = {
     motionEffect: {
         def: 0
     },
+    density: {
+        def: "comfortable",
+        onChange: "applyDensityPresets"
+    },
     m3ElevationEnabled: {
         def: true
     },

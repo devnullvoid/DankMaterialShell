@@ -3,6 +3,7 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import qs.Common
+import qs.DCommon.Common as DCommon
 
 Singleton {
     readonly property real compactPillThickness: Theme.barHeight - Theme.iconSizeMedium
@@ -17,10 +18,11 @@ Singleton {
     readonly property real badgeSize: Theme.spacingS
     readonly property real badgeInset: Theme.spacingXS
     readonly property real mediaControlSize: Theme.iconSizeMedium
-    readonly property real menuRowHeight: Theme.menuItemHeight
+    readonly property real menuRowHeight: DCommon.Style.menuRowHeight
+    readonly property real menuPadding: DCommon.Style.menuPadding
     readonly property real menuItemRadius: Theme.cornerRadiusS
-    readonly property real popoutRowHeight: Theme.listItemHeight
-    readonly property real popoutRowTwoLineHeight: Theme.listItemTwoLineHeight
+    readonly property real popoutRowHeight: Math.max(Theme.listItemHeight + Theme.densityStepM, Theme.buttonHeightS + Theme.spacingXS)
+    readonly property real popoutRowTwoLineHeight: Theme.listItemTwoLineHeight + Theme.densityStepM
     readonly property var elevationLevel: Theme.elevationLevel2
 
     function pillRadius(thickness, style) {

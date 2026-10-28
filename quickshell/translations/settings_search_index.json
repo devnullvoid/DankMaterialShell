@@ -836,6 +836,32 @@
     "description": "Clock, weather, locale"
   },
   {
+    "section": "density",
+    "label": "Density",
+    "tabIndex": -1,
+    "category": "Interface style",
+    "keywords": [
+      "bar",
+      "comfortable",
+      "compact",
+      "control center",
+      "dense",
+      "density",
+      "dock",
+      "frame",
+      "interface",
+      "island",
+      "menus",
+      "padding",
+      "rows",
+      "size",
+      "spacing",
+      "spacious",
+      "style"
+    ],
+    "page": "theme_surfaces"
+  },
+  {
     "section": "selectedMonitor",
     "label": "Display",
     "tabIndex": -1,

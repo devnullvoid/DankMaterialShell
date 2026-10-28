@@ -18,6 +18,7 @@ import "settings/SettingsStore.js" as Store
 import "../DCommon/Common/settings/SpecUtil.js" as SpecUtil
 import "settings/BarWidgetDefaults.js" as WidgetDefaults
 import "settings/DockConfig.js" as DockConfig
+import "settings/DensityPresets.js" as DensityPresets
 
 Singleton {
     id: root
@@ -306,6 +307,7 @@ Singleton {
     onScrollbarsEnabledChanged: saveSettings()
     property int motionEffect: SettingsData.AnimationEffect.Standard
     onMotionEffectChanged: saveSettings()
+    property string density: Spec.SPEC.density.def
     property bool m3ElevationEnabled: Spec.SPEC.m3ElevationEnabled.def
     onM3ElevationEnabledChanged: saveSettings()
     property int m3ElevationIntensity: Spec.SPEC.m3ElevationIntensity.def
@@ -879,8 +881,10 @@ Singleton {
     // One slot per edge; a dot floats, so it never takes one.
     readonly property int edgeBarConfigCount: (barConfigs || []).filter(cfg => cfg && !isDotBarConfig(cfg)).length
     readonly property var dotBarConfig: (barConfigs || []).find(cfg => isDotBarConfig(cfg)) ?? null
-    readonly property var islandDefaults: WidgetDefaults.ISLAND_DEFAULTS
+    readonly property var islandDefaults: Object.assign({}, WidgetDefaults.ISLAND_DEFAULTS, DensityPresets.values("island", density))
     readonly property var islandWidgetDefaults: WidgetDefaults.DEFAULTS.island
+    readonly property real barInnerPaddingDefault: barConfigDefault("innerPadding")
+    readonly property real barWidgetPaddingDefault: barConfigDefault("widgetPadding")
 
     function islandSettings(bc) {
         if (!bc)
@@ -1727,7 +1731,24 @@ Singleton {
         saveSettings();
     }
 
+    function applyDensityPresets(who, key, previous) {
+        // Theme renders an unknown level as comfortable.
+        const from = DensityPresets.LEVELS.includes(previous) ? previous : "comfortable";
+        const writes = Object.assign({
+            "barConfigs": DensityPresets.transitionAll(barConfigs, "bar", from, density),
+            "dockConfigs": DensityPresets.transitionAll(dockConfigs, "dock", from, density)
+        }, DensityPresets.transition({
+            "frameThickness": frameThickness,
+            "frameBarSize": frameBarSize
+        }, "frame", from, density));
+        for (const name in writes) {
+            if (writes[name] !== null && !isManaged(name))
+                root[name] = writes[name];
+        }
+    }
+
     readonly property var _hooks: ({
+            "applyDensityPresets": applyDensityPresets,
             "applyStoredTheme": applyStoredTheme,
             "regenSystemThemes": regenSystemThemes,
             "updateCompositorLayout": updateCompositorLayout,
@@ -1745,17 +1766,20 @@ Singleton {
     function set(key, value) {
         if (isManaged(key)) {
             log.warn("Refusing to change a setting managed by administrator policy:", key);
-            return;
+            return false;
         }
-        if (key === "cornerRadius") {
-            setCornerRadius(value);
-            return;
+        if (key === "density" && !DensityPresets.LEVELS.includes(value)) {
+            log.warn("Refusing an unknown density:", value);
+            return false;
         }
+        if (key === "cornerRadius")
+            return setCornerRadius(value);
         if (key === "radiusStrength")
             value = Shape.normalizeStrength(value);
         Spec.set(root, key, value, saveSettings, _hooks);
         if (key === "frameEnabled" && value)
             clearIslandBars();
+        return true;
     }
 
     function hasSetting(key) {
@@ -1767,17 +1791,17 @@ Singleton {
     }
 
     function specDefault(key) {
-        return SpecUtil.cloneDef(Spec.SPEC[key]?.def);
+        return DensityPresets.value("frame", key, density) ?? SpecUtil.cloneDef(Spec.SPEC[key]?.def);
     }
 
     function isDefault(keys) {
-        return keys.every(key => !(key in Spec.SPEC) || SpecUtil.isDefault(root[key], Spec.SPEC[key].def));
+        return keys.every(key => !(key in Spec.SPEC) || SpecUtil.isDefault(root[key], DensityPresets.value("frame", key, density) ?? Spec.SPEC[key].def));
     }
 
     function resetToDefault(keys) {
         for (const key of keys) {
             if (key in Spec.SPEC && !isManaged(key))
-                Spec.set(root, key, null, saveSettings, _hooks);
+                Spec.set(root, key, DensityPresets.value("frame", key, density) ?? null, saveSettings, _hooks);
         }
     }
 
@@ -1817,11 +1841,11 @@ Singleton {
     }
 
     function barConfigDefault(field) {
-        return Spec.SPEC.barConfigs.def[0][field];
+        return DensityPresets.value("bar", field, density) ?? Spec.SPEC.barConfigs.def[0][field];
     }
 
     function dockConfigDefaults() {
-        return DockConfig.create("", "");
+        return Object.assign(DockConfig.create("", ""), DensityPresets.values("dock", density));
     }
 
     // Frame mode hosts bars inside the frame surface, which has nowhere to put an edge island; a dot floats over it.
@@ -2404,7 +2428,7 @@ Singleton {
         let number = 2;
         while (dockConfigs.some(config => config.name === name))
             name = I18n.tr("Dock %1", "generated dock name, %1 is a number").arg(number++);
-        const config = DockConfig.create(id, name);
+        const config = Object.assign(DockConfig.create(id, name), DensityPresets.values("dock", density));
         const edge = firstFreeDockEdge(id, config.screenPreferences);
         config.enabled = edge >= 0;
         config.position = Math.max(SettingsData.Position.Top, edge);
@@ -3098,7 +3122,7 @@ Singleton {
     }
 
     function setCornerRadius(radius) {
-        set("radiusStrength", Shape.strengthFromRadius(radius));
+        return set("radiusStrength", Shape.strengthFromRadius(radius));
     }
 
     function setWeatherLocation(displayName, coordinates) {

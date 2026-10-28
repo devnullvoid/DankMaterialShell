@@ -4,6 +4,7 @@
 .import "../../DCommon/Common/Shape.js" as Shape
 .import "./BarWidgetDefaults.js" as WidgetDefaults
 .import "./DockConfig.js" as DockConfig
+.import "./DensityPresets.js" as DensityPresets
 .import "../GridLayout.js" as GridLayout
 
 var PIN_KEYS = ["brightnessDevicePins", "wifiNetworkPins", "bluetoothDevicePins", "audioInputDevicePins", "audioOutputDevicePins"];
@@ -172,9 +173,22 @@ function extractPins(obj) {
     return pins;
 }
 
+// Sizes absent from the file load at the saved density's preset, as a reset would; a save omits only that preset.
+function densityDefault(key, density) {
+    var def = SpecModule.SPEC[key].def;
+    if (key === "barConfigs" || key === "dockConfigs") {
+        var presets = DensityPresets.values(key === "barConfigs" ? "bar" : "dock", density);
+        return def.map(function (config) {
+            return Object.assign({}, config, presets);
+        });
+    }
+    var frame = DensityPresets.value("frame", key, density);
+    return frame === undefined ? def : frame;
+}
+
 function parse(root, jsonObj) {
     jsonObj = migrateToVersion(jsonObj || {}, root.settingsConfigVersion) || jsonObj || {};
-    jsonObj.dockConfigs = DockConfig.normalize(jsonObj.dockConfigs);
+    jsonObj.dockConfigs = DockConfig.normalize(jsonObj.dockConfigs, DensityPresets.values("dock", jsonObj.density));
     // the dock pages configure whichever dock is selected, so an empty list leaves them blank
     if (!jsonObj.dockConfigs.length)
         delete jsonObj.dockConfigs;
@@ -186,12 +200,11 @@ function parse(root, jsonObj) {
     for (var k in SPEC) {
         if (k === "pluginSettings")
             continue;
-        // Runtime-only keys are never in the JSON; resetting them here
-        // would wipe values set by detection processes on every reload.
+        // Runtime-only keys are never in the JSON; a reset here would wipe values set by processes on every reload.
         if (SPEC[k].persist === false)
             continue;
         if (!(k in jsonObj))
-            assign(root, k, Util.cloneDef(SPEC[k].def));
+            assign(root, k, Util.cloneDef(densityDefault(k, jsonObj.density)));
     }
 
     for (var k in jsonObj) {
@@ -230,7 +243,7 @@ function toJson(root, setKeys) {
             value = withoutInstancePositions(value);
         if (k === "builtInPluginSettings")
             value = withoutSessionBackedPluginState(value);
-        if (!setKeys.has(k) && Util.isDefault(value, SPEC[k].def))
+        if (!setKeys.has(k) && Util.isDefault(value, densityDefault(k, root.density)))
             continue;
         out[k] = value;
     }

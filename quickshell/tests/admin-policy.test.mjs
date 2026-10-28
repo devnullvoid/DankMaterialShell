@@ -67,7 +67,7 @@ function settingsIpcHandlers() {
 test("the settings IPC switch refuses set and keeps get", () => {
     const handlers = settingsIpcHandlers();
     for (const disableSettingsIpcSet of [false, true]) {
-        const SettingsData = { lockBeforeSuspend: false, saveSettings() {}, isManaged: () => false };
+        const SettingsData = { lockBeforeSuspend: false, hasSetting: key => key in SPEC, set(key, value) { this[key] = value; return true; }, isManaged: () => false };
         const context = vm.createContext({ AdminPolicy: { disableSettingsIpcSet }, SettingsData, log: { warn() {} } });
         for (const handler of handlers)
             vm.runInContext(handler, context);
@@ -160,6 +160,8 @@ test("set and reset refuse managed keys and change the others", () => {
     const context = settingsDataContext({
         AdminPolicy: { lockSettings: { lockBeforeSuspend: true } },
         Spec: { SPEC, set: (root, key, value) => changes.push([key, value]) },
+        DensityPresets: loadScript(new URL("../Common/settings/DensityPresets.js", import.meta.url)),
+        density: "comfortable",
         log: { warn: (...args) => warnings.push(args.at(-1)) },
         saveSettings() {},
         _hooks: {},
@@ -176,7 +178,7 @@ test("settings IPC set refuses a managed key, also with the settings IPC switch 
     const handlers = settingsIpcHandlers();
     const managed = new Set(["lockBeforeSuspend"]);
     for (const disableSettingsIpcSet of [false, true]) {
-        const SettingsData = { lockBeforeSuspend: true, lockAtStartup: false, saveSettings() {}, isManaged: key => managed.has(key) };
+        const SettingsData = { lockBeforeSuspend: true, lockAtStartup: false, hasSetting: key => key in SPEC, set(key, value) { this[key] = value; return true; }, isManaged: key => managed.has(key) };
         const context = vm.createContext({ AdminPolicy: { disableSettingsIpcSet }, SettingsData, log: { warn() {} } });
         for (const handler of handlers)
             vm.runInContext(handler, context);
@@ -185,6 +187,54 @@ test("settings IPC set refuses a managed key, also with the settings IPC switch 
         assert.equal(context.set("lockAtStartup", "true"), disableSettingsIpcSet ? "SETTINGS_SET_DISABLED" : "SETTINGS_SET_SUCCESS");
         assert.equal(SettingsData.lockAtStartup, !disableSettingsIpcSet);
     }
+});
+
+test("settings IPC set runs the change hook with the previous value, saves, and refuses non-settings", () => {
+    const calls = [];
+    let saves = 0;
+    const SettingsData = settingsDataContext({
+        AdminPolicy: { lockSettings: {} },
+        Spec: loadScript(new URL("../Common/settings/SettingsSpec.js", import.meta.url)),
+        log: { warn() {} },
+        saveSettings: () => saves++,
+        _hooks: { regenSystemThemes: (root, key, previous) => calls.push([key, previous, root[key]]) },
+        matugenScheme: "scheme-tonal-spot",
+        matugenContrast: 0,
+        lockAtStartup: false,
+        isReadOnly: false
+    }, ["isManaged", "hasSetting", "set"]);
+    const context = vm.createContext({ AdminPolicy: { disableSettingsIpcSet: false }, SettingsData, log: { warn() {} } });
+    for (const handler of settingsIpcHandlers())
+        vm.runInContext(handler, context);
+    assert.equal(context.set("matugenScheme", "scheme-fidelity"), "SETTINGS_SET_SUCCESS");
+    assert.equal(context.set("matugenContrast", "0.5"), "SETTINGS_SET_SUCCESS");
+    assert.equal(context.set("lockAtStartup", "true"), "SETTINGS_SET_SUCCESS");
+    assert.deepEqual(calls, [["matugenScheme", "scheme-tonal-spot", "scheme-fidelity"], ["matugenContrast", 0, 0.5]]);
+    assert.equal(context.set("isReadOnly", "true"), "SETTINGS_INVALID_KEY");
+    assert.equal(SettingsData.lockAtStartup, true);
+    assert.equal(SettingsData.isReadOnly, false);
+    assert.equal(saves, 3);
+});
+
+test("settings set refuses an unknown density, from IPC too, without saving or moving sizes", () => {
+    const moves = [];
+    let saves = 0;
+    const SettingsData = settingsDataContext({
+        AdminPolicy: { lockSettings: {} },
+        Spec: loadScript(new URL("../Common/settings/SettingsSpec.js", import.meta.url)),
+        DensityPresets: loadScript(new URL("../Common/settings/DensityPresets.js", import.meta.url)),
+        log: { warn() {} },
+        saveSettings: () => saves++,
+        _hooks: { applyDensityPresets: (root, key, previous) => moves.push([previous, root.density]) },
+        density: "comfortable"
+    }, ["isManaged", "hasSetting", "set"]);
+    const context = vm.createContext({ AdminPolicy: { disableSettingsIpcSet: false }, SettingsData, log: { warn() {} } });
+    for (const handler of settingsIpcHandlers())
+        vm.runInContext(handler, context);
+    for (const value of ["Compact", "tiny", ""])
+        assert.equal(context.set("density", value), "SETTINGS_SET_FAILURE", value);
+    assert.equal(context.set("density", "dense"), "SETTINGS_SET_SUCCESS");
+    assert.deepEqual([moves, saves, SettingsData.density], [[["comfortable", "dense"]], 1, "dense"]);
 });
 
 test("the legacy session migration leaves managed lock settings alone", () => {

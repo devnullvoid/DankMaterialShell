@@ -57,7 +57,7 @@ T.Control {
     readonly property bool isLastInGroup: _edge(false)
     property real topRadius: isFirstInGroup ? Theme.groupedListOuterRadius : Theme.groupedListInnerRadius
     property real bottomRadius: isLastInGroup ? Theme.groupedListOuterRadius : Theme.groupedListInnerRadius
-    property real minHeight: subtitle !== "" ? Theme.listItemTwoLineHeight : Theme.listItemHeight
+    property real minHeight: subtitle !== "" ? SettingsMetrics.rowMinHeightTwoLine : SettingsMetrics.rowMinHeight
     // Keyboard focus on the row or any control inside it tints the row, so navigation reads without a focus ring
     readonly property Item activeItem: Window.activeFocusItem
     readonly property bool focusWithin: (activeItem?.visualFocus ?? false) && _contains(activeItem)
