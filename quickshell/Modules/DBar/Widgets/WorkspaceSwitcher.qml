@@ -14,6 +14,32 @@ import "../../../DCommon/Common/WheelInput.js" as WheelInput
 BasePill {
     id: root
 
+    // sized from its label and centered on the glyph box, since a digit's line box is off-center
+    component CountBadge: Rectangle {
+        property alias text: badgeLabel.text
+        property alias textColor: badgeLabel.color
+
+        height: Math.max(badgeLabel.font.pixelSize, Math.ceil(badgeMetrics.tightBoundingRect.height) + Theme.spacingXXS * 2)
+        width: Math.max(height, Math.ceil(badgeMetrics.tightBoundingRect.width) + Theme.spacingXXS * 2)
+        radius: height / 2
+        color: Theme.primary
+
+        StyledTextMetrics {
+            id: badgeMetrics
+            font: badgeLabel.font
+            text: badgeLabel.text
+        }
+
+        StyledText {
+            id: badgeLabel
+            x: Math.round((parent.width - badgeMetrics.tightBoundingRect.width) / 2 - badgeMetrics.tightBoundingRect.x)
+            y: Math.round((parent.height - badgeMetrics.tightBoundingRect.height) / 2 - baselineOffset - badgeMetrics.tightBoundingRect.y)
+            font.pixelSize: BarMetrics.indicatorLabelMin
+            font.weight: Theme.fontWeightMedium
+            color: Theme.onPrimary
+        }
+    }
+
     enableBackgroundHover: false
 
     property bool isVertical: axis?.isVertical ?? false
@@ -38,7 +64,11 @@ BasePill {
     readonly property real overviewTintAlpha: 0.18
     readonly property real dragOpacity: 0.8
     readonly property real hoverFadeAlpha: 0.7
+    readonly property real inactiveLabelAlpha: 0.85
+    readonly property real unfocusedAppAlpha: 0.7
+    readonly property real hoveredAppAlpha: 0.85
     readonly property real cardWindowRatio: 0.45
+    readonly property real labelSize: Math.min(Theme.barTextSize(barThickness, barConfig?.fontScale, barConfig?.maximizeWidgetText), Math.floor(widgetThickness * BarMetrics.indicatorLabelRatio))
 
     WorkspaceSwitcherModel {
         id: workspaces
@@ -128,7 +158,8 @@ BasePill {
         return workspaces.recordOf(entry);
     }
 
-    readonly property real appIconSize: Theme.barIconSize(barThickness, -6 + root.opt("workspaceAppIconSizeOffset"), root.barConfig?.maximizeWidgetIcons, root.barConfig?.iconScale)
+    // the pill pads icons by spacingXS on each side and must fit the widget thickness
+    readonly property real appIconSize: Math.max(0, Math.min(Theme.barIconSize(barThickness, -6 + root.opt("workspaceAppIconSizeOffset"), root.barConfig?.maximizeWidgetIcons, root.barConfig?.iconScale), widgetThickness - Theme.spacingXS * 2))
 
     function getRealWorkspaces() {
         return workspaces.realWorkspaces;
@@ -263,13 +294,11 @@ BasePill {
             width: root.isVertical ? root.widgetThickness : overviewBg.width
             height: root.isVertical ? overviewBg.height : root.widgetThickness
 
-            readonly property real labelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
-
             Rectangle {
                 id: overviewBg
                 anchors.centerIn: parent
-                width: root.isVertical ? Math.max(root.widgetThickness * root.compactRatio, overviewContent.implicitWidth + Theme.spacingS) : (overviewContent.implicitWidth + Theme.spacingS * 2)
-                height: Math.max(root.widgetThickness * root.slimRatio, overviewContent.implicitHeight + Theme.spacingXS)
+                width: root.isVertical ? Math.min(root.widgetThickness, Math.max(root.widgetThickness * root.compactRatio, overviewContent.implicitWidth + Theme.spacingS)) : (overviewContent.implicitWidth + Theme.spacingS * 2)
+                height: root.isVertical ? Math.max(root.widgetThickness * root.slimRatio, overviewContent.implicitHeight + Theme.spacingXS) : Math.min(root.widgetThickness, Math.max(root.widgetThickness * root.slimRatio, overviewContent.implicitHeight + Theme.spacingXS))
                 radius: BarMetrics.pillRadius(Math.min(width, height), BarMetrics.widgetStyle(root.barConfig))
                 color: Theme.withAlpha(Theme.primary, root.overviewTintAlpha)
 
@@ -281,7 +310,7 @@ BasePill {
                     DIcon {
                         anchors.verticalCenter: parent.verticalCenter
                         name: "grid_view"
-                        size: overviewPill.labelSize + 2
+                        size: root.labelSize + 2
                         color: Theme.primary
                     }
 
@@ -290,7 +319,7 @@ BasePill {
                         visible: !root.isVertical
                         text: I18n.tr("Overview", "noun, niri compositor overview mode label")
                         color: Theme.primary
-                        font.pixelSize: overviewPill.labelSize
+                        font.pixelSize: root.labelSize
                         font.weight: Theme.fontWeightMedium
                     }
                 }
@@ -423,16 +452,12 @@ BasePill {
                 }
 
                 readonly property real lineThickness: Math.max(Theme.spacingXXS, root.widgetThickness * (isActive ? root.activeSlimRatio : root.slimRatio))
-                // a label scales the whole shape up and itself down to fit, so every style keeps its proportions
+                // a label scales the whole shape with the bar font, up to the widget thickness, so every style keeps its proportions
                 readonly property bool labeled: !root.linesStyle && !root.opt("showWorkspaceApps") && (root.opt("showWorkspaceIndex") || root.opt("showWorkspaceName") || loadedHasIcon)
                 readonly property real slimBase: widgetThickness * (isActive ? root.activeSlimRatio : root.slimRatio)
-                readonly property real labelScale: labeled ? Math.max(BarMetrics.indicatorLabelScale, BarMetrics.indicatorLabelMin / BarMetrics.indicatorLabelRatio / slimBase) : 1
+                readonly property real labelScale: labeled ? Math.min(root.widgetThickness / slimBase, Math.max(BarMetrics.indicatorLabelScale, Math.max(root.labelSize, BarMetrics.indicatorLabelMin) / BarMetrics.indicatorLabelRatio / slimBase)) : 1
                 readonly property real crossBase: root.opt("showWorkspaceApps") ? Math.max(widgetThickness * root.compactRatio, root.appIconSize + Theme.spacingXS * 2) : slimBase * labelScale
                 readonly property real primaryBase: root.dotsStyle ? crossBase : labelScale * (isActive ? Math.max(root.widgetThickness * root.activeRatio, root.appIconSize * root.activeIconRatio) : Math.max(root.widgetThickness * root.compactRatio, root.appIconSize * root.iconRatio))
-                readonly property real labelSize: {
-                    const barSize = Theme.barTextSize(barThickness, barConfig?.fontScale, barConfig?.maximizeWidgetText);
-                    return labeled ? Math.min(barSize, Math.round(crossBase * BarMetrics.indicatorLabelRatio)) : barSize;
-                }
                 readonly property real baseWidth: root.isVertical ? (root.linesStyle ? lineThickness : crossBase) : primaryBase
                 readonly property real baseHeight: root.isVertical ? primaryBase : (root.linesStyle ? lineThickness : crossBase)
                 readonly property bool hasWorkspaceName: root.opt("showWorkspaceName") && record?.name && record.name !== ""
@@ -463,8 +488,9 @@ BasePill {
                 readonly property real visualWidth: {
                     if (contentImplicitWidth <= 0 || (underline && root.isVertical))
                         return baseWidth + iconsExtraWidth;
-                    const padding = root.isVertical ? Theme.spacingXS : Theme.spacingS;
-                    return Math.max(baseWidth + iconsExtraWidth, contentImplicitWidth + padding);
+                    if (root.isVertical)
+                        return Math.min(root.widgetThickness, Math.max(baseWidth, contentImplicitWidth + Theme.spacingXS));
+                    return Math.max(baseWidth + iconsExtraWidth, contentImplicitWidth + Theme.spacingL);
                 }
                 // the row reserves icon height for each label, so a horizontal label must not set the thickness
                 readonly property real visualHeight: {
@@ -521,7 +547,8 @@ BasePill {
                     return root.useUnfocusedAppearance ? unfocusedCustom : focusedCustom;
                 }
 
-                readonly property color unfocusedColor: colorFromMode(effectiveColorMode(root.opt("workspaceUnfocusedColorMode"), root.opt("workspaceUnfocusedMonitorUnfocusedColorMode")), Theme.surfaceTextAlpha, effectiveCustomColor(root.opt("workspaceUnfocusedCustomColor"), root.opt("workspaceUnfocusedMonitorUnfocusedCustomColor")), Theme.surfaceTextAlpha)
+                readonly property string unfocusedColorMode: effectiveColorMode(root.opt("workspaceUnfocusedColorMode"), root.opt("workspaceUnfocusedMonitorUnfocusedColorMode"))
+                readonly property color unfocusedColor: colorFromMode(unfocusedColorMode, Theme.surfaceTextAlpha, effectiveCustomColor(root.opt("workspaceUnfocusedCustomColor"), root.opt("workspaceUnfocusedMonitorUnfocusedCustomColor")), Theme.surfaceTextAlpha)
 
                 readonly property string activeColorMode: effectiveColorMode(root.opt("workspaceColorMode"), root.opt("workspaceUnfocusedMonitorColorMode"))
                 readonly property color activeColor: {
@@ -530,11 +557,11 @@ BasePill {
                     return colorFromMode(activeColorMode, Theme.primary, effectiveCustomColor(root.opt("workspaceFocusedCustomColor"), root.opt("workspaceUnfocusedMonitorFocusedCustomColor")), Theme.primary);
                 }
 
+                readonly property string occupiedColorMode: effectiveColorMode(root.opt("workspaceOccupiedColorMode"), root.opt("workspaceUnfocusedMonitorOccupiedColorMode"))
                 readonly property color occupiedColor: {
-                    const mode = effectiveColorMode(root.opt("workspaceOccupiedColorMode"), root.opt("workspaceUnfocusedMonitorOccupiedColorMode"));
-                    if (mode === "none")
+                    if (occupiedColorMode === "none")
                         return unfocusedColor;
-                    return colorFromMode(mode, unfocusedColor, effectiveCustomColor(root.opt("workspaceOccupiedCustomColor"), root.opt("workspaceUnfocusedMonitorOccupiedCustomColor")), Theme.secondary);
+                    return colorFromMode(occupiedColorMode, unfocusedColor, effectiveCustomColor(root.opt("workspaceOccupiedCustomColor"), root.opt("workspaceUnfocusedMonitorOccupiedCustomColor")), Theme.secondary);
                 }
 
                 readonly property string urgentColorMode: effectiveColorMode(root.opt("workspaceUrgentColorMode"), root.opt("workspaceUnfocusedMonitorUrgentColorMode"))
@@ -584,10 +611,29 @@ BasePill {
                     }
                 }
 
-                readonly property color filledInk: isActive ? inkFromMode(activeColorMode, activeColor, Theme.onPrimary) : inkFromMode(urgentColorMode, urgentColor, Theme.onError)
-                readonly property color contentInk: root.linesStyle ? (isActive ? activeColor : isUrgent ? urgentColor : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium) : ((isActive || isUrgent) ? filledInk : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium)
+                readonly property color activeInk: inkFromMode(activeColorMode, activeColor, Theme.onPrimary)
+                readonly property color filledInk: {
+                    if (isActive)
+                        return activeInk;
+                    if (isUrgent)
+                        return inkFromMode(urgentColorMode, urgentColor, Theme.onError);
+                    const idleInk = Theme.withAlpha(Theme.surfaceText, root.inactiveLabelAlpha);
+                    if (isOccupied && !isHovered && occupiedColorMode !== "none")
+                        return inkFromMode(occupiedColorMode, occupiedColor, idleInk);
+                    return inkFromMode(unfocusedColorMode, unfocusedColor, idleInk);
+                }
+                readonly property color contentInk: {
+                    // lines and inactive cards draw no fill, so their label sits on the bar
+                    if (root.linesStyle || (root.cardsStyle && !isActive))
+                        return isActive ? activeColor : isUrgent ? urgentColor : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium;
+                    if (isPlaceholder && !isActive && !isUrgent)
+                        return Theme.surfaceTextAlpha;
+                    return filledInk;
+                }
 
-                readonly property color requestedColor: isActive ? activeColor : isUrgent ? urgentColor : isPlaceholder ? Theme.surfaceTextLight : isHovered ? Theme.withAlpha(unfocusedColor, root.hoverFadeAlpha) : isOccupied ? occupiedColor : unfocusedColor
+                // a translucent fill gains a state layer on hover, an opaque one fades
+                readonly property color hoverColor: Theme.withAlpha(unfocusedColor, unfocusedColor.a < 1 ? Math.min(1, unfocusedColor.a + Theme.stateLayerFocus) : root.hoverFadeAlpha)
+                readonly property color requestedColor: isActive ? activeColor : isUrgent ? urgentColor : isPlaceholder ? Theme.surfaceTextLight : isHovered ? hoverColor : isOccupied ? occupiedColor : unfocusedColor
 
                 property bool colorAnimationReady: false
 
@@ -708,16 +754,18 @@ BasePill {
                 Timer {
                     id: dataUpdateTimer
                     interval: 50
-                    onTriggered: {
-                        if (isPlaceholder) {
-                            delegateRoot.loadedIcons = [];
-                            delegateRoot.loadedIsUrgent = false;
-                            return;
-                        }
+                    onTriggered: delegateRoot.loadData()
+                }
 
-                        delegateRoot.loadedIsUrgent = CompositorService.loadWorkspaceUrgent(delegateRoot.record);
-                        delegateRoot.loadedIcons = root.opt("showWorkspaceApps") ? root.getWorkspaceIcons(delegateRoot.record) : [];
+                function loadData() {
+                    if (isPlaceholder) {
+                        delegateRoot.loadedIcons = [];
+                        delegateRoot.loadedIsUrgent = false;
+                        return;
                     }
+
+                    delegateRoot.loadedIsUrgent = CompositorService.loadWorkspaceUrgent(delegateRoot.record);
+                    delegateRoot.loadedIcons = root.opt("showWorkspaceApps") ? root.getWorkspaceIcons(delegateRoot.record) : [];
                 }
 
                 function updateAllData() {
@@ -835,8 +883,8 @@ BasePill {
                     thickness: Math.min(width, height)
                     style: BarMetrics.widgetStyle(root.barConfig)
                     vertical: root.isVertical
-                    joinedStart: root.segmented && index > 0
-                    joinedEnd: root.segmented && index < workspaceRepeater.count - 1
+                    joinedStart: root.segmented && index > 0 && !isActive
+                    joinedEnd: root.segmented && index < workspaceRepeater.count - 1 && !isActive
                     pressed: mouseArea.pressed
                     color: root.cardsStyle && !isActive ? "transparent" : delegateRoot.displayColor
                     radiusOverride: BarMetrics.indicatorRadius(root.indicatorStyle, thickness, root.roundness)
@@ -944,7 +992,7 @@ BasePill {
                                         id: wsIcon
                                         anchors.verticalCenter: parent.verticalCenter
                                         name: loadedIconData?.value ?? ""
-                                        size: labelSize
+                                        size: root.labelSize
                                         color: contentInk
                                         weight: (isActive && !isPlaceholder) ? 500 : 400
                                     }
@@ -952,30 +1000,45 @@ BasePill {
 
                                 Item {
                                     visible: loadedHasIcon && loadedIconData?.type === "text"
-                                    width: wsText.implicitWidth
+                                    // reserve the active weight so activating a workspace doesn't shift the bar
+                                    width: Math.max(wsText.implicitWidth, Math.ceil(wsTextMetrics.advanceWidth))
                                     height: root.appIconSize
+
+                                    StyledTextMetrics {
+                                        id: wsTextMetrics
+                                        text: wsText.text
+                                        font.pixelSize: root.labelSize
+                                        font.weight: Theme.fontWeightMedium
+                                    }
 
                                     StyledText {
                                         id: wsText
-                                        anchors.verticalCenter: parent.verticalCenter
+                                        anchors.centerIn: parent
                                         text: loadedIconData?.value ?? ""
                                         color: contentInk
-                                        font.pixelSize: labelSize
+                                        font.pixelSize: root.labelSize
                                         font.weight: (isActive && !isPlaceholder) ? Theme.fontWeightMedium : Theme.fontWeight
                                     }
                                 }
 
                                 Item {
                                     visible: ((root.opt("showWorkspaceIndex") || root.opt("showWorkspaceName")) && !loadedHasIcon) || (loadedHasIcon && root.opt("showWorkspaceName") && hasWorkspaceName)
-                                    width: wsIndexText.implicitWidth
+                                    width: Math.max(wsIndexText.implicitWidth, Math.ceil(wsIndexTextMetrics.advanceWidth))
                                     height: root.appIconSize
+
+                                    StyledTextMetrics {
+                                        id: wsIndexTextMetrics
+                                        text: wsIndexText.text
+                                        font.pixelSize: root.labelSize
+                                        font.weight: Theme.fontWeightMedium
+                                    }
 
                                     StyledText {
                                         id: wsIndexText
-                                        anchors.verticalCenter: parent.verticalCenter
+                                        anchors.centerIn: parent
                                         text: loadedHasIcon ? (record?.name ?? "") : root.getWorkspaceIndex(record, index)
                                         color: contentInk
-                                        font.pixelSize: labelSize
+                                        font.pixelSize: root.labelSize
                                         font.weight: (isActive && !isPlaceholder) ? Theme.fontWeightMedium : Theme.fontWeight
                                     }
                                 }
@@ -993,13 +1056,13 @@ BasePill {
                                         readonly property bool appHighlightActive: root.opt("workspaceActiveAppHighlightEnabled") && modelData.active
                                         readonly property color appBorderColor: appHighlightActive ? focusedBorderColor : Theme.primarySelected
                                         readonly property color appGlyphColor: appHighlightActive ? focusedBorderColor : Theme.primary
-                                        readonly property real appOpacity: modelData.active ? 1.0 : rowAppHover.hovered ? 0.8 : 0.6
+                                        readonly property real appOpacity: modelData.active || root.opt("workspaceUnfocusedAppsFullOpacity") ? 1.0 : rowAppHover.hovered ? root.hoveredAppAlpha : root.unfocusedAppAlpha
 
                                         IconImage {
                                             id: rowAppIcon
                                             anchors.fill: parent
                                             source: modelData.icon || ""
-                                            opacity: modelData.active ? 1.0 : rowAppHover.hovered ? 0.8 : 0.6
+                                            opacity: appOpacity
                                             visible: !modelData.isQuickshell && !modelData.isSteamApp && status === Image.Ready
                                         }
 
@@ -1041,7 +1104,7 @@ BasePill {
                                         IconImage {
                                             anchors.fill: parent
                                             source: modelData.icon
-                                            opacity: modelData.active ? 1.0 : rowAppHover.hovered ? 0.8 : 0.6
+                                            opacity: appOpacity
                                             visible: modelData.isQuickshell
                                             layer.enabled: true
                                             layer.effect: MultiEffect {
@@ -1055,7 +1118,7 @@ BasePill {
                                             id: rowSteamIcon
                                             anchors.fill: parent
                                             source: modelData.icon
-                                            opacity: modelData.active ? 1.0 : rowAppHover.hovered ? 0.8 : 0.6
+                                            opacity: appOpacity
                                             visible: modelData.isSteamApp && modelData.icon
                                         }
 
@@ -1064,7 +1127,7 @@ BasePill {
                                             size: root.appIconSize
                                             name: "sports_esports"
                                             color: appHighlightActive ? focusedBorderColor : Theme.widgetTextColor
-                                            opacity: modelData.active ? 1.0 : rowAppHover.hovered ? 0.8 : 0.6
+                                            opacity: appOpacity
                                             visible: modelData.isSteamApp && !modelData.icon
                                         }
 
@@ -1082,24 +1145,16 @@ BasePill {
                                             id: rowAppHover
                                         }
 
-                                        Rectangle {
+                                        CountBadge {
                                             visible: modelData.count > 1 && !isActive
-                                            width: root.appIconSize * 0.67
-                                            height: root.appIconSize * 0.67
-                                            radius: root.appIconSize * 0.33
-                                            color: "black"
-                                            border.color: "white"
-                                            border.width: Theme.outlineWidth
+                                            text: modelData.count
+                                            color: activeColor
+                                            textColor: activeInk
                                             anchors.right: parent.right
                                             anchors.bottom: parent.bottom
+                                            anchors.rightMargin: -Theme.spacingXXS
+                                            anchors.bottomMargin: -Theme.spacingXXS
                                             z: 2
-
-                                            StyledText {
-                                                anchors.centerIn: parent
-                                                text: modelData.count
-                                                font.pixelSize: root.appIconSize * 0.44
-                                                color: "white"
-                                            }
                                         }
                                     }
                                 }
@@ -1116,7 +1171,7 @@ BasePill {
                                     visible: loadedHasIcon && loadedIconData?.type === "icon"
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     name: loadedIconData?.value ?? ""
-                                    size: labelSize
+                                    size: root.labelSize
                                     color: contentInk
                                     weight: (isActive && !isPlaceholder) ? 500 : 400
                                 }
@@ -1126,7 +1181,7 @@ BasePill {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     text: loadedIconData?.value ?? ""
                                     color: contentInk
-                                    font.pixelSize: labelSize
+                                    font.pixelSize: root.labelSize
                                     font.weight: (isActive && !isPlaceholder) ? Theme.fontWeightMedium : Theme.fontWeight
                                 }
 
@@ -1135,7 +1190,7 @@ BasePill {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     text: root.getWorkspaceIndex(record, index)
                                     color: contentInk
-                                    font.pixelSize: labelSize
+                                    font.pixelSize: root.labelSize
                                     font.weight: (isActive && !isPlaceholder) ? Theme.fontWeightMedium : Theme.fontWeight
                                 }
 
@@ -1152,13 +1207,13 @@ BasePill {
                                         readonly property bool appHighlightActive: root.opt("workspaceActiveAppHighlightEnabled") && modelData.active
                                         readonly property color appBorderColor: appHighlightActive ? focusedBorderColor : Theme.primarySelected
                                         readonly property color appGlyphColor: appHighlightActive ? focusedBorderColor : Theme.primary
-                                        readonly property real appOpacity: modelData.active ? 1.0 : colAppHover.hovered ? 0.8 : 0.6
+                                        readonly property real appOpacity: modelData.active || root.opt("workspaceUnfocusedAppsFullOpacity") ? 1.0 : colAppHover.hovered ? root.hoveredAppAlpha : root.unfocusedAppAlpha
 
                                         IconImage {
                                             id: colAppIcon
                                             anchors.fill: parent
                                             source: modelData.icon || ""
-                                            opacity: modelData.active ? 1.0 : colAppHover.hovered ? 0.8 : 0.6
+                                            opacity: appOpacity
                                             visible: !modelData.isQuickshell && !modelData.isSteamApp && status === Image.Ready
                                         }
 
@@ -1200,7 +1255,7 @@ BasePill {
                                         IconImage {
                                             anchors.fill: parent
                                             source: modelData.icon
-                                            opacity: modelData.active ? 1.0 : colAppHover.hovered ? 0.8 : 0.6
+                                            opacity: appOpacity
                                             visible: modelData.isQuickshell
                                             layer.enabled: true
                                             layer.effect: MultiEffect {
@@ -1214,7 +1269,7 @@ BasePill {
                                             id: colSteamIcon
                                             anchors.fill: parent
                                             source: modelData.icon
-                                            opacity: modelData.active ? 1.0 : colAppHover.hovered ? 0.8 : 0.6
+                                            opacity: appOpacity
                                             visible: modelData.isSteamApp && modelData.icon
                                         }
 
@@ -1223,7 +1278,7 @@ BasePill {
                                             size: root.appIconSize
                                             name: "sports_esports"
                                             color: appHighlightActive ? focusedBorderColor : Theme.widgetTextColor
-                                            opacity: modelData.active ? 1.0 : colAppHover.hovered ? 0.8 : 0.6
+                                            opacity: appOpacity
                                             visible: modelData.isSteamApp && !modelData.icon
                                         }
 
@@ -1241,24 +1296,16 @@ BasePill {
                                             id: colAppHover
                                         }
 
-                                        Rectangle {
+                                        CountBadge {
                                             visible: modelData.count > 1 && !isActive
-                                            width: root.appIconSize * 0.67
-                                            height: root.appIconSize * 0.67
-                                            radius: root.appIconSize * 0.33
-                                            color: "black"
-                                            border.color: "white"
-                                            border.width: Theme.outlineWidth
+                                            text: modelData.count
+                                            color: activeColor
+                                            textColor: activeInk
                                             anchors.right: parent.right
                                             anchors.bottom: parent.bottom
+                                            anchors.rightMargin: -Theme.spacingXXS
+                                            anchors.bottomMargin: -Theme.spacingXXS
                                             z: 2
-
-                                            StyledText {
-                                                anchors.centerIn: parent
-                                                text: modelData.count
-                                                font.pixelSize: root.appIconSize * 0.44
-                                                color: "white"
-                                            }
                                         }
                                     }
                                 }
@@ -1282,7 +1329,11 @@ BasePill {
                     }
                 }
                 readonly property var rootCurrentWorkspace: root.currentWorkspace
-                onRootCurrentWorkspaceChanged: updateAllData()
+                // isActive flips at once, so the icons that size the pill must follow in the same frame
+                onRootCurrentWorkspaceChanged: {
+                    dataUpdateTimer.stop();
+                    loadData();
+                }
                 readonly property bool iconIndexReady: IconThemeService.ready
                 onIconIndexReadyChanged: updateAllData()
                 Connections {

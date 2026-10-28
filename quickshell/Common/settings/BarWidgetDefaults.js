@@ -100,6 +100,7 @@ var DEFAULTS = {
         reverseScrolling: false,
         dwlShowAllTags: false,
         workspaceActiveAppHighlightEnabled: false,
+        workspaceUnfocusedAppsFullOpacity: false,
         workspaceColorMode: "default",
         workspaceFocusedCustomColor: "#6750A4",
         workspaceOccupiedColorMode: "none",

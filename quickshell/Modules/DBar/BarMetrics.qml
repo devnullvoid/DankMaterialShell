@@ -72,7 +72,7 @@ Singleton {
         })
 
     readonly property real indicatorCompactScale: 0.7
-    readonly property real indicatorLabelRatio: 0.55
+    readonly property real indicatorLabelRatio: 0.65
     readonly property real indicatorLabelScale: 1.3
     readonly property real indicatorLabelMin: Math.round(Theme.fontSizeSmall * 0.75)
 
