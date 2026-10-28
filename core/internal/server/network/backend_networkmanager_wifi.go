@@ -3,10 +3,12 @@ package network
 import (
 	"bytes"
 	"fmt"
+	"os/user"
 	"sort"
 
 	"github.com/Wifx/gonetworkmanager/v2"
 	"github.com/duxlabs-dev/dux-shell/core/internal/log"
+	"github.com/godbus/dbus/v5"
 )
 
 func (b *NetworkManagerBackend) GetWiFiEnabled() (bool, error) {
@@ -768,6 +770,9 @@ func (b *NetworkManagerBackend) createAndConnectWiFiOnDevice(req ConnectionReque
 		"type":        "802-11-wireless",
 		"autoconnect": true,
 	}
+	if !b.canModifySystemConnections() {
+		restrictConnectionToCurrentUser(settings["connection"])
+	}
 
 	settings["ipv4"] = map[string]any{"method": "auto"}
 	settings["ipv6"] = map[string]any{"method": "auto"}
@@ -934,6 +939,39 @@ func (b *NetworkManagerBackend) createAndConnectWiFiOnDevice(req ConnectionReque
 // updateConnectionCredentials applies user-supplied credentials to a saved
 // profile before activation; without this a retype after a password change is
 // silently ignored in favor of the stored (stale) secret.
+const nmPermissionModifySystem = dbusNMInterface + ".settings.modify.system"
+
+// GetPermissions never prompts. Short of a silent yes, a shared profile prompts on
+// creation and on every secret-agent request (NM re-checks the agent), so own it
+// per user like gnome-control-center does.
+func (b *NetworkManagerBackend) canModifySystemConnections() bool {
+	conn := b.dbusConn
+	if conn == nil {
+		var err error
+		conn, err = dbus.ConnectSystemBus()
+		if err != nil {
+			return false
+		}
+		defer conn.Close()
+	}
+
+	var permissions map[string]string
+	obj := conn.Object(dbusNMInterface, dbus.ObjectPath(dbusNMPath))
+	if err := obj.Call(dbusNMInterface+".GetPermissions", 0).Store(&permissions); err != nil {
+		log.Warnf("[createAndConnectWiFi] GetPermissions failed, creating a user-owned profile: %v", err)
+		return false
+	}
+	return permissions[nmPermissionModifySystem] == "yes"
+}
+
+func restrictConnectionToCurrentUser(connMeta map[string]any) {
+	current, err := user.Current()
+	if err != nil || current.Username == "" {
+		return
+	}
+	connMeta["permissions"] = []string{"user:" + current.Username + ":"}
+}
+
 func updateConnectionCredentials(conn gonetworkmanager.Connection, req ConnectionRequest) error {
 	settings, err := conn.GetSettings()
 	if err != nil {
