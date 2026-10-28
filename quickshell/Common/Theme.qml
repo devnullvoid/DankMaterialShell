@@ -1204,7 +1204,7 @@ Singleton {
             return 0;
         }
     }
-    // Added by surface metrics; shared tokens stay fixed so bar, dock and lock never move.
+    // Added by surface metrics and text fields; other shared tokens stay fixed so bar, dock and lock never move.
     readonly property real densityStepS: densityLevel * spacingXS
     readonly property real densityStepM: densityLevel * spacingS
     readonly property real densityStepXS: densityLevel * spacingXXS
@@ -1370,8 +1370,8 @@ Singleton {
     readonly property real launcherScreenMargin: 100
 
     readonly property real fieldDefaultWidth: 200
-    readonly property real fieldHeight: Math.round(fontSizeMedium * 3)
-    readonly property real fieldHeightLarge: 48
+    readonly property real fieldHeight: Math.round(fontSizeMedium * 3) + densityStepS
+    readonly property real fieldHeightLarge: 48 + densityStepS
     readonly property real outlinedFieldLabelLineHeight: 16
     readonly property real textFieldSpatialStiffness: 800
     readonly property real textFieldSpatialDampingRatio: 1
