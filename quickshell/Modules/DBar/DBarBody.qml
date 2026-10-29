@@ -1,5 +1,6 @@
 import QtQuick
 import Quickshell
+import Quickshell.Wayland
 import qs.Common
 import qs.Modules.DIsland
 import qs.Services
@@ -22,6 +23,13 @@ Item {
 
     readonly property bool barRevealed: inputMask.showing
     readonly property bool autoHideActive: topBarCore.autoHide
+    readonly property bool fullscreenAutoHide: !barWindow.isIsland
+        && !usesFrameBarChrome
+        && (barConfig?.hideOnFullscreen ?? false)
+        && hostWindow?.dBarLayer === WlrLayer.Overlay
+        && CompositorService.isNiri
+        && !CompositorService.overviewActiveOnScreen(screenName)
+        && CompositorService.visibleNiriFullscreenToplevelOnScreen(screen)
 
     readonly property bool isIsland: barConfig?.island === true
     // Resolver-owned so the body, the frame and the dismiss window agree during the frame latch.
@@ -822,7 +830,7 @@ Item {
 
     readonly property bool reserveExclusiveWhenAutoHidden: FrameTransitionState.effectiveFrameEnabled && usesFrameBarChrome && !!barWindow.screen && SettingsData.isScreenInPreferences(barWindow.screen, SettingsData.frameScreenPreferences)
 
-    readonly property real surfaceExclusiveZone: isIsland ? ((islandFree || (islandHost?.floating ?? false)) ? 0 : SettingsData.islandReserveThickness(barConfig)) : (!(barConfig?.visible ?? true) || (topBarCore.autoHide && !barWindow.reserveExclusiveWhenAutoHidden)) ? -1 : (barWindow.effectiveBarThickness + effectiveSpacing + (usesFrameBarChrome ? 0 : (barConfig?.bottomGap ?? 0)))
+    readonly property real surfaceExclusiveZone: isIsland ? ((islandFree || (islandHost?.floating ?? false)) ? 0 : SettingsData.islandReserveThickness(barConfig)) : (!(barConfig?.visible ?? true) || ((barConfig?.autoHide ?? false) && !barWindow.reserveExclusiveWhenAutoHidden)) ? -1 : (barWindow.effectiveBarThickness + effectiveSpacing + (usesFrameBarChrome ? 0 : (barConfig?.bottomGap ?? 0)))
 
     readonly property alias inputMaskItem: inputMask
 
@@ -934,7 +942,12 @@ Item {
         anchors.fill: parent
         layer.enabled: false
 
-        property bool autoHide: (!barWindow.isIsland || barWindow.islandOverlay) && (barConfig?.autoHide ?? false)
+        readonly property bool autoHide: ((!barWindow.isIsland || barWindow.islandOverlay) && (barConfig?.autoHide ?? false)) || barWindow.fullscreenAutoHide
+        onAutoHideChanged: {
+            if (!autoHide)
+                SettingsData.setBarIpcReveal(barConfig?.id ?? "", false);
+            evaluateReveal();
+        }
         property bool revealSticky: false
         // In click-through mode the hidden bar's input mask covers the full
         // band while the revealed bar's mask covers only the widget sections,
@@ -1032,6 +1045,9 @@ Item {
             if (inOverviewWithShow)
                 return true;
 
+            if (barWindow.fullscreenAutoHide)
+                return hoverReveal || popoutPinsReveal || revealSticky || ipcReveal;
+
             const showOnWindowsSetting = barConfig?.showOnWindowsOpen ?? false;
             if (showOnWindowsSetting && autoHide && CompositorService.windowOverlapSupported) {
                 if (barWindow.shouldHideForWindows)
@@ -1048,7 +1064,6 @@ Item {
         readonly property var rootWindowBarConfig: rootWindow.barConfig
 
         onRootWindowBarConfigChanged: {
-            autoHide = (!barWindow.isIsland || barWindow.islandOverlay) && (barConfig?.autoHide ?? false);
             evaluateReveal();
         }
 
