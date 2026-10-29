@@ -89,6 +89,9 @@ Singleton {
     // The resize corner counts a small tile as this many rows and snaps to the nearer of this and a full row.
     readonly property real smallRowFraction: 0.5
     readonly property real shapeButtonSize: Theme.iconSize
+    readonly property real editChromeButtonSize: Theme.iconSize
+    // Mirrors DGridEditChrome.contentInset so the options menu anchor keeps the chrome's bounds while the chrome is unloaded.
+    readonly property real editChromeInset: Math.max(Theme.minimumTouchTargetSize, editChromeButtonSize) / 2
 
     readonly property real detailDialogPadding: Theme.spacingS
     readonly property real detailHeaderHeight: Theme.iconButtonSize
