@@ -13,6 +13,8 @@ MediaChromeBase {
 
     readonly property bool compact: width < Theme.smallBreakpoint || halfWidth < headerHeight + controls.implicitHeight
     readonly property real halfWidth: Math.max(0, (width - padding * 2 - Theme.spacingXL) / 2)
+    // Panes size from this, not the card body, which can lag at zero width and loop compact forever
+    readonly property real bodyWidth: Math.max(0, width - (padding + Theme.layerOutlineWidth) * 2)
     // !TODO: expose this variant? playerPaneOpen false gives art beside lyrics, or art alone with hover transport
     readonly property bool playerPane: root.player.playerPaneOpen
     readonly property bool controlsColumn: playerPane
@@ -40,7 +42,7 @@ MediaChromeBase {
 
         x: root.compact || !root.splitPanes ? (parent.width - width) / 2 : I18n.isRtl ? parent.width - width : 0
         y: root.compact && root.splitPanes ? 0 : (parent.height - height) / 2
-        width: root.compact ? parent.width : art.width
+        width: root.compact ? root.bodyWidth : art.width
         height: root.columnHeight
 
         Behavior on x {
@@ -207,7 +209,7 @@ MediaChromeBase {
 
         x: root.compact || I18n.isRtl ? 0 : artPane.width + Theme.spacingXL
         y: root.compact ? root.artworkSize + Theme.spacingXL : (parent.height - height) / 2
-        width: root.compact ? parent.width : parent.width - artPane.width - Theme.spacingXL
+        width: root.compact ? root.bodyWidth : root.bodyWidth - artPane.width - Theme.spacingXL
         height: root.compact ? root.paneHeight : root.columnHeight
         visible: root.splitPanes
 
