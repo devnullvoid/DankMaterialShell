@@ -68,6 +68,8 @@ FocusScope {
     readonly property bool panelResizing: panelResizer.resizing
     readonly property real sheetContentWidth: host.sheetContentWidth ?? CcMetrics.sheetWidthFor(gridColumns)
     readonly property vector4d surfaceCornerRadii: host.surfaceCornerRadii ?? Qt.vector4d(Theme.windowRadius, Theme.windowRadius, Theme.windowRadius, Theme.windowRadius)
+    // A dim can't follow a frame-attached body past its square corners; the covered content is faded out anyway.
+    readonly property bool sheetsDim: !CcMetrics.hideCoveredContent || Math.min(surfaceCornerRadii.x, surfaceCornerRadii.y, surfaceCornerRadii.z, surfaceCornerRadii.w) > 0
     readonly property int gridColumnCap: host.gridColumnCap ?? CcMetrics.columnCapFor((host.triggerScreen?.width ?? CcMetrics.sheetWidthDefault + Theme.spacingL * 2) - Theme.spacingL * 2)
     readonly property int gridColumns: host.gridColumns ?? Math.min(CcMetrics.gridColumns, gridColumnCap)
     readonly property real availableGridHeight: (host.availableHeight ?? (host.triggerScreen?.height ?? CcMetrics.fallbackScreenHeight) - CcMetrics.maxHeightInset) - CcMetrics.sheetPadding * 2 - editRoom
@@ -377,8 +379,8 @@ FocusScope {
         cornerResize: root.panelResizing ? resizeSide > 0 : root.panelResizer.sideMovable(1, root.gridColumns)
         horizontalResize: true
         removable: false
-        cornerRadius: Theme.windowRadius
-        cornerRadii: root.surfaceCornerRadii
+        // Frame-attached corners are square, but the ring keeps the surface radius.
+        cornerRadius: Math.max(root.surfaceCornerRadii.x, root.surfaceCornerRadii.y, root.surfaceCornerRadii.z, root.surfaceCornerRadii.w)
         buttonSize: Theme.iconSize
         iconSize: PopoutMetrics.chromeIconSize
         resizing: root.panelResizing
@@ -533,7 +535,7 @@ FocusScope {
         y: root.editRoom > 0 ? Math.max(root.height - root.editRoom, CcMetrics.sheetPadding * 2 + root.heldGridHeight) + (root.editRoom - height) / 2 : (root.stripAbove ? -height : root.height)
         width: root.sheetContentWidth
         height: implicitHeight
-        // Below the edit rings so the shoulder fill never covers them.
+        // Below the edit rings so the trash fill never covers them.
         z: -1
         editMode: root.host.editMode
         enabled: detailBand.shownSection === "" && !root.widgetSheetOpen
@@ -543,7 +545,8 @@ FocusScope {
         transientSurfaceTracker: root.host.transientSurfaceTracker
         joined: root.editRoom === 0
         above: root.stripAbove
-        backgroundColor: joined ? (root.host.surfaceColor ?? CcMetrics.dialogColor) : Theme.foregroundColor(Theme.cardSurface)
+        // Joined, the popout host paints the surface under the strip.
+        backgroundColor: joined ? "transparent" : Theme.foregroundColor(Theme.cardSurface)
         cornerRadii: root.surfaceCornerRadii
         opacity: body.opacity
         canUndo: root.canUndo
@@ -563,6 +566,7 @@ FocusScope {
         active: false
         sourceComponent: BluetoothCodecSelector {
             cornerRadii: root.surfaceCornerRadii
+            dimsBackdrop: root.sheetsDim
             onDismissed: Qt.callLater(root.releaseSheet, codecSelectorLoader)
         }
     }
@@ -575,6 +579,7 @@ FocusScope {
         active: false
         sourceComponent: AudioPortSelector {
             cornerRadii: root.surfaceCornerRadii
+            dimsBackdrop: root.sheetsDim
             onDismissed: Qt.callLater(root.releaseSheet, portSelectorLoader)
         }
     }
@@ -591,6 +596,8 @@ FocusScope {
         id: widgetSheetLoader
 
         anchors.fill: parent
+        anchors.topMargin: editActions.joined && root.stripAbove ? -editActions.height : 0
+        anchors.bottomMargin: editActions.joined && !root.stripAbove ? -editActions.height : 0
         z: CcMetrics.overlayZ
         active: root.host.editMode
         asynchronous: true
@@ -602,6 +609,7 @@ FocusScope {
         }
         sourceComponent: CcWidgetSheet {
             scrimRadii: root.surfaceCornerRadii
+            scrimVisible: root.sheetsDim
             surfaceColor: CcMetrics.dialogColor
             widgets: {
                 const existingIds = root.placedWidgetIds.split(",");

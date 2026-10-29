@@ -563,13 +563,7 @@ PanelWindow {
 
             readonly property bool _active: win._blurSurfacesActive && win._popoutDescriptor.visible
 
-            // Covers chrome hung off the body; the cap and connectors stay on the body.
-            readonly property var _blur: win._seamPaddedBlurRect({
-                "x": win._popoutBodyGeometry.x,
-                "y": win._popoutBodyGeometry.y - win._popoutDescriptor.overflowTop,
-                "width": win._popoutBodyGeometry.width,
-                "height": win._popoutBodyGeometry.height + win._popoutDescriptor.overflowTop + win._popoutDescriptor.overflowBottom
-            })
+            readonly property var _blur: win._seamPaddedBlurRect(win._popoutBodyGeometry)
 
             radius: win._surfaceRadius
             x: _active ? _blur.x : 0

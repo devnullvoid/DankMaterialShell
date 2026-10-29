@@ -18,13 +18,16 @@ function isVertical(side) {
     return side === "left" || side === "right";
 }
 
+// Overflow chrome (the edit strip) is part of the silhouette, so it rolls out with the body.
 function bodyRect(descriptor, dpr) {
     var source = descriptor && descriptor.bodyRect ? descriptor.bodyRect : descriptor || {};
+    var overflowTop = Math.max(0, _number(descriptor && descriptor.overflowTop, 0));
+    var overflowBottom = Math.max(0, _number(descriptor && descriptor.overflowBottom, 0));
     return {
         "x": snap(source.x !== undefined ? source.x : source.bodyX, dpr),
-        "y": snap(source.y !== undefined ? source.y : source.bodyY, dpr),
+        "y": snap(_number(source.y !== undefined ? source.y : source.bodyY, 0) - overflowTop, dpr),
         "width": Math.max(0, snap(source.width !== undefined ? source.width : source.bodyW, dpr)),
-        "height": Math.max(0, snap(source.height !== undefined ? source.height : source.bodyH, dpr))
+        "height": Math.max(0, snap(_number(source.height !== undefined ? source.height : source.bodyH, 0) + overflowTop + overflowBottom, dpr))
     };
 }
 

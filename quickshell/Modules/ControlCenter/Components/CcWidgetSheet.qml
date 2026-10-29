@@ -98,7 +98,8 @@ DBottomSheet {
                     width: CcMetrics.previewSize
                     height: width
                     radius: item.modelData.id === "user" ? Theme.fullRadius(width, height) : Theme.cornerRadiusLIncreased
-                    color: CcMetrics.iconBoxInactiveColor
+                    // Solid: translucent, it vanishes against the card in light mode.
+                    color: Theme.chipSurfaceNested
 
                     DIcon {
                         anchors.centerIn: parent
@@ -186,7 +187,7 @@ DBottomSheet {
                 width: Theme.avatarSize
                 height: width
                 radius: Theme.fullRadius(width, height)
-                color: CcMetrics.iconBoxInactiveColor
+                color: Theme.chipSurfaceNested
 
                 DIcon {
                     anchors.centerIn: parent
