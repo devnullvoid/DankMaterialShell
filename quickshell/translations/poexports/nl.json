@@ -114,13 +114,13 @@
     "%1 is %2 and may use a lot of memory.": "%1 is %2 en kan veel geheugen gebruiken."
   },
   "%1 is not installed. Install the package to manage the greeter.": {
-    "%1 is not installed. Install the package to manage the greeter.": ""
+    "%1 is not installed. Install the package to manage the greeter.": "%1 is niet geïnstalleerd. Installeer het pakket om het aanmeldscherm te beheren."
   },
   "%1 is now included in config": {
     "%1 is now included in config": "%1 is nu opgenomen in config"
   },
   "%1 is running and will create duplicate Bluetooth players. Disable it with: %2": {
-    "%1 is running and will create duplicate Bluetooth players. Disable it with: %2": ""
+    "%1 is running and will create duplicate Bluetooth players. Disable it with: %2": "%1 draait en zal dubbele Bluetooth-spelers aanmaken. Schakel het uit met: %2"
   },
   "%1 issue found": {
     "%1 issue found": "%1 probleem gevonden"
@@ -153,16 +153,16 @@
     "%1 ms": "%1 ms"
   },
   "%1 not available": {
-    "%1 not available": ""
+    "%1 not available": "%1 niet beschikbaar"
   },
   "%1 not available - lock integration requires the DMS socket connection": {
-    "%1 not available - lock integration requires the DMS socket connection": ""
+    "%1 not available - lock integration requires the DMS socket connection": "%1 niet beschikbaar - integratie met vergrendeling vereist de DMS-socketverbinding"
   },
   "%1 not available or disabled - cannot apply %2 colors": {
-    "%1 not available or disabled - cannot apply %2 colors": ""
+    "%1 not available or disabled - cannot apply %2 colors": "%1 niet beschikbaar of uitgeschakeld - kan %2-kleuren niet toepassen"
   },
   "%1 not found": {
-    "%1 not found": ""
+    "%1 not found": "%1 niet gevonden"
   },
   "%1 notifications": {
     "%1 notifications": "%1 meldingen"
@@ -171,7 +171,7 @@
     "%1 online": "%1 online"
   },
   "%1 only": {
-    "%1 only": ""
+    "%1 only": "alleen %1"
   },
   "%1 other": {
     "%1 other": "%1 overig"
@@ -192,7 +192,7 @@
     "%1 printers": "%1 printers"
   },
   "%1 procs": {
-    "%1 procs": ""
+    "%1 procs": "%1 proc."
   },
   "%1 second": {
     "%1 second": "%1 seconde"
@@ -204,7 +204,7 @@
     "%1 tasks": "%1 taken"
   },
   "%1 uninstalled": {
-    "%1 uninstalled": ""
+    "%1 uninstalled": "%1 verwijderd"
   },
   "%1 update": {
     "%1 update": "%1 update"
@@ -237,7 +237,7 @@
     "%1: %2": "%1: %2"
   },
   "%1d ago": {
-    "%1d ago": ""
+    "%1d ago": "%1d geleden"
   },
   "%1h": {
     "%1h": "%1u"
@@ -246,7 +246,7 @@
     "%1h %2m": "%1u %2m"
   },
   "%1h ago": {
-    "%1h ago": ""
+    "%1h ago": "%1 u geleden"
   },
   "%1m": {
     "%1m": "%1m"
@@ -261,7 +261,7 @@
     "(Unnamed)": "(Naamloos)"
   },
   "(exit %1)": {
-    "(exit %1)": ""
+    "(exit %1)": "(afsluitcode %1)"
   },
   "+ %1 more": {
     "+ %1 more": "+ %1 meer"
@@ -270,7 +270,7 @@
     "+%1 conditions": "+%1 voorwaarden"
   },
   "1 hour before": {
-    "1 hour before": ""
+    "1 hour before": "1 uur van tevoren"
   },
   "1 notification": {
     "1 notification": "1 melding"
@@ -300,7 +300,7 @@
     "A floating companion that works alongside any bar layout": "Een zwevende metgezel die naast elke balkindeling werkt"
   },
   "A modern desktop shell for Wayland": {
-    "A modern desktop shell for Wayland": ""
+    "A modern desktop shell for Wayland": "Een moderne desktopshell voor Wayland"
   },
   "A newer dms binary is installed.": {
     "A newer dms binary is installed.": "Er is een nieuwere dms-binary geïnstalleerd."
@@ -417,7 +417,7 @@
     "Add \"%1\" to the %2 group?": "\"%1\" toevoegen aan de groep %2?"
   },
   "Add \"%1\" to the %2 group? They must log out and back in, then run %3 to publish their login-screen theme.": {
-    "Add \"%1\" to the %2 group? They must log out and back in, then run %3 to publish their login-screen theme.": ""
+    "Add \"%1\" to the %2 group? They must log out and back in, then run %3 to publish their login-screen theme.": "\"%1\" toevoegen aan de groep %2? Diegene moet zich afmelden en opnieuw aanmelden en daarna %3 uitvoeren om het thema voor het aanmeldscherm te publiceren."
   },
   "Add Desktop Widget": {
     "Add Desktop Widget": "Bureaubladwidget toevoegen"
@@ -492,7 +492,7 @@
     "Adds concave curves where the bar meets the screen edge": "Voegt holle rondingen toe waar de balk de schermrand raakt"
   },
   "Adds them to the %1 group so they can run %2": {
-    "Adds them to the %1 group so they can run %2": ""
+    "Adds them to the %1 group so they can run %2": "Voegt diegene toe aan de groep %1 zodat %2 uitgevoerd kan worden"
   },
   "Adds them to the %1 group so they can use sudo": {
     "Adds them to the %1 group so they can use sudo": "Voegt de gebruiker toe aan de groep %1 zodat die sudo kan gebruiken"
@@ -540,7 +540,7 @@
     "All displays": "Alle beeldschermen"
   },
   "All plugins": {
-    "All plugins": ""
+    "All plugins": "Alle plug-ins"
   },
   "All settings": {
     "All settings": "Alle instellingen"
@@ -573,10 +573,10 @@
     "Already on that session": "Reeds in die sessie"
   },
   "Already upvoted, click again to remove": {
-    "Already upvoted, click again to remove": ""
+    "Already upvoted, click again to remove": "Al gestemd, klik nogmaals om je stem in te trekken"
   },
   "Also runs the templates in your %1": {
-    "Also runs the templates in your %1": ""
+    "Also runs the templates in your %1": "Voert ook de sjablonen in je %1 uit"
   },
   "Also saves the screenshot to disk": {
     "Also saves the screenshot to disk": "Slaat de schermafbeelding ook op schijf op"
@@ -845,9 +845,6 @@
   "Authenticate": {
     "Authenticate": "Authenticeren"
   },
-  "Authenticating...": {
-    "Authenticating...": "Authenticeren..."
-  },
   "Authentication": {
     "Authentication": "Authenticatie"
   },
@@ -873,10 +870,10 @@
     "Authorize": "Autoriseren"
   },
   "Authorize pairing with %1": {
-    "Authorize pairing with %1": ""
+    "Authorize pairing with %1": "Koppelen met %1 toestaan"
   },
   "Authorize service for %1": {
-    "Authorize service for %1": ""
+    "Authorize service for %1": "Dienst voor %1 toestaan"
   },
   "Auto": {
     "Auto": "Auto"
@@ -1404,7 +1401,7 @@
     "Changes save to %1": "Wijzigingen worden opgeslagen in %1"
   },
   "Changes volume and audio devices": {
-    "Changes volume and audio devices": ""
+    "Changes volume and audio devices": "Wijzigt volume en audioapparaten"
   },
   "Channel": {
     "Channel": "Kanaal"
@@ -1515,7 +1512,7 @@
     "Classes": "Klassen"
   },
   "Classic": {
-    "Classic": ""
+    "Classic": "Klassiek"
   },
   "Clear All": {
     "Clear All": "Alles wissen"
@@ -1545,7 +1542,7 @@
     "Click 'Setup' to create %1 and add include to your compositor config.": "Klik op 'Instellen' om %1 aan te maken en de include toe te voegen aan je compositor-configuratie."
   },
   "Click Import to add a %1 or %2 file": {
-    "Click Import to add a %1 or %2 file": ""
+    "Click Import to add a %1 or %2 file": "Klik op Importeren om een %1- of %2-bestand toe te voegen"
   },
   "Click actions": {
     "Click actions": "Klikacties"
@@ -1698,7 +1695,7 @@
     "Columns": "Kolommen"
   },
   "Comfortable": {
-    "Comfortable": ""
+    "Comfortable": "Comfortabel"
   },
   "Comma-separated list of layout names. Leave empty to use the system keyboard settings.": {
     "Comma-separated list of layout names. Leave empty to use the system keyboard settings.": "Door komma's gescheiden lijst van indelingsnamen. Laat leeg om de systeeminstellingen voor het toetsenbord te gebruiken."
@@ -1782,7 +1779,7 @@
     "Confirm Display Changes": "Beeldschermwijzigingen bevestigen"
   },
   "Confirm passkey for %1": {
-    "Confirm passkey for %1": ""
+    "Confirm passkey for %1": "Toegangscode voor %1 bevestigen"
   },
   "Confirm password": {
     "Confirm password": "Wachtwoord bevestigen"
@@ -1830,7 +1827,7 @@
     "Connections and autoconnect": "Verbindingen en automatisch verbinden"
   },
   "Connects to the internet": {
-    "Connects to the internet": ""
+    "Connects to the internet": "Maakt verbinding met het internet"
   },
   "Consumes the key only when a dispatcher runs": {
     "Consumes the key only when a dispatcher runs": "Onderschept de toets alleen wanneer een dispatcher wordt uitgevoerd"
@@ -1857,7 +1854,7 @@
     "Controls": "Bediening"
   },
   "Controls media players": {
-    "Controls media players": ""
+    "Controls media players": "Bedient mediaspelers"
   },
   "Convert to DMS": {
     "Convert to DMS": "Converteren naar DMS"
@@ -1878,7 +1875,7 @@
     "Copy": "Kopiëren"
   },
   "Copy %1": {
-    "Copy %1": ""
+    "Copy %1": "%1 kopiëren"
   },
   "Copy Full Command": {
     "Copy Full Command": "Volledige opdracht kopiëren"
@@ -2097,13 +2094,13 @@
     "DMS chooser": "DMS-kiezer"
   },
   "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": {
-    "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": ""
+    "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": "DMS is een moderne, zeer aanpasbare desktopshell die direct na installatie al mooi oogt, zonder dat je de vrijheid verliest om hem helemaal naar je hand te zetten.<br/><br/>Gebouwd met %1 en %2 brengt hij panelen, widgets, systeembediening en meer samen in één samenhangende desktopervaring."
   },
   "DMS out of date": {
     "DMS out of date": "DMS verouderd"
   },
   "DMS removes its managed block from %1 and stops write services": {
-    "DMS removes its managed block from %1 and stops write services": ""
+    "DMS removes its managed block from %1 and stops write services": "DMS verwijdert zijn beheerde blok uit %1 en stopt de schrijfdiensten"
   },
   "DMS server is outdated (API v%1, expected v%2)": {
     "DMS server is outdated (API v%1, expected v%2)": "DMS-server is verouderd (API v%1, verwacht v%2)"
@@ -2202,7 +2199,7 @@
     "Deck": "Deck"
   },
   "Declared by the author, not enforced": {
-    "Declared by the author, not enforced": ""
+    "Declared by the author, not enforced": "Opgegeven door de maker, niet afgedwongen"
   },
   "Default": {
     "Default": "Standaard"
@@ -2283,7 +2280,7 @@
     "Deletes all stored screen time": "Verwijdert alle opgeslagen schermtijd"
   },
   "Dense": {
-    "Dense": ""
+    "Dense": "Dicht"
   },
   "Dependencies & documentation": {
     "Dependencies & documentation": "Afhankelijkheden & documentatie"
@@ -2337,7 +2334,7 @@
     "Dew point %1": "Dauwpunt %1"
   },
   "Did you mean": {
-    "Did you mean": ""
+    "Did you mean": "Bedoelde je"
   },
   "Digital": {
     "Digital": "Digitaal"
@@ -2382,7 +2379,7 @@
     "Disabled": "Uitgeschakeld"
   },
   "Disabled by Auto": {
-    "Disabled by Auto": ""
+    "Disabled by Auto": "Uitgeschakeld door Auto"
   },
   "Disabled by Click through": {
     "Disabled by Click through": "Uitgeschakeld door Doorklikken"
@@ -2523,7 +2520,7 @@
     "Dock": "Dock"
   },
   "Dock %1": {
-    "Dock %1": ""
+    "Dock %1": "Dock %1"
   },
   "Dock margin, opacity, and border": {
     "Dock margin, opacity, and border": "Dock-marge, dekking en rand"
@@ -2559,7 +2556,7 @@
     "Don't change": "Niet wijzigen"
   },
   "Don't dim unfocused apps": {
-    "Don't dim unfocused apps": ""
+    "Don't dim unfocused apps": "Apps zonder focus niet dimmen"
   },
   "Door Open": {
     "Door Open": "Deur open"
@@ -2637,16 +2634,16 @@
     "Dusk (Nautical Twilight)": "Avondschemering (Nautische schemering)"
   },
   "Dux Calendar": {
-    "Dux Calendar": ""
+    "Dux Calendar": "Dux Calendar"
   },
   "Dux Calendar isn't installed": {
-    "Dux Calendar isn't installed": ""
+    "Dux Calendar isn't installed": "Dux Calendar is niet geïnstalleerd"
   },
   "Dux Calendar isn't running": {
-    "Dux Calendar isn't running": ""
+    "Dux Calendar isn't running": "Dux Calendar draait niet"
   },
   "Dux Greeter docs": {
-    "Dux Greeter docs": ""
+    "Dux Greeter docs": "Dux Greeter-documentatie"
   },
   "Dwindle": {
     "Dwindle": "Dwindle"
@@ -2787,7 +2784,7 @@
     "Enter PIN": "Voer pincode in"
   },
   "Enter PIN for %1": {
-    "Enter PIN for %1": ""
+    "Enter PIN for %1": "Voer de pincode voor %1 in"
   },
   "Enter a new name for session \"%1": {
     "Enter a new name for session \"%1\"": "Voer een nieuwe naam in voor sessie \"%1\""
@@ -2796,7 +2793,7 @@
     "Enter a new name for this workspace": "Voer een nieuwe naam in voor dit werkblad"
   },
   "Enter credentials for %1": {
-    "Enter credentials for %1": ""
+    "Enter credentials for %1": "Voer de aanmeldgegevens voor %1 in"
   },
   "Enter custom lock screen format (e.g., dddd, MMMM d)": {
     "Enter custom lock screen format (e.g., dddd, MMMM d)": "Voer aangepaste notatie voor vergrendelscherm in (bijv. dddd, d MMMM)"
@@ -2811,16 +2808,16 @@
     "Enter network name and password": "Voer netwerknaam en wachtwoord in"
   },
   "Enter passkey for %1": {
-    "Enter passkey for %1": ""
+    "Enter passkey for %1": "Voer de toegangscode voor %1 in"
   },
   "Enter password for %1": {
-    "Enter password for %1": ""
+    "Enter password for %1": "Voer het wachtwoord voor %1 in"
   },
   "Enter text to encode": {
     "Enter text to encode": "Voer te coderen tekst in"
   },
   "Enter this passkey on %1": {
-    "Enter this passkey on %1": ""
+    "Enter this passkey on %1": "Voer deze toegangscode in op %1"
   },
   "Enter to paste": {
     "Enter to paste": "Enter om te plakken"
@@ -2913,7 +2910,7 @@
     "Expressive": "Expressief"
   },
   "Extend %1 with powerful plugins for widgets, launchers, and more": {
-    "Extend %1 with powerful plugins for widgets, launchers, and more": ""
+    "Extend %1 with powerful plugins for widgets, launchers, and more": "Breid %1 uit met krachtige plug-ins voor widgets, starters en meer"
   },
   "Extend battery life": {
     "Extend battery life": "Batterijduur verlengen"
@@ -3081,7 +3078,7 @@
     "Failed to read theme file: %1": "Lezen van themabestand mislukt: %1"
   },
   "Failed to reboot to firmware setup": {
-    "Failed to reboot to firmware setup": ""
+    "Failed to reboot to firmware setup": "Herstarten naar firmware-instellingen mislukt"
   },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": "Herladen van plugin mislukt: %1"
@@ -3105,7 +3102,7 @@
     "Failed to resume printer": "Hervatten van printer mislukt"
   },
   "Failed to run '%1'. Ensure the %2 package is installed.": {
-    "Failed to run '%1'. Ensure the %2 package is installed.": ""
+    "Failed to run '%1'. Ensure the %2 package is installed.": "Uitvoeren van '%1' is mislukt. Zorg dat het pakket %2 geïnstalleerd is."
   },
   "Failed to save VPN credentials": {
     "Failed to save VPN credentials": "Opslaan van VPN-inloggegevens mislukt"
@@ -3207,7 +3204,7 @@
     "Family": "Familie"
   },
   "Featured plugin": {
-    "Featured plugin": ""
+    "Featured plugin": "Uitgelichte plug-in"
   },
   "Feels Like %1°": {
     "Feels Like %1°": "Voelt als %1°"
@@ -3228,7 +3225,7 @@
     "File manager": "Bestandsbeheerder"
   },
   "File search requires %1\nInstall from %2": {
-    "File search requires %1\nInstall from %2": ""
+    "File search requires %1\nInstall from %2": "Zoeken naar bestanden vereist %1\nInstalleer vanaf %2"
   },
   "File the command writes; leave empty to read stdout": {
     "File the command writes; leave empty to read stdout": "Bestand dat de opdracht schrijft; laat leeg om stdout te lezen"
@@ -3259,9 +3256,6 @@
   },
   "Fine-tune the seed around the color wheel": {
     "Fine-tune the seed around the color wheel": "Verfijn de basiskleur rond het kleurenwiel"
-  },
-  "Fingerprint": {
-    "Fingerprint": "Vingerafdruk"
   },
   "Fingerprint at login": {
     "Fingerprint at login": "Vingerafdruk bij aanmelden"
@@ -3294,7 +3288,7 @@
     "Fires with any modifiers held": "Wordt geactiveerd met willekeurige ingedrukte modificatietoetsen"
   },
   "Firmware setup": {
-    "Firmware setup": ""
+    "Firmware setup": "Firmware-instellingen"
   },
   "First Time Setup": {
     "First Time Setup": "Eerste installatie"
@@ -3309,7 +3303,7 @@
     "Fits the song title instead of keeping a fixed width": "Past zich aan de titel van het nummer aan in plaats van een vaste breedte te houden"
   },
   "Fits your setup": {
-    "Fits your setup": ""
+    "Fits your setup": "Past bij je opstelling"
   },
   "Fixed": {
     "Fixed": "Vast"
@@ -3456,10 +3450,10 @@
     "For %1": "Gedurende %1"
   },
   "For 1 hour": {
-    "For 1 hour": ""
+    "For 1 hour": "Gedurende 1 uur"
   },
   "For you": {
-    "For you": ""
+    "For you": "Voor jou"
   },
   "Force HDR": {
     "Force HDR": "HDR forceren"
@@ -3576,7 +3570,7 @@
     "GPU": "GPU"
   },
   "GPU %1": {
-    "GPU %1": ""
+    "GPU %1": "GPU %1"
   },
   "GPU Monitoring": {
     "GPU Monitoring": "GPU-bewaking"
@@ -3603,7 +3597,7 @@
     "Gamma": "Gamma"
   },
   "Gamma %1": {
-    "Gamma %1": ""
+    "Gamma %1": "Gamma %1"
   },
   "Gamma control": {
     "Gamma control": "Gammaregeling"
@@ -3765,7 +3759,7 @@
     "Health": "Gezondheid"
   },
   "Health %1": {
-    "Health %1": ""
+    "Health %1": "Conditie %1"
   },
   "Heat shimmer": {
     "Heat shimmer": "Hittetrilling"
@@ -3818,6 +3812,9 @@
   "Hide App": {
     "Hide App": "App verbergen"
   },
+  "Hide bar on fullscreen": {
+    "Hide bar on fullscreen": ""
+  },
   "Hide cursor on touch": {
     "Hide cursor on touch": "Cursor verbergen bij aanraken"
   },
@@ -3834,7 +3831,7 @@
     "Hide installed": "Geïnstalleerde verbergen"
   },
   "Hide on last display": {
-    "Hide on last display": ""
+    "Hide on last display": "Verbergen op laatste beeldscherm"
   },
   "Hide until typing": {
     "Hide until typing": "Verbergen tot typen"
@@ -3996,7 +3993,7 @@
     "IP address or hostname": "IP-adres of hostnaam"
   },
   "IP sharing setup failed. Check that %1 is installed.": {
-    "IP sharing setup failed. Check that %1 is installed.": ""
+    "IP sharing setup failed. Check that %1 is installed.": "Instellen van IP-delen is mislukt. Controleer of %1 geïnstalleerd is."
   },
   "ISO date": {
     "ISO date": "ISO-datum"
@@ -4221,7 +4218,7 @@
     "Install system updates?": "Systeemupdates installeren?"
   },
   "Install the %1 package for dynamic theming": {
-    "Install the %1 package for dynamic theming": ""
+    "Install the %1 package for dynamic theming": "Installeer het pakket %1 voor dynamische thema's"
   },
   "Install theme '%1' from the DMS registry?": {
     "Install theme '%1' from the DMS registry?": "Thema '%1' installeren uit het DMS-register?"
@@ -4233,7 +4230,7 @@
     "Install wallpaper '%1'?": "Achtergrond '%1' installeren?"
   },
   "Installation and PAM setup are documented in the %1.": {
-    "Installation and PAM setup are documented in the %1.": ""
+    "Installation and PAM setup are documented in the %1.": "Installatie en PAM-configuratie worden beschreven in de %1."
   },
   "Installed": {
     "Installed": "Geïnstalleerd"
@@ -4266,7 +4263,7 @@
     "Interface": "Interface"
   },
   "Interface density": {
-    "Interface density": ""
+    "Interface density": "Interfacedichtheid"
   },
   "Interface style": {
     "Interface style": "Interfacestijl"
@@ -4296,7 +4293,7 @@
     "Invalid wallpaper layout": "Ongeldige achtergrondindeling"
   },
   "Inverse Surface": {
-    "Inverse Surface": ""
+    "Inverse Surface": "Omgekeerd oppervlak"
   },
   "Iridescence": {
     "Iridescence": "Iriserend effect"
@@ -4372,9 +4369,6 @@
   },
   "Keybinds": {
     "Keybinds": "Sneltoetsen"
-  },
-  "Keyboard": {
-    "Keyboard": "Toetsenbord"
   },
   "Keyboard layout": {
     "Keyboard layout": "Toetsenbordindeling"
@@ -4482,7 +4476,7 @@
     "Launching": "Starten"
   },
   "Layer namespace %1, needs a niri blur rule": {
-    "Layer namespace %1, needs a niri blur rule": ""
+    "Layer namespace %1, needs a niri blur rule": "Laagnaamruimte %1, vereist een niri-vervagingsregel"
   },
   "Layer outline": {
     "Layer outline": "Laagomtrek"
@@ -4575,7 +4569,7 @@
     "Lightest": "Lichtste"
   },
   "Like your plugins": {
-    "Like your plugins": ""
+    "Like your plugins": "Vergelijkbaar met je plug-ins"
   },
   "Limit": {
     "Limit": "Limiet"
@@ -4596,7 +4590,7 @@
     "Lines: %1": "Regels: %1"
   },
   "Link copied": {
-    "Link copied": ""
+    "Link copied": "Link gekopieerd"
   },
   "Link your DMS settings so the login screen follows them.": {
     "Link your DMS settings so the login screen follows them.": "Koppel je DMS-instellingen zodat het aanmeldscherm ze volgt."
@@ -4682,9 +4676,6 @@
   "Log out": {
     "Log out": "Afmelden"
   },
-  "Login": {
-    "Login": "Inloggen"
-  },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "Uiterlijk en authenticatie van aanmeldscherm"
   },
@@ -4749,7 +4740,7 @@
     "Managed by Nix": "Beheerd door Nix"
   },
   "Managed by administrator policy": {
-    "Managed by administrator policy": ""
+    "Managed by administrator policy": "Beheerd door beleid van de beheerder"
   },
   "Managed by the primary PAM source": {
     "Managed by the primary PAM source": "Beheerd door de primaire PAM-bron"
@@ -5061,7 +5052,7 @@
     "More": "Meer"
   },
   "More in %1": {
-    "More in %1": ""
+    "More in %1": "Meer in %1"
   },
   "More samples look smoother and cost more GPU": {
     "More samples look smoother and cost more GPU": "Meer samples zien er vloeiender uit en kosten meer GPU"
@@ -5193,7 +5184,7 @@
     "Near island": "Bij eiland"
   },
   "Needs": {
-    "Needs": ""
+    "Needs": "Vereist"
   },
   "Nested chip": {
     "Nested chip": "Geneste chip"
@@ -5238,7 +5229,7 @@
     "New": "Nieuw"
   },
   "New & updated": {
-    "New & updated": ""
+    "New & updated": "Nieuw en bijgewerkt"
   },
   "New Session": {
     "New Session": "Nieuwe sessie"
@@ -5673,16 +5664,16 @@
     "Not available": "Niet beschikbaar"
   },
   "Not available - install %1 and %2": {
-    "Not available - install %1 and %2": ""
+    "Not available - install %1 and %2": "Niet beschikbaar - installeer %1 en %2"
   },
   "Not available - install %1 and %2, or configure %3 PAM": {
-    "Not available - install %1 and %2, or configure %3 PAM": ""
+    "Not available - install %1 and %2, or configure %3 PAM": "Niet beschikbaar - installeer %1 en %2, of configureer %3-PAM"
   },
   "Not available - install or configure %1": {
-    "Not available - install or configure %1": ""
+    "Not available - install or configure %1": "Niet beschikbaar - installeer of configureer %1"
   },
   "Not available - install or configure %1, or configure %2 PAM": {
-    "Not available - install or configure %1, or configure %2 PAM": ""
+    "Not available - install or configure %1, or configure %2 PAM": "Niet beschikbaar - installeer of configureer %1, of configureer %2-PAM"
   },
   "Not bound": {
     "Not bound": "Niet gekoppeld"
@@ -5799,7 +5790,7 @@
     "Office": "Kantoor"
   },
   "Official only": {
-    "Official only": ""
+    "Official only": "Alleen officieel"
   },
   "Offline Report": {
     "Offline Report": "Offline-rapport"
@@ -5895,13 +5886,13 @@
     "Open with": "Openen met"
   },
   "Opening GitHub to remove the upvote": {
-    "Opening GitHub to remove the upvote": ""
+    "Opening GitHub to remove the upvote": "GitHub wordt geopend om je stem in te trekken"
   },
   "Opening GitHub to upvote": {
-    "Opening GitHub to upvote": ""
+    "Opening GitHub to upvote": "GitHub wordt geopend om te stemmen"
   },
   "Opening terminal: %1": {
-    "Opening terminal: %1": ""
+    "Opening terminal: %1": "Terminal openen: %1"
   },
   "Opens": {
     "Opens": "Opent"
@@ -6048,7 +6039,7 @@
     "PID": "PID"
   },
   "PID %1": {
-    "PID %1": ""
+    "PID %1": "PID %1"
   },
   "PIN": {
     "PIN": "PIN"
@@ -6210,10 +6201,10 @@
     "Pick how long to stay awake": "Kies hoe lang het systeem wakker blijft"
   },
   "Pick of the day": {
-    "Pick of the day": ""
+    "Pick of the day": "Keuze van de dag"
   },
   "Pick of the week": {
-    "Pick of the week": ""
+    "Pick of the week": "Keuze van de week"
   },
   "Pill": {
     "Pill": "Pil"
@@ -6240,7 +6231,7 @@
     "Pixelate": "Pixelvorming"
   },
   "Place plugin directories here. Each plugin should have a %1 manifest file.": {
-    "Place plugin directories here. Each plugin should have a %1 manifest file.": ""
+    "Place plugin directories here. Each plugin should have a %1 manifest file.": "Plaats hier plug-inmappen. Elke plug-in moet een manifestbestand %1 hebben."
   },
   "Placement": {
     "Placement": "Plaatsing"
@@ -6258,7 +6249,7 @@
     "Playback": "Afspelen"
   },
   "Playback error: %1": {
-    "Playback error: %1": ""
+    "Playback error: %1": "Afspeelfout: %1"
   },
   "Playback position": {
     "Playback position": "Afspeelpositie"
@@ -6291,7 +6282,7 @@
     "Plugin Source Code": "Broncode plug-in"
   },
   "Plugin authors": {
-    "Plugin authors": ""
+    "Plugin authors": "Pluginauteurs"
   },
   "Plugin dependency missing": {
     "Plugin dependency missing": "Plugin-afhankelijkheid ontbreekt"
@@ -6324,7 +6315,7 @@
     "Plugins": "Plug-ins"
   },
   "Plugins by %1": {
-    "Plugins by %1": ""
+    "Plugins by %1": "Plug-ins van %1"
   },
   "Plugins shown in All mode without a trigger. Drag to reorder": {
     "Plugins shown in All mode without a trigger. Drag to reorder": "Plug-ins die zonder trigger in de modus Alles worden getoond. Sleep om de volgorde te wijzigen"
@@ -6351,7 +6342,7 @@
     "Popouts and modals use the main animation duration": "Uitklappanelen en dialoogvensters gebruiken de hoofdanimatieduur"
   },
   "Popular": {
-    "Popular": ""
+    "Popular": "Populair"
   },
   "Popular Plugins": {
     "Popular Plugins": "Populaire plug-ins"
@@ -6594,7 +6585,7 @@
     "Profile not found": "Profiel niet gevonden"
   },
   "Profile not found in %1": {
-    "Profile not found in %1": ""
+    "Profile not found in %1": "Profiel niet gevonden in %1"
   },
   "Profile on AC": {
     "Profile on AC": "Profiel op netstroom"
@@ -6693,25 +6684,25 @@
     "Read:": "Lezen:"
   },
   "Readings": {
-    "Readings": ""
+    "Readings": "Metingen"
   },
   "Reads audio devices and volume": {
-    "Reads audio devices and volume": ""
+    "Reads audio devices and volume": "Leest audioapparaten en volume uit"
   },
   "Reads its own settings": {
-    "Reads its own settings": ""
+    "Reads its own settings": "Leest eigen instellingen"
   },
   "Reads its saved state": {
-    "Reads its saved state": ""
+    "Reads its saved state": "Leest opgeslagen status"
   },
   "Reads the clipboard": {
-    "Reads the clipboard": ""
+    "Reads the clipboard": "Leest het klembord"
   },
   "Reads the list of running programs": {
-    "Reads the list of running programs": ""
+    "Reads the list of running programs": "Leest de lijst met actieve programma's"
   },
   "Reads your files": {
-    "Reads your files": ""
+    "Reads your files": "Leest je bestanden"
   },
   "Ready": {
     "Ready": "Gereed"
@@ -6726,13 +6717,13 @@
     "Reboot recommended": "Herstart aanbevolen"
   },
   "Reboot targets": {
-    "Reboot targets": ""
+    "Reboot targets": "Herstartdoelen"
   },
   "Reboot to %1": {
     "Reboot to %1": "Herstarten naar %1"
   },
   "Reboot to firmware setup": {
-    "Reboot to firmware setup": ""
+    "Reboot to firmware setup": "Herstarten naar firmware-instellingen"
   },
   "Recent": {
     "Recent": "Recent"
@@ -6861,10 +6852,10 @@
     "Remove the shortcut %1?": "De sneltoets %1 verwijderen?"
   },
   "Remove the shortcut %1? An unbind entry will be saved to %2 so it stays removed across DMS updates.": {
-    "Remove the shortcut %1? An unbind entry will be saved to %2 so it stays removed across DMS updates.": ""
+    "Remove the shortcut %1? An unbind entry will be saved to %2 so it stays removed across DMS updates.": "Sneltoets %1 verwijderen? Er wordt een unbind-regel opgeslagen in %2, zodat hij ook na DMS-updates verwijderd blijft."
   },
   "Remove upvote": {
-    "Remove upvote": ""
+    "Remove upvote": "Stem intrekken"
   },
   "Removed administrator privileges": {
     "Removed administrator privileges": "Beheerdersrechten ontnomen"
@@ -6912,13 +6903,13 @@
     "Report": "Rapport"
   },
   "Required plugin: %1": {
-    "Required plugin: %1": ""
+    "Required plugin: %1": "Vereiste plugin: %1"
   },
   "Requires %1": {
     "Requires %1": "Vereist %1"
   },
   "Requires %1, %2, and your user in the %3 group (plus %4 for fingerprint, %5 for security keys).": {
-    "Requires %1, %2, and your user in the %3 group (plus %4 for fingerprint, %5 for security keys).": ""
+    "Requires %1, %2, and your user in the %3 group (plus %4 for fingerprint, %5 for security keys).": "Vereist %1, %2 en dat je gebruiker in de groep %3 zit (plus %4 voor vingerafdruk, %5 voor beveiligingssleutels)."
   },
   "Requires DMS %1": {
     "Requires DMS %1": "Vereist DMS %1"
@@ -7041,7 +7032,7 @@
     "Root Filesystem": "Root-bestandssysteem"
   },
   "Rotating Cookie": {
-    "Rotating Cookie": ""
+    "Rotating Cookie": "Draaiend koekje"
   },
   "Rounded": {
     "Rounded": "Afgerond"
@@ -7050,7 +7041,7 @@
     "Route Bluetooth headset controls to the active DMS media player": "Bluetooth-headsetbediening doorsturen naar de actieve DMS-mediaspeler"
   },
   "Routes launcher, dash, control center and notification shortcuts. Bar widget clicks always open their own popout": {
-    "Routes launcher, dash, control center and notification shortcuts. Bar widget clicks always open their own popout": ""
+    "Routes launcher, dash, control center and notification shortcuts. Bar widget clicks always open their own popout": "Stuurt sneltoetsen voor starter, dash, bedieningscentrum en meldingen door. Klikken op balkwidgets opent altijd hun eigen pop-up"
   },
   "Rows": {
     "Rows": "Rijen"
@@ -7086,7 +7077,7 @@
     "Run a shell command (e.g., notify-send)": "Een shell-opdracht uitvoeren (bijv. notify-send)"
   },
   "Run an external command on each wallpaper change and merge its JSON palette into %1 under a namespace, so templates can use e.g. %2. The command receives the wallpaper as %3 and the mode as %4.": {
-    "Run an external command on each wallpaper change and merge its JSON palette into %1 under a namespace, so templates can use e.g. %2. The command receives the wallpaper as %3 and the mode as %4.": ""
+    "Run an external command on each wallpaper change and merge its JSON palette into %1 under a namespace, so templates can use e.g. %2. The command receives the wallpaper as %3 and the mode as %4.": "Voer bij elke wisseling van achtergrond een externe opdracht uit en voeg het JSON-palet daarvan onder een naamruimte samen in %1, zodat sjablonen bijvoorbeeld %2 kunnen gebruiken. De opdracht krijgt de achtergrond mee als %3 en de modus als %4."
   },
   "Run full sync": {
     "Run full sync": "Volledige synchronisatie uitvoeren"
@@ -7110,10 +7101,10 @@
     "Runs in a terminal.": "Wordt uitgevoerd in een terminal."
   },
   "Runs programs on your computer": {
-    "Runs programs on your computer": ""
+    "Runs programs on your computer": "Voert programma's uit op je computer"
   },
   "Runs shell commands": {
-    "Runs shell commands": ""
+    "Runs shell commands": "Voert shell-opdrachten uit"
   },
   "S": {
     "S": "Z"
@@ -7188,16 +7179,25 @@
     "Saved networks": "Opgeslagen netwerken"
   },
   "Saves its own settings": {
-    "Saves its own settings": ""
+    "Saves its own settings": "Slaat eigen instellingen op"
   },
   "Saves its state": {
-    "Saves its state": ""
+    "Saves its state": "Slaat status op"
   },
   "Saving...": {
     "Saving...": "Opslaan..."
   },
   "Scale": {
     "Scale": "Schaal"
+  },
+  "Scale battery level to charge limit": {
+    "Scale battery level to charge limit": ""
+  },
+  "Scale low and critical alert thresholds": {
+    "Scale low and critical alert thresholds": ""
+  },
+  "Scale the displayed battery level to the configured charge limit": {
+    "Scale the displayed battery level to the configured charge limit": ""
   },
   "Scan": {
     "Scan": "Scannen"
@@ -7305,7 +7305,7 @@
     "Secondary Container": "Secundaire container"
   },
   "Section dividers": {
-    "Section dividers": ""
+    "Section dividers": "Sectiescheidingslijnen"
   },
   "Sections": {
     "Sections": "Secties"
@@ -7315,9 +7315,6 @@
   },
   "Security": {
     "Security": "Beveiliging"
-  },
-  "Security key": {
-    "Security key": "Beveiligingssleutel"
   },
   "Security key (%1)": {
     "Security key (%1)": "Beveiligingssleutel (%1)"
@@ -7359,7 +7356,7 @@
     "Select Dock Launcher Logo": "Kies Dock launcher Logo"
   },
   "Select Dot Icon": {
-    "Select Dot Icon": ""
+    "Select Dot Icon": "Stippictogram selecteren"
   },
   "Select ICC Profile": {
     "Select ICC Profile": "ICC-profiel selecteren"
@@ -7467,7 +7464,7 @@
     "Set notification rules": "Meldingsregels instellen"
   },
   "Set one of these environment variables, then restart the shell:\n%1\n\nOnly %2 requires %3 to be installed.": {
-    "Set one of these environment variables, then restart the shell:\n%1\n\nOnly %2 requires %3 to be installed.": ""
+    "Set one of these environment variables, then restart the shell:\n%1\n\nOnly %2 requires %3 to be installed.": "Stel een van deze omgevingsvariabelen in en herstart daarna de shell:\n%1\n\nAlleen voor %2 moet %3 geïnstalleerd zijn."
   },
   "Set under Theme & colors, Derived color": {
     "Set under Theme & colors, Derived color": "Ingesteld onder Thema & kleuren, Afgeleide kleur"
@@ -7590,7 +7587,7 @@
     "Show discharge rate": "Ontlaadvermogen tonen"
   },
   "Show every author": {
-    "Show every author": ""
+    "Show every author": "Alle auteurs tonen"
   },
   "Show filename": {
     "Show filename": "Bestandsnaam tonen"
@@ -7796,6 +7793,9 @@
   "Slanted": {
     "Slanted": "Schuin"
   },
+  "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": {
+    "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": ""
+  },
   "Slideout": {
     "Slideout": "Uitschuifmenu"
   },
@@ -7833,7 +7833,7 @@
     "Soft square": "Zacht vierkant"
   },
   "Software dimming": {
-    "Software dimming": ""
+    "Software dimming": "Softwarematig dimmen"
   },
   "Software updates": {
     "Software updates": "Software-updates"
@@ -7884,7 +7884,7 @@
     "Spacing": "Tussenruimte"
   },
   "Spacious": {
-    "Spacious": ""
+    "Spacious": "Ruim"
   },
   "Speaker settings": {
     "Speaker settings": "Luidsprekerinstellingen"
@@ -8103,7 +8103,7 @@
     "Switches to power saver at the low battery threshold": "Schakelt over naar energiebesparing bij de drempel voor lage accu"
   },
   "Symbol": {
-    "Symbol": ""
+    "Symbol": "Symbool"
   },
   "Sync": {
     "Sync": "Sync"
@@ -8241,7 +8241,7 @@
     "Terminal additional parameters": "Aanvullende terminalparameters"
   },
   "Terminal fallback failed. Install one of the supported terminal emulators or run '%1' manually.": {
-    "Terminal fallback failed. Install one of the supported terminal emulators or run '%1' manually.": ""
+    "Terminal fallback failed. Install one of the supported terminal emulators or run '%1' manually.": "Terugvallen op terminal mislukt. Installeer een van de ondersteunde terminalemulators of voer '%1' handmatig uit."
   },
   "Terminal fallback opened. Complete authentication there; it will close automatically when done.": {
     "Terminal fallback opened. Complete authentication there; it will close automatically when done.": "Terminal-terugval geopend. Voltooi daar de authenticatie; deze sluit automatisch zodra voltooid."
@@ -8283,13 +8283,13 @@
     "Text style": "Tekststijl"
   },
   "The %1 environment variable is not set or the socket is unavailable. Automated plugin management requires it.": {
-    "The %1 environment variable is not set or the socket is unavailable. Automated plugin management requires it.": ""
+    "The %1 environment variable is not set or the socket is unavailable. Automated plugin management requires it.": "De omgevingsvariabele %1 is niet ingesteld of de socket is niet beschikbaar. Deze is vereist voor automatisch pluginbeheer."
   },
   "The Aqueous operation failed.": {
     "The Aqueous operation failed.": "De Aqueous-bewerking is mislukt."
   },
   "The Control Center opens at the cursor instead of its widget": {
-    "The Control Center opens at the cursor instead of its widget": ""
+    "The Control Center opens at the cursor instead of its widget": "Het bedieningscentrum opent bij de cursor in plaats van bij de widget"
   },
   "The Default action only overrides priority": {
     "The Default action only overrides priority": "De actie Standaard overschrijft alleen de prioriteit"
@@ -8307,7 +8307,7 @@
     "The arrow points in the direction the wind is blowing. The label shows where it comes from.": "De pijl wijst in de richting waarin de wind waait. Het label toont waar de wind vandaan komt."
   },
   "The below settings will modify your GTK and Qt settings. If you wish to preserve your current configurations, please back them up (%1 and %2).": {
-    "The below settings will modify your GTK and Qt settings. If you wish to preserve your current configurations, please back them up (%1 and %2).": ""
+    "The below settings will modify your GTK and Qt settings. If you wish to preserve your current configurations, please back them up (%1 and %2).": "Onderstaande instellingen wijzigen je GTK- en Qt-instellingen. Wil je je huidige configuratie bewaren, maak er dan een back-up van (%1 en %2)."
   },
   "The compositor session changed. Discard this edit before starting a new one.": {
     "The compositor session changed. Discard this edit before starting a new one.": "De compositorsessie is gewijzigd. Verwerp deze wijziging voordat je een nieuwe begint."
@@ -8412,7 +8412,7 @@
     "Themes": "Thema's"
   },
   "These add entries to the XDG autostart directory (%1)": {
-    "These add entries to the XDG autostart directory (%1)": ""
+    "These add entries to the XDG autostart directory (%1)": "Deze voegen items toe aan de XDG-autostartmap (%1)"
   },
   "They load with the next update check. Release notes are also published on GitHub.": {
     "They load with the next update check. Release notes are also published on GitHub.": "Ze worden geladen bij de volgende updatecontrole. Release-opmerkingen worden ook gepubliceerd op GitHub."
@@ -8427,13 +8427,13 @@
     "Third-party plugins": "Plug-ins van derden"
   },
   "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": {
-    "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": ""
+    "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": "Plug-ins van derden worden door de gemeenschap gemaakt en worden niet officieel ondersteund door %1.\n\nDeze plug-ins kunnen risico's voor beveiliging en privacy met zich meebrengen - installatie is op eigen risico."
   },
   "This bar is the Island": {
     "This bar is the Island": "Deze balk is het Eiland"
   },
   "This bind is overridden by %1": {
-    "This bind is overridden by %1": ""
+    "This bind is overridden by %1": "Deze sneltoets wordt overschreven door %1"
   },
   "This device": {
     "This device": "Dit apparaat"
@@ -8445,7 +8445,7 @@
     "This display does not report VRR support": "Dit scherm meldt geen VRR-ondersteuning"
   },
   "This install is still using %1. Run %2 to migrate before changing these settings.": {
-    "This install is still using %1. Run %2 to migrate before changing these settings.": ""
+    "This install is still using %1. Run %2 to migrate before changing these settings.": "Deze installatie gebruikt nog %1. Voer %2 uit om te migreren voordat je deze instellingen wijzigt."
   },
   "This may take a few seconds": {
     "This may take a few seconds": "Dit kan enkele seconden duren"
@@ -8457,7 +8457,7 @@
     "This output is disabled in the current profile": "Dit beeldscherm is uitgeschakeld in het huidige profiel"
   },
   "This plugin does not have '%1' permission.\n\nAdd %2 to %3": {
-    "This plugin does not have '%1' permission.\n\nAdd %2 to %3": ""
+    "This plugin does not have '%1' permission.\n\nAdd %2 to %3": "Deze plugin heeft geen '%1'-toestemming.\n\nVoeg %2 toe aan %3"
   },
   "This system cannot link settings live. Sync again after changing them.": {
     "This system cannot link settings live. Sync again after changing them.": "Dit systeem kan instellingen niet live koppelen. Synchroniseer opnieuw nadat je ze hebt gewijzigd."
@@ -8565,10 +8565,10 @@
     "To Full": "Tot vol"
   },
   "To sign in as a different user, log out and pick the account from the greeter. Creating a fresh session in parallel needs a multi-session greeter (%1).": {
-    "To sign in as a different user, log out and pick the account from the greeter. Creating a fresh session in parallel needs a multi-session greeter (%1).": ""
+    "To sign in as a different user, log out and pick the account from the greeter. Creating a fresh session in parallel needs a multi-session greeter (%1).": "Om je als een andere gebruiker aan te melden, meld je je af en kies je het account in het aanmeldscherm. Voor een nieuwe parallelle sessie is een aanmeldscherm met ondersteuning voor meerdere sessies nodig (%1)."
   },
   "To use this DMS bind, remove or change the keybind in your %1": {
-    "To use this DMS bind, remove or change the keybind in your %1": ""
+    "To use this DMS bind, remove or change the keybind in your %1": "Verwijder of wijzig de sneltoets in je %1 om deze DMS-sneltoets te gebruiken"
   },
   "Toast": {
     "Toast": "Toast-melding"
@@ -8625,7 +8625,7 @@
     "Tools": "Hulpmiddelen"
   },
   "Tooltip": {
-    "Tooltip": ""
+    "Tooltip": "Tooltip"
   },
   "Top": {
     "Top": "Boven"
@@ -8688,7 +8688,7 @@
     "Tray icon tint": "Tint systeemvakpictogram"
   },
   "Trending": {
-    "Trending": ""
+    "Trending": "Trending"
   },
   "Trigger": {
     "Trigger": "Trigger"
@@ -8919,13 +8919,13 @@
     "Uptime": "Uptime"
   },
   "Upvote on GitHub": {
-    "Upvote on GitHub": ""
+    "Upvote on GitHub": "Stemmen op GitHub"
   },
   "Upvote removed": {
-    "Upvote removed": ""
+    "Upvote removed": "Stem ingetrokken"
   },
   "Upvoted on GitHub": {
-    "Upvoted on GitHub": ""
+    "Upvoted on GitHub": "Gestemd op GitHub"
   },
   "Urgent": {
     "Urgent": "Urgent"
@@ -8980,6 +8980,9 @@
   },
   "Use system PAM authentication": {
     "Use system PAM authentication": "Systeem-PAM-authenticatie gebruiken"
+  },
+  "Use the scaled battery level for alert thresholds and percentages": {
+    "Use the scaled battery level for alert thresholds and percentages": ""
   },
   "User": {
     "User": "Gebruiker"
@@ -9213,13 +9216,13 @@
     "Welcome": "Welkom"
   },
   "Welcome to %1": {
-    "Welcome to %1": ""
+    "Welcome to %1": "Welkom bij %1"
   },
   "What changed": {
     "What changed": "Wat is er veranderd"
   },
   "What's New": {
-    "What's New": ""
+    "What's New": "Wat is er nieuw"
   },
   "When locked": {
     "When locked": "Indien vergrendeld"
@@ -9267,7 +9270,7 @@
     "Wi-Fi, Ethernet, VPN": "Wifi, ethernet, VPN"
   },
   "WiFi QR code for %1": {
-    "WiFi QR code for %1": ""
+    "WiFi QR code for %1": "Wifi-QR-code voor %1"
   },
   "WiFi disabled": {
     "WiFi disabled": "Wifi uitgeschakeld"
@@ -9372,7 +9375,7 @@
     "Working...": "Bezig..."
   },
   "Works here": {
-    "Works here": ""
+    "Works here": "Werkt hier"
   },
   "Works in every submap": {
     "Works in every submap": "Werkt in elke submap"
@@ -9402,7 +9405,7 @@
     "Write:": "Schrijven:"
   },
   "Writes to your files": {
-    "Writes to your files": ""
+    "Writes to your files": "Schrijft naar je bestanden"
   },
   "X axis": {
     "X axis": "X-as"
@@ -9510,7 +9513,7 @@
     "checked just now": "zojuist gecontroleerd"
   },
   "copy link": {
-    "copy link": ""
+    "copy link": "link kopiëren"
   },
   "deprecated": {
     "deprecated": "verouderd"
@@ -9669,7 +9672,7 @@
     "remote": "op afstand"
   },
   "report a problem": {
-    "report a problem": ""
+    "report a problem": "een probleem melden"
   },
   "reviewed": {
     "reviewed": "beoordeeld"

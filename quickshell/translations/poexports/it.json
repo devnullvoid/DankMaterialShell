@@ -114,13 +114,13 @@
     "%1 is %2 and may use a lot of memory.": "%1 è %2 e potrebbe usare molta memoria."
   },
   "%1 is not installed. Install the package to manage the greeter.": {
-    "%1 is not installed. Install the package to manage the greeter.": ""
+    "%1 is not installed. Install the package to manage the greeter.": "%1 non è installato. Installa il pacchetto per gestire il greeter."
   },
   "%1 is now included in config": {
     "%1 is now included in config": "%1 è ora incluso nella configurazione"
   },
   "%1 is running and will create duplicate Bluetooth players. Disable it with: %2": {
-    "%1 is running and will create duplicate Bluetooth players. Disable it with: %2": ""
+    "%1 is running and will create duplicate Bluetooth players. Disable it with: %2": "%1 è in esecuzione e creerà lettori Bluetooth duplicati. Disattivalo con: %2"
   },
   "%1 issue found": {
     "%1 issue found": "%1 problema trovato"
@@ -153,13 +153,13 @@
     "%1 ms": "%1 ms"
   },
   "%1 not available": {
-    "%1 not available": ""
+    "%1 not available": "%1 non disponibile"
   },
   "%1 not available - lock integration requires the DMS socket connection": {
-    "%1 not available - lock integration requires the DMS socket connection": ""
+    "%1 not available - lock integration requires the DMS socket connection": "%1 non disponibile - l'integrazione del blocco richiede la connessione al socket DMS"
   },
   "%1 not available or disabled - cannot apply %2 colors": {
-    "%1 not available or disabled - cannot apply %2 colors": ""
+    "%1 not available or disabled - cannot apply %2 colors": "%1 non disponibile o disattivato - impossibile applicare i colori %2"
   },
   "%1 not found": {
     "%1 not found": "%1 non trovato"
@@ -192,7 +192,7 @@
     "%1 printers": "%1 stampanti"
   },
   "%1 procs": {
-    "%1 procs": ""
+    "%1 procs": "%1 proc."
   },
   "%1 second": {
     "%1 second": "%1 secondo"
@@ -237,7 +237,7 @@
     "%1: %2": "%1: %2"
   },
   "%1d ago": {
-    "%1d ago": ""
+    "%1d ago": "%1 g fa"
   },
   "%1h": {
     "%1h": "%1h"
@@ -246,7 +246,7 @@
     "%1h %2m": "%1h %2m"
   },
   "%1h ago": {
-    "%1h ago": ""
+    "%1h ago": "%1 h fa"
   },
   "%1m": {
     "%1m": "%1m"
@@ -261,7 +261,7 @@
     "(Unnamed)": "(Senza nome)"
   },
   "(exit %1)": {
-    "(exit %1)": ""
+    "(exit %1)": "(uscita %1)"
   },
   "+ %1 more": {
     "+ %1 more": "+ %1 altri"
@@ -270,7 +270,7 @@
     "+%1 conditions": "+%1 condizioni"
   },
   "1 hour before": {
-    "1 hour before": ""
+    "1 hour before": "1 ora prima"
   },
   "1 notification": {
     "1 notification": "1 notifica"
@@ -417,7 +417,7 @@
     "Add \"%1\" to the %2 group?": "Aggiungere \"%1\" al gruppo %2?"
   },
   "Add \"%1\" to the %2 group? They must log out and back in, then run %3 to publish their login-screen theme.": {
-    "Add \"%1\" to the %2 group? They must log out and back in, then run %3 to publish their login-screen theme.": ""
+    "Add \"%1\" to the %2 group? They must log out and back in, then run %3 to publish their login-screen theme.": "Aggiungere \"%1\" al gruppo %2? Dovrà terminare la sessione e riaccedere, poi eseguire %3 per pubblicare il proprio tema della schermata di login."
   },
   "Add Desktop Widget": {
     "Add Desktop Widget": "Aggiungi widget su desktop"
@@ -492,7 +492,7 @@
     "Adds concave curves where the bar meets the screen edge": "Aggiunge curve concave dove la barra incontra il bordo dello schermo"
   },
   "Adds them to the %1 group so they can run %2": {
-    "Adds them to the %1 group so they can run %2": ""
+    "Adds them to the %1 group so they can run %2": "Lo aggiunge al gruppo %1 così potrà eseguire %2"
   },
   "Adds them to the %1 group so they can use sudo": {
     "Adds them to the %1 group so they can use sudo": "Li aggiunge al gruppo %1 così possono usare sudo"
@@ -576,7 +576,7 @@
     "Already upvoted, click again to remove": "Hai già votato, fai di nuovo clic per rimuovere il voto"
   },
   "Also runs the templates in your %1": {
-    "Also runs the templates in your %1": ""
+    "Also runs the templates in your %1": "Esegue anche i template presenti in %1"
   },
   "Also saves the screenshot to disk": {
     "Also saves the screenshot to disk": "Salva lo screenshot anche su disco"
@@ -845,9 +845,6 @@
   "Authenticate": {
     "Authenticate": "Autenticati"
   },
-  "Authenticating...": {
-    "Authenticating...": "Autenticazione in corso..."
-  },
   "Authentication": {
     "Authentication": "Autenticazione"
   },
@@ -873,10 +870,10 @@
     "Authorize": "Autorizza"
   },
   "Authorize pairing with %1": {
-    "Authorize pairing with %1": ""
+    "Authorize pairing with %1": "Autorizza l'associazione con %1"
   },
   "Authorize service for %1": {
-    "Authorize service for %1": ""
+    "Authorize service for %1": "Autorizza il servizio per %1"
   },
   "Auto": {
     "Auto": "Automatico"
@@ -1515,7 +1512,7 @@
     "Classes": "Classi"
   },
   "Classic": {
-    "Classic": ""
+    "Classic": "Classico"
   },
   "Clear All": {
     "Clear All": "Cancella tutto"
@@ -1545,7 +1542,7 @@
     "Click 'Setup' to create %1 and add include to your compositor config.": "Fai clic su \"Configura\" per creare %1 e aggiungere l'inclusione al file di configurazione del compositor."
   },
   "Click Import to add a %1 or %2 file": {
-    "Click Import to add a %1 or %2 file": ""
+    "Click Import to add a %1 or %2 file": "Fai clic su Importa per aggiungere un file %1 o %2"
   },
   "Click actions": {
     "Click actions": "Azioni del clic"
@@ -1698,7 +1695,7 @@
     "Columns": "Colonne"
   },
   "Comfortable": {
-    "Comfortable": ""
+    "Comfortable": "Confortevole"
   },
   "Comma-separated list of layout names. Leave empty to use the system keyboard settings.": {
     "Comma-separated list of layout names. Leave empty to use the system keyboard settings.": "Elenco di nomi di layout separati da virgole. Lascia vuoto per usare le impostazioni della tastiera di sistema."
@@ -1782,7 +1779,7 @@
     "Confirm Display Changes": "Conferma modifiche schermo"
   },
   "Confirm passkey for %1": {
-    "Confirm passkey for %1": ""
+    "Confirm passkey for %1": "Conferma la passkey per %1"
   },
   "Confirm password": {
     "Confirm password": "Conferma password"
@@ -1878,7 +1875,7 @@
     "Copy": "Copia"
   },
   "Copy %1": {
-    "Copy %1": ""
+    "Copy %1": "Copia %1"
   },
   "Copy Full Command": {
     "Copy Full Command": "Copia comando completo"
@@ -2103,7 +2100,7 @@
     "DMS out of date": "Versione di DMS obsoleta"
   },
   "DMS removes its managed block from %1 and stops write services": {
-    "DMS removes its managed block from %1 and stops write services": ""
+    "DMS removes its managed block from %1 and stops write services": "DMS rimuove il proprio blocco gestito da %1 e arresta i servizi di scrittura"
   },
   "DMS server is outdated (API v%1, expected v%2)": {
     "DMS server is outdated (API v%1, expected v%2)": "Il server DMS è obsoleto (API v%1, previsto v%2)"
@@ -2202,7 +2199,7 @@
     "Deck": "Pila"
   },
   "Declared by the author, not enforced": {
-    "Declared by the author, not enforced": ""
+    "Declared by the author, not enforced": "Dichiarati dall'autore, non applicati"
   },
   "Default": {
     "Default": "Predefinito"
@@ -2283,7 +2280,7 @@
     "Deletes all stored screen time": "Elimina tutto il tempo di utilizzo registrato"
   },
   "Dense": {
-    "Dense": ""
+    "Dense": "Denso"
   },
   "Dependencies & documentation": {
     "Dependencies & documentation": "Dipendenze e documentazione"
@@ -2382,7 +2379,7 @@
     "Disabled": "Disattivato"
   },
   "Disabled by Auto": {
-    "Disabled by Auto": ""
+    "Disabled by Auto": "Disattivato da Automatico"
   },
   "Disabled by Click through": {
     "Disabled by Click through": "Disattivato da Ignora i clic del mouse"
@@ -2523,7 +2520,7 @@
     "Dock": "Dock"
   },
   "Dock %1": {
-    "Dock %1": ""
+    "Dock %1": "Dock %1"
   },
   "Dock margin, opacity, and border": {
     "Dock margin, opacity, and border": "Margine, opacità e bordo del dock"
@@ -2559,7 +2556,7 @@
     "Don't change": "Non modificare"
   },
   "Don't dim unfocused apps": {
-    "Don't dim unfocused apps": ""
+    "Don't dim unfocused apps": "Non attenuare le app senza focus"
   },
   "Door Open": {
     "Door Open": "Sportello aperto"
@@ -2637,16 +2634,16 @@
     "Dusk (Nautical Twilight)": "Crepuscolo (Crepuscolo Nautico)"
   },
   "Dux Calendar": {
-    "Dux Calendar": ""
+    "Dux Calendar": "Dux Calendar"
   },
   "Dux Calendar isn't installed": {
-    "Dux Calendar isn't installed": ""
+    "Dux Calendar isn't installed": "Dux Calendar non è installato"
   },
   "Dux Calendar isn't running": {
-    "Dux Calendar isn't running": ""
+    "Dux Calendar isn't running": "Dux Calendar non è in esecuzione"
   },
   "Dux Greeter docs": {
-    "Dux Greeter docs": ""
+    "Dux Greeter docs": "Documentazione di Dux Greeter"
   },
   "Dwindle": {
     "Dwindle": "Dwindle"
@@ -2787,7 +2784,7 @@
     "Enter PIN": "Inserisci il PIN"
   },
   "Enter PIN for %1": {
-    "Enter PIN for %1": ""
+    "Enter PIN for %1": "Inserisci il PIN per %1"
   },
   "Enter a new name for session \"%1": {
     "Enter a new name for session \"%1\"": "Inserisci un nuovo nome per la sessione \"%1\""
@@ -2796,7 +2793,7 @@
     "Enter a new name for this workspace": "Inserisci un nuovo nome per questo spazio di lavoro"
   },
   "Enter credentials for %1": {
-    "Enter credentials for %1": ""
+    "Enter credentials for %1": "Inserisci le credenziali per %1"
   },
   "Enter custom lock screen format (e.g., dddd, MMMM d)": {
     "Enter custom lock screen format (e.g., dddd, MMMM d)": "Inserisci il formato personalizzato della schermata di blocco (es. dddd, MMMM d)"
@@ -2811,16 +2808,16 @@
     "Enter network name and password": "Inserisci il nome della rete e la password"
   },
   "Enter passkey for %1": {
-    "Enter passkey for %1": ""
+    "Enter passkey for %1": "Inserisci la passkey per %1"
   },
   "Enter password for %1": {
-    "Enter password for %1": ""
+    "Enter password for %1": "Inserisci la password per %1"
   },
   "Enter text to encode": {
     "Enter text to encode": "Inserisci il testo da codificare"
   },
   "Enter this passkey on %1": {
-    "Enter this passkey on %1": ""
+    "Enter this passkey on %1": "Inserisci questa passkey su %1"
   },
   "Enter to paste": {
     "Enter to paste": "Invio per incollare"
@@ -3081,7 +3078,7 @@
     "Failed to read theme file: %1": "Impossibile leggere il file del tema: %1"
   },
   "Failed to reboot to firmware setup": {
-    "Failed to reboot to firmware setup": ""
+    "Failed to reboot to firmware setup": "Impossibile riavviare nella configurazione del firmware"
   },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": "Impossibile ricaricare il plugin: %1"
@@ -3105,7 +3102,7 @@
     "Failed to resume printer": "Impossibile riprendere la stampante"
   },
   "Failed to run '%1'. Ensure the %2 package is installed.": {
-    "Failed to run '%1'. Ensure the %2 package is installed.": ""
+    "Failed to run '%1'. Ensure the %2 package is installed.": "Impossibile eseguire '%1'. Assicurati che il pacchetto %2 sia installato."
   },
   "Failed to save VPN credentials": {
     "Failed to save VPN credentials": "Impossibile salvare le credenziali VPN"
@@ -3228,7 +3225,7 @@
     "File manager": "Gestore file"
   },
   "File search requires %1\nInstall from %2": {
-    "File search requires %1\nInstall from %2": ""
+    "File search requires %1\nInstall from %2": "La ricerca file richiede %1\nInstalla da %2"
   },
   "File the command writes; leave empty to read stdout": {
     "File the command writes; leave empty to read stdout": "File scritto dal comando; lascia vuoto per leggere lo stdout"
@@ -3259,9 +3256,6 @@
   },
   "Fine-tune the seed around the color wheel": {
     "Fine-tune the seed around the color wheel": "Regola con precisione il colore di partenza sulla ruota dei colori"
-  },
-  "Fingerprint": {
-    "Fingerprint": "Impronta digitale"
   },
   "Fingerprint at login": {
     "Fingerprint at login": "Impronta digitale all'accesso"
@@ -3294,7 +3288,7 @@
     "Fires with any modifiers held": "Si attiva con qualsiasi modificatore premuto"
   },
   "Firmware setup": {
-    "Firmware setup": ""
+    "Firmware setup": "Configurazione del firmware"
   },
   "First Time Setup": {
     "First Time Setup": "Configurazione iniziale"
@@ -3456,7 +3450,7 @@
     "For %1": "Per %1"
   },
   "For 1 hour": {
-    "For 1 hour": ""
+    "For 1 hour": "Per 1 ora"
   },
   "For you": {
     "For you": "Per te"
@@ -3576,7 +3570,7 @@
     "GPU": "GPU"
   },
   "GPU %1": {
-    "GPU %1": ""
+    "GPU %1": "GPU %1"
   },
   "GPU Monitoring": {
     "GPU Monitoring": "Monitoraggio GPU"
@@ -3603,7 +3597,7 @@
     "Gamma": "Gamma"
   },
   "Gamma %1": {
-    "Gamma %1": ""
+    "Gamma %1": "Gamma %1"
   },
   "Gamma control": {
     "Gamma control": "Controllo gamma"
@@ -3765,7 +3759,7 @@
     "Health": "Salute"
   },
   "Health %1": {
-    "Health %1": ""
+    "Health %1": "Salute %1"
   },
   "Heat shimmer": {
     "Heat shimmer": "Miraggio di calore"
@@ -3817,6 +3811,9 @@
   },
   "Hide App": {
     "Hide App": "Nascondi app"
+  },
+  "Hide bar on fullscreen": {
+    "Hide bar on fullscreen": ""
   },
   "Hide cursor on touch": {
     "Hide cursor on touch": "Nascondi cursore al tocco"
@@ -3996,7 +3993,7 @@
     "IP address or hostname": "Indirizzo IP o nome host"
   },
   "IP sharing setup failed. Check that %1 is installed.": {
-    "IP sharing setup failed. Check that %1 is installed.": ""
+    "IP sharing setup failed. Check that %1 is installed.": "Configurazione della condivisione IP non riuscita. Verifica che %1 sia installato."
   },
   "ISO date": {
     "ISO date": "Data ISO"
@@ -4221,7 +4218,7 @@
     "Install system updates?": "Installare gli aggiornamenti di sistema?"
   },
   "Install the %1 package for dynamic theming": {
-    "Install the %1 package for dynamic theming": ""
+    "Install the %1 package for dynamic theming": "Installa il pacchetto %1 per il tema dinamico"
   },
   "Install theme '%1' from the DMS registry?": {
     "Install theme '%1' from the DMS registry?": "Installa il tema \"%1\" dal registro DMS?"
@@ -4233,7 +4230,7 @@
     "Install wallpaper '%1'?": "Installare lo sfondo '%1'?"
   },
   "Installation and PAM setup are documented in the %1.": {
-    "Installation and PAM setup are documented in the %1.": ""
+    "Installation and PAM setup are documented in the %1.": "L'installazione e la configurazione di PAM sono documentate nella %1."
   },
   "Installed": {
     "Installed": "Installato"
@@ -4266,7 +4263,7 @@
     "Interface": "Interfaccia"
   },
   "Interface density": {
-    "Interface density": ""
+    "Interface density": "Densità dell'interfaccia"
   },
   "Interface style": {
     "Interface style": "Stile interfaccia"
@@ -4296,7 +4293,7 @@
     "Invalid wallpaper layout": "Struttura dello sfondo non valida"
   },
   "Inverse Surface": {
-    "Inverse Surface": ""
+    "Inverse Surface": "Superficie inversa"
   },
   "Iridescence": {
     "Iridescence": "Iridescenza"
@@ -4372,9 +4369,6 @@
   },
   "Keybinds": {
     "Keybinds": "Scorciatoie"
-  },
-  "Keyboard": {
-    "Keyboard": "Tastiera"
   },
   "Keyboard layout": {
     "Keyboard layout": "Layout di tastiera"
@@ -4482,7 +4476,7 @@
     "Launching": "Avvio in corso"
   },
   "Layer namespace %1, needs a niri blur rule": {
-    "Layer namespace %1, needs a niri blur rule": ""
+    "Layer namespace %1, needs a niri blur rule": "Namespace del livello %1, richiede una regola di sfocatura per niri"
   },
   "Layer outline": {
     "Layer outline": "Contorno dei livelli"
@@ -4682,9 +4676,6 @@
   "Log out": {
     "Log out": "Termina sessione"
   },
-  "Login": {
-    "Login": "Accesso"
-  },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "Aspetto della schermata di accesso e autenticazione"
   },
@@ -4749,7 +4740,7 @@
     "Managed by Nix": "Gestito da Nix"
   },
   "Managed by administrator policy": {
-    "Managed by administrator policy": ""
+    "Managed by administrator policy": "Gestito dalla policy dell'amministratore"
   },
   "Managed by the primary PAM source": {
     "Managed by the primary PAM source": "Gestito dalla fonte PAM principale"
@@ -5061,7 +5052,7 @@
     "More": "Altro"
   },
   "More in %1": {
-    "More in %1": ""
+    "More in %1": "Altro in %1"
   },
   "More samples look smoother and cost more GPU": {
     "More samples look smoother and cost more GPU": "Più campioni danno un risultato più fluido e richiedono più GPU"
@@ -5673,16 +5664,16 @@
     "Not available": "Non disponibile"
   },
   "Not available - install %1 and %2": {
-    "Not available - install %1 and %2": ""
+    "Not available - install %1 and %2": "Non disponibile - installa %1 e %2"
   },
   "Not available - install %1 and %2, or configure %3 PAM": {
-    "Not available - install %1 and %2, or configure %3 PAM": ""
+    "Not available - install %1 and %2, or configure %3 PAM": "Non disponibile - installa %1 e %2, oppure configura PAM per %3"
   },
   "Not available - install or configure %1": {
-    "Not available - install or configure %1": ""
+    "Not available - install or configure %1": "Non disponibile - installa o configura %1"
   },
   "Not available - install or configure %1, or configure %2 PAM": {
-    "Not available - install or configure %1, or configure %2 PAM": ""
+    "Not available - install or configure %1, or configure %2 PAM": "Non disponibile - installa o configura %1, oppure configura PAM per %2"
   },
   "Not bound": {
     "Not bound": "Non assegnatp"
@@ -5901,7 +5892,7 @@
     "Opening GitHub to upvote": "Apertura di GitHub per votare"
   },
   "Opening terminal: %1": {
-    "Opening terminal: %1": ""
+    "Opening terminal: %1": "Apertura del terminale: %1"
   },
   "Opens": {
     "Opens": "Apertura"
@@ -6048,7 +6039,7 @@
     "PID": "PID"
   },
   "PID %1": {
-    "PID %1": ""
+    "PID %1": "PID %1"
   },
   "PIN": {
     "PIN": "PIN"
@@ -6240,7 +6231,7 @@
     "Pixelate": "Mosaico"
   },
   "Place plugin directories here. Each plugin should have a %1 manifest file.": {
-    "Place plugin directories here. Each plugin should have a %1 manifest file.": ""
+    "Place plugin directories here. Each plugin should have a %1 manifest file.": "Inserisci qui le cartelle dei plugin. Ogni plugin deve avere un file manifest %1."
   },
   "Placement": {
     "Placement": "Posizionamento"
@@ -6258,7 +6249,7 @@
     "Playback": "Riproduzione"
   },
   "Playback error: %1": {
-    "Playback error: %1": ""
+    "Playback error: %1": "Errore di riproduzione: %1"
   },
   "Playback position": {
     "Playback position": "Posizione di riproduzione"
@@ -6291,7 +6282,7 @@
     "Plugin Source Code": "Codice sorgente del plugin"
   },
   "Plugin authors": {
-    "Plugin authors": ""
+    "Plugin authors": "Autori del plugin"
   },
   "Plugin dependency missing": {
     "Plugin dependency missing": "Dipendenza del plugin mancante"
@@ -6594,7 +6585,7 @@
     "Profile not found": "Profilo non trovato"
   },
   "Profile not found in %1": {
-    "Profile not found in %1": ""
+    "Profile not found in %1": "Profilo non trovato in %1"
   },
   "Profile on AC": {
     "Profile on AC": "Profilo con alimentazione CA"
@@ -6693,7 +6684,7 @@
     "Read:": "Lettura:"
   },
   "Readings": {
-    "Readings": ""
+    "Readings": "Rilevazioni"
   },
   "Reads audio devices and volume": {
     "Reads audio devices and volume": "Legge i dispositivi audio e il volume"
@@ -6726,13 +6717,13 @@
     "Reboot recommended": "Riavvio consigliato"
   },
   "Reboot targets": {
-    "Reboot targets": ""
+    "Reboot targets": "Destinazioni di riavvio"
   },
   "Reboot to %1": {
     "Reboot to %1": "Riavvia in %1"
   },
   "Reboot to firmware setup": {
-    "Reboot to firmware setup": ""
+    "Reboot to firmware setup": "Riavvia nella configurazione del firmware"
   },
   "Recent": {
     "Recent": "Recenti"
@@ -6861,7 +6852,7 @@
     "Remove the shortcut %1?": "Rimuovere la scorciatoia %1?"
   },
   "Remove the shortcut %1? An unbind entry will be saved to %2 so it stays removed across DMS updates.": {
-    "Remove the shortcut %1? An unbind entry will be saved to %2 so it stays removed across DMS updates.": ""
+    "Remove the shortcut %1? An unbind entry will be saved to %2 so it stays removed across DMS updates.": "Rimuovere la scorciatoia %1? Una voce di unbind verrà salvata in %2 in modo che resti rimossa anche dopo gli aggiornamenti di DMS."
   },
   "Remove upvote": {
     "Remove upvote": "Rimuovi voto"
@@ -6912,13 +6903,13 @@
     "Report": "Riepilogo"
   },
   "Required plugin: %1": {
-    "Required plugin: %1": ""
+    "Required plugin: %1": "Plugin richiesto: %1"
   },
   "Requires %1": {
     "Requires %1": "Richiede %1"
   },
   "Requires %1, %2, and your user in the %3 group (plus %4 for fingerprint, %5 for security keys).": {
-    "Requires %1, %2, and your user in the %3 group (plus %4 for fingerprint, %5 for security keys).": ""
+    "Requires %1, %2, and your user in the %3 group (plus %4 for fingerprint, %5 for security keys).": "Richiede %1, %2 e il tuo utente nel gruppo %3 (più %4 per l'impronta digitale, %5 per le chiavi di sicurezza)."
   },
   "Requires DMS %1": {
     "Requires DMS %1": "Richiede DMS %1"
@@ -7050,7 +7041,7 @@
     "Route Bluetooth headset controls to the active DMS media player": "Instrada i controlli dell'auricolare Bluetooth al lettore multimediale DMS attivo"
   },
   "Routes launcher, dash, control center and notification shortcuts. Bar widget clicks always open their own popout": {
-    "Routes launcher, dash, control center and notification shortcuts. Bar widget clicks always open their own popout": ""
+    "Routes launcher, dash, control center and notification shortcuts. Bar widget clicks always open their own popout": "Instrada le scorciatoie di launcher, dash, Centro di controllo e notifiche. I clic sui widget della barra aprono sempre il proprio pannello a comparsa"
   },
   "Rows": {
     "Rows": "Righe"
@@ -7086,7 +7077,7 @@
     "Run a shell command (e.g., notify-send)": "Esegui un comando della shell (es. notify-send)"
   },
   "Run an external command on each wallpaper change and merge its JSON palette into %1 under a namespace, so templates can use e.g. %2. The command receives the wallpaper as %3 and the mode as %4.": {
-    "Run an external command on each wallpaper change and merge its JSON palette into %1 under a namespace, so templates can use e.g. %2. The command receives the wallpaper as %3 and the mode as %4.": ""
+    "Run an external command on each wallpaper change and merge its JSON palette into %1 under a namespace, so templates can use e.g. %2. The command receives the wallpaper as %3 and the mode as %4.": "Esegue un comando esterno a ogni cambio di sfondo e unisce la sua palette JSON in %1 sotto un namespace, così i template possono usare ad es. %2. Il comando riceve lo sfondo come %3 e la modalità come %4."
   },
   "Run full sync": {
     "Run full sync": "Esegui sincronizzazione completa"
@@ -7199,6 +7190,15 @@
   "Scale": {
     "Scale": "Scala"
   },
+  "Scale battery level to charge limit": {
+    "Scale battery level to charge limit": ""
+  },
+  "Scale low and critical alert thresholds": {
+    "Scale low and critical alert thresholds": ""
+  },
+  "Scale the displayed battery level to the configured charge limit": {
+    "Scale the displayed battery level to the configured charge limit": ""
+  },
   "Scan": {
     "Scan": "Scansiona"
   },
@@ -7305,7 +7305,7 @@
     "Secondary Container": "Contenitore secondario"
   },
   "Section dividers": {
-    "Section dividers": ""
+    "Section dividers": "Divisori di sezione"
   },
   "Sections": {
     "Sections": "Sezioni"
@@ -7315,9 +7315,6 @@
   },
   "Security": {
     "Security": "Sicurezza"
-  },
-  "Security key": {
-    "Security key": "Chiave di sicurezza"
   },
   "Security key (%1)": {
     "Security key (%1)": "Chiave di sicurezza (%1)"
@@ -7359,7 +7356,7 @@
     "Select Dock Launcher Logo": "Seleziona il logo del launcher del dock"
   },
   "Select Dot Icon": {
-    "Select Dot Icon": ""
+    "Select Dot Icon": "Seleziona icona puntino"
   },
   "Select ICC Profile": {
     "Select ICC Profile": "Seleziona profilo ICC"
@@ -7467,7 +7464,7 @@
     "Set notification rules": "Imposta regole per le notifiche"
   },
   "Set one of these environment variables, then restart the shell:\n%1\n\nOnly %2 requires %3 to be installed.": {
-    "Set one of these environment variables, then restart the shell:\n%1\n\nOnly %2 requires %3 to be installed.": ""
+    "Set one of these environment variables, then restart the shell:\n%1\n\nOnly %2 requires %3 to be installed.": "Imposta una di queste variabili d'ambiente, poi riavvia la shell:\n%1\n\nSolo %2 richiede che %3 sia installato."
   },
   "Set under Theme & colors, Derived color": {
     "Set under Theme & colors, Derived color": "Impostato in Tema e colori, Colore derivato"
@@ -7796,6 +7793,9 @@
   "Slanted": {
     "Slanted": "Inclinato"
   },
+  "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": {
+    "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": ""
+  },
   "Slideout": {
     "Slideout": "Pannello a comparsa"
   },
@@ -7884,7 +7884,7 @@
     "Spacing": "Spaziatura"
   },
   "Spacious": {
-    "Spacious": ""
+    "Spacious": "Spazioso"
   },
   "Speaker settings": {
     "Speaker settings": "Impostazioni degli altoparlanti"
@@ -8103,7 +8103,7 @@
     "Switches to power saver at the low battery threshold": "Passa al risparmio energetico alla soglia di batteria bassa"
   },
   "Symbol": {
-    "Symbol": ""
+    "Symbol": "Simbolo"
   },
   "Sync": {
     "Sync": "Sincronizza"
@@ -8241,7 +8241,7 @@
     "Terminal additional parameters": "Parametri aggiuntivi del terminale"
   },
   "Terminal fallback failed. Install one of the supported terminal emulators or run '%1' manually.": {
-    "Terminal fallback failed. Install one of the supported terminal emulators or run '%1' manually.": ""
+    "Terminal fallback failed. Install one of the supported terminal emulators or run '%1' manually.": "Fallback del terminale non riuscito. Installa uno degli emulatori di terminale supportati oppure esegui '%1' manualmente."
   },
   "Terminal fallback opened. Complete authentication there; it will close automatically when done.": {
     "Terminal fallback opened. Complete authentication there; it will close automatically when done.": "Terminale di ripiego aperto. Completa lì l'autenticazione; si chiuderà automaticamente al termine."
@@ -8283,13 +8283,13 @@
     "Text style": "Stile del testo"
   },
   "The %1 environment variable is not set or the socket is unavailable. Automated plugin management requires it.": {
-    "The %1 environment variable is not set or the socket is unavailable. Automated plugin management requires it.": ""
+    "The %1 environment variable is not set or the socket is unavailable. Automated plugin management requires it.": "La variabile d'ambiente %1 non è impostata o il socket non è disponibile. La gestione automatica dei plugin la richiede."
   },
   "The Aqueous operation failed.": {
     "The Aqueous operation failed.": "L'operazione di Aqueous è fallita."
   },
   "The Control Center opens at the cursor instead of its widget": {
-    "The Control Center opens at the cursor instead of its widget": ""
+    "The Control Center opens at the cursor instead of its widget": "Il Centro di controllo si apre al cursore invece che al suo widget"
   },
   "The Default action only overrides priority": {
     "The Default action only overrides priority": "L'azione Predefinita sostituisce solo la priorità"
@@ -8307,7 +8307,7 @@
     "The arrow points in the direction the wind is blowing. The label shows where it comes from.": "La freccia indica la direzione del vento. L'etichetta mostra da dove proviene."
   },
   "The below settings will modify your GTK and Qt settings. If you wish to preserve your current configurations, please back them up (%1 and %2).": {
-    "The below settings will modify your GTK and Qt settings. If you wish to preserve your current configurations, please back them up (%1 and %2).": ""
+    "The below settings will modify your GTK and Qt settings. If you wish to preserve your current configurations, please back them up (%1 and %2).": "Le impostazioni seguenti modificheranno le tue impostazioni GTK e Qt. Se vuoi conservare le configurazioni attuali, fai prima un backup (%1 e %2)."
   },
   "The compositor session changed. Discard this edit before starting a new one.": {
     "The compositor session changed. Discard this edit before starting a new one.": "La sessione del compositor è cambiata. Scarta questa modifica prima di iniziarne una nuova."
@@ -8412,7 +8412,7 @@
     "Themes": "Temi"
   },
   "These add entries to the XDG autostart directory (%1)": {
-    "These add entries to the XDG autostart directory (%1)": ""
+    "These add entries to the XDG autostart directory (%1)": "Aggiungono voci alla cartella di avvio automatico XDG (%1)"
   },
   "They load with the next update check. Release notes are also published on GitHub.": {
     "They load with the next update check. Release notes are also published on GitHub.": "Verranno caricate al prossimo controllo degli aggiornamenti. Le note di rilascio sono pubblicate anche su GitHub."
@@ -8433,7 +8433,7 @@
     "This bar is the Island": "Questa barra è l’Isola"
   },
   "This bind is overridden by %1": {
-    "This bind is overridden by %1": ""
+    "This bind is overridden by %1": "Questa scorciatoia è sovrascritta da %1"
   },
   "This device": {
     "This device": "Questo dispositivo"
@@ -8445,7 +8445,7 @@
     "This display does not report VRR support": "Questo schermo non segnala il supporto VRR"
   },
   "This install is still using %1. Run %2 to migrate before changing these settings.": {
-    "This install is still using %1. Run %2 to migrate before changing these settings.": ""
+    "This install is still using %1. Run %2 to migrate before changing these settings.": "Questa installazione usa ancora %1. Esegui %2 per migrare prima di modificare queste impostazioni."
   },
   "This may take a few seconds": {
     "This may take a few seconds": "L'operazione potrebbe richiedere alcuni secondi"
@@ -8457,7 +8457,7 @@
     "This output is disabled in the current profile": "Questo output è disabilitato nel profilo corrente"
   },
   "This plugin does not have '%1' permission.\n\nAdd %2 to %3": {
-    "This plugin does not have '%1' permission.\n\nAdd %2 to %3": ""
+    "This plugin does not have '%1' permission.\n\nAdd %2 to %3": "Questo plugin non ha il permesso '%1'.\n\nAggiungi %2 a %3"
   },
   "This system cannot link settings live. Sync again after changing them.": {
     "This system cannot link settings live. Sync again after changing them.": "Questo sistema non può collegare le impostazioni in tempo reale. Sincronizza di nuovo dopo averle modificate."
@@ -8565,10 +8565,10 @@
     "To Full": "A carica completa"
   },
   "To sign in as a different user, log out and pick the account from the greeter. Creating a fresh session in parallel needs a multi-session greeter (%1).": {
-    "To sign in as a different user, log out and pick the account from the greeter. Creating a fresh session in parallel needs a multi-session greeter (%1).": ""
+    "To sign in as a different user, log out and pick the account from the greeter. Creating a fresh session in parallel needs a multi-session greeter (%1).": "Per accedere come un altro utente, termina la sessione e scegli l'account dal greeter. Creare una nuova sessione in parallelo richiede un greeter multisessione (%1)."
   },
   "To use this DMS bind, remove or change the keybind in your %1": {
-    "To use this DMS bind, remove or change the keybind in your %1": ""
+    "To use this DMS bind, remove or change the keybind in your %1": "Per usare questa scorciatoia DMS, rimuovi o modifica la scorciatoia in %1"
   },
   "Toast": {
     "Toast": "Toast"
@@ -8625,7 +8625,7 @@
     "Tools": "Strumenti"
   },
   "Tooltip": {
-    "Tooltip": ""
+    "Tooltip": "Tooltip"
   },
   "Top": {
     "Top": "In alto"
@@ -8981,6 +8981,9 @@
   "Use system PAM authentication": {
     "Use system PAM authentication": "Usa l'autenticazione PAM di sistema"
   },
+  "Use the scaled battery level for alert thresholds and percentages": {
+    "Use the scaled battery level for alert thresholds and percentages": ""
+  },
   "User": {
     "User": "Utente"
   },
@@ -9267,7 +9270,7 @@
     "Wi-Fi, Ethernet, VPN": "Wi-Fi, Ethernet, VPN"
   },
   "WiFi QR code for %1": {
-    "WiFi QR code for %1": ""
+    "WiFi QR code for %1": "Codice QR Wi-Fi per %1"
   },
   "WiFi disabled": {
     "WiFi disabled": "Wi-Fi disattivato"
@@ -9528,10 +9531,10 @@
     "Normal": "Normale"
   },
   "duration, 2 to 4 form (2, 3, 4, 22, 23, ...) for languages that need one, %1 is a number; leave empty to reuse the plural": {
-    "%1 days": "",
-    "%1 hours": "",
-    "%1 minutes": "",
-    "%1 seconds": ""
+    "%1 days": "%1 giorni",
+    "%1 hours": "%1 ore",
+    "%1 minutes": "%1 minuti",
+    "%1 seconds": "%1 secondi"
   },
   "e.g. /usr/bin/my-script --flag": {
     "e.g. /usr/bin/my-script --flag": "es. /usr/bin/my-script --flag"

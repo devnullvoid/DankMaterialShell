@@ -845,9 +845,6 @@
   "Authenticate": {
     "Authenticate": "Aŭtentigi"
   },
-  "Authenticating...": {
-    "Authenticating...": "Aŭtentigante..."
-  },
   "Authentication": {
     "Authentication": "Aŭtentigo"
   },
@@ -3260,9 +3257,6 @@
   "Fine-tune the seed around the color wheel": {
     "Fine-tune the seed around the color wheel": "Fajnagordi la semon ĉirkaŭ la kolorrado"
   },
-  "Fingerprint": {
-    "Fingerprint": "Fingrospuro"
-  },
   "Fingerprint at login": {
     "Fingerprint at login": "Fingrospuro ĉe ensaluto"
   },
@@ -3817,6 +3811,9 @@
   },
   "Hide App": {
     "Hide App": "Kaŝi aplikaĵon"
+  },
+  "Hide bar on fullscreen": {
+    "Hide bar on fullscreen": ""
   },
   "Hide cursor on touch": {
     "Hide cursor on touch": "Kaŝi kursoron ĉe tuŝo"
@@ -4373,9 +4370,6 @@
   "Keybinds": {
     "Keybinds": "Klavkombinoj"
   },
-  "Keyboard": {
-    "Keyboard": "Klavaro"
-  },
   "Keyboard layout": {
     "Keyboard layout": "Klavara aranĝo"
   },
@@ -4681,9 +4675,6 @@
   },
   "Log out": {
     "Log out": "Elsaluti"
-  },
-  "Login": {
-    "Login": "Saluti"
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "Aspekto kaj aŭtentigo de salutekrano"
@@ -7199,6 +7190,15 @@
   "Scale": {
     "Scale": "Skalo"
   },
+  "Scale battery level to charge limit": {
+    "Scale battery level to charge limit": ""
+  },
+  "Scale low and critical alert thresholds": {
+    "Scale low and critical alert thresholds": ""
+  },
+  "Scale the displayed battery level to the configured charge limit": {
+    "Scale the displayed battery level to the configured charge limit": ""
+  },
   "Scan": {
     "Scan": "Skani"
   },
@@ -7315,9 +7315,6 @@
   },
   "Security": {
     "Security": "Sekureco"
-  },
-  "Security key": {
-    "Security key": "Sekurecŝlosilo"
   },
   "Security key (%1)": {
     "Security key (%1)": "Sekurecŝlosilo (%1)"
@@ -7795,6 +7792,9 @@
   },
   "Slanted": {
     "Slanted": "Oblikva"
+  },
+  "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": {
+    "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": ""
   },
   "Slideout": {
     "Slideout": "Glitilo"
@@ -8980,6 +8980,9 @@
   },
   "Use system PAM authentication": {
     "Use system PAM authentication": "Uzi sisteman PAM-aŭtentigon"
+  },
+  "Use the scaled battery level for alert thresholds and percentages": {
+    "Use the scaled battery level for alert thresholds and percentages": ""
   },
   "User": {
     "User": "Uzanto"

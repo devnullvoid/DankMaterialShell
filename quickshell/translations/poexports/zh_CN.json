@@ -845,9 +845,6 @@
   "Authenticate": {
     "Authenticate": "认证"
   },
-  "Authenticating...": {
-    "Authenticating...": "正在验证…"
-  },
   "Authentication": {
     "Authentication": "认证"
   },
@@ -3260,9 +3257,6 @@
   "Fine-tune the seed around the color wheel": {
     "Fine-tune the seed around the color wheel": "沿色相环微调种子颜色"
   },
-  "Fingerprint": {
-    "Fingerprint": "指纹"
-  },
   "Fingerprint at login": {
     "Fingerprint at login": "登录时使用指纹"
   },
@@ -3817,6 +3811,9 @@
   },
   "Hide App": {
     "Hide App": "隐藏应用"
+  },
+  "Hide bar on fullscreen": {
+    "Hide bar on fullscreen": ""
   },
   "Hide cursor on touch": {
     "Hide cursor on touch": "触摸时隐藏光标"
@@ -4373,9 +4370,6 @@
   "Keybinds": {
     "Keybinds": "快捷键绑定"
   },
-  "Keyboard": {
-    "Keyboard": "键盘"
-  },
   "Keyboard layout": {
     "Keyboard layout": "键盘布局"
   },
@@ -4681,9 +4675,6 @@
   },
   "Log out": {
     "Log out": "注销"
-  },
-  "Login": {
-    "Login": "登录"
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "登录界面外观与身份验证"
@@ -7199,6 +7190,15 @@
   "Scale": {
     "Scale": "缩放"
   },
+  "Scale battery level to charge limit": {
+    "Scale battery level to charge limit": ""
+  },
+  "Scale low and critical alert thresholds": {
+    "Scale low and critical alert thresholds": ""
+  },
+  "Scale the displayed battery level to the configured charge limit": {
+    "Scale the displayed battery level to the configured charge limit": ""
+  },
   "Scan": {
     "Scan": "扫描"
   },
@@ -7315,9 +7315,6 @@
   },
   "Security": {
     "Security": "安全性"
-  },
-  "Security key": {
-    "Security key": "安全密钥"
   },
   "Security key (%1)": {
     "Security key (%1)": "安全密钥（%1）"
@@ -7795,6 +7792,9 @@
   },
   "Slanted": {
     "Slanted": "倾斜"
+  },
+  "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": {
+    "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": ""
   },
   "Slideout": {
     "Slideout": "侧边栏"
@@ -8980,6 +8980,9 @@
   },
   "Use system PAM authentication": {
     "Use system PAM authentication": "使用系统 PAM 认证"
+  },
+  "Use the scaled battery level for alert thresholds and percentages": {
+    "Use the scaled battery level for alert thresholds and percentages": ""
   },
   "User": {
     "User": "用户"

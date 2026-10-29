@@ -9093,6 +9093,13 @@
     "comment": ""
   },
   {
+    "term": "Hide bar on fullscreen",
+    "translation": "",
+    "context": "Hide bar on fullscreen",
+    "reference": "",
+    "comment": "bar visibility toggle"
+  },
+  {
     "term": "Hide cursor on touch",
     "translation": "",
     "context": "Hide cursor on touch",
@@ -14088,7 +14095,7 @@
     "translation": "",
     "context": "Opens %1",
     "reference": "",
-    "comment": "plugin settings page, plugin details, %1 is the link to the plugin source code"
+    "comment": "dashboard tab description, %1 is the settings window name | plugin settings page, plugin details, %1 is the link to the plugin source code"
   },
   {
     "term": "Opens a floating window with the live output",
@@ -17206,6 +17213,27 @@
     "comment": "noun, font scale slider and display scale setting label"
   },
   {
+    "term": "Scale battery level to charge limit",
+    "translation": "",
+    "context": "Scale battery level to charge limit",
+    "reference": "",
+    "comment": "battery settings: toggle to scale the displayed percentage so the charge limit represents 100%"
+  },
+  {
+    "term": "Scale low and critical alert thresholds",
+    "translation": "",
+    "context": "Scale low and critical alert thresholds",
+    "reference": "",
+    "comment": "battery settings: toggle to apply low and critical alert thresholds to the charge-limit-scaled battery percentage"
+  },
+  {
+    "term": "Scale the displayed battery level to the configured charge limit",
+    "translation": "",
+    "context": "Scale the displayed battery level to the configured charge limit",
+    "reference": "",
+    "comment": "battery settings: explains that the displayed battery percentage is scaled relative to the charge limit"
+  },
+  {
     "term": "Scan",
     "translation": "",
     "context": "Scan",
@@ -18618,6 +18646,13 @@
     "context": "Slanted",
     "reference": "",
     "comment": "Album artwork shape"
+  },
+  {
+    "term": "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.",
+    "translation": "",
+    "context": "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.",
+    "reference": "",
+    "comment": "bar fullscreen auto-hide description"
   },
   {
     "term": "Slideout",
@@ -21439,6 +21474,13 @@
     "context": "Use system PAM authentication",
     "reference": "",
     "comment": "system PAM policy toggle"
+  },
+  {
+    "term": "Use the scaled battery level for alert thresholds and percentages",
+    "translation": "",
+    "context": "Use the scaled battery level for alert thresholds and percentages",
+    "reference": "",
+    "comment": "battery settings: explains that low and critical alerts trigger and report percentages on the scaled battery level"
   },
   {
     "term": "User",

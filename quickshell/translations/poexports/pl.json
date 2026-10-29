@@ -845,9 +845,6 @@
   "Authenticate": {
     "Authenticate": "Uwierzytelnij"
   },
-  "Authenticating...": {
-    "Authenticating...": ""
-  },
   "Authentication": {
     "Authentication": "Uwierzytelnianie"
   },
@@ -3260,9 +3257,6 @@
   "Fine-tune the seed around the color wheel": {
     "Fine-tune the seed around the color wheel": ""
   },
-  "Fingerprint": {
-    "Fingerprint": ""
-  },
   "Fingerprint at login": {
     "Fingerprint at login": ""
   },
@@ -3817,6 +3811,9 @@
   },
   "Hide App": {
     "Hide App": "Ukryj aplikację"
+  },
+  "Hide bar on fullscreen": {
+    "Hide bar on fullscreen": ""
   },
   "Hide cursor on touch": {
     "Hide cursor on touch": ""
@@ -4373,9 +4370,6 @@
   "Keybinds": {
     "Keybinds": "Skróty klawiszowe"
   },
-  "Keyboard": {
-    "Keyboard": "Klawiatura"
-  },
   "Keyboard layout": {
     "Keyboard layout": ""
   },
@@ -4681,9 +4675,6 @@
   },
   "Log out": {
     "Log out": ""
-  },
-  "Login": {
-    "Login": "Login"
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": ""
@@ -7199,6 +7190,15 @@
   "Scale": {
     "Scale": "Skala"
   },
+  "Scale battery level to charge limit": {
+    "Scale battery level to charge limit": ""
+  },
+  "Scale low and critical alert thresholds": {
+    "Scale low and critical alert thresholds": ""
+  },
+  "Scale the displayed battery level to the configured charge limit": {
+    "Scale the displayed battery level to the configured charge limit": ""
+  },
   "Scan": {
     "Scan": "Skanuj"
   },
@@ -7315,9 +7315,6 @@
   },
   "Security": {
     "Security": "Bezpieczeństwo"
-  },
-  "Security key": {
-    "Security key": "Klucz zabezpieczeń"
   },
   "Security key (%1)": {
     "Security key (%1)": "Klucz zabezpieczeń (%1)"
@@ -7795,6 +7792,9 @@
   },
   "Slanted": {
     "Slanted": ""
+  },
+  "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": {
+    "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": ""
   },
   "Slideout": {
     "Slideout": ""
@@ -8980,6 +8980,9 @@
   },
   "Use system PAM authentication": {
     "Use system PAM authentication": ""
+  },
+  "Use the scaled battery level for alert thresholds and percentages": {
+    "Use the scaled battery level for alert thresholds and percentages": ""
   },
   "User": {
     "User": "Użytkownik"

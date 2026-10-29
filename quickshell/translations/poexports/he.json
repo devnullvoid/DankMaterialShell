@@ -845,9 +845,6 @@
   "Authenticate": {
     "Authenticate": "אימות"
   },
-  "Authenticating...": {
-    "Authenticating...": "מבצע אימות..."
-  },
   "Authentication": {
     "Authentication": "אימות"
   },
@@ -3260,9 +3257,6 @@
   "Fine-tune the seed around the color wheel": {
     "Fine-tune the seed around the color wheel": "כוונון עדין של צבע הבסיס סביב גלגל הצבעים"
   },
-  "Fingerprint": {
-    "Fingerprint": "טביעת אצבע"
-  },
   "Fingerprint at login": {
     "Fingerprint at login": "טביעת אצבע בכניסה"
   },
@@ -3817,6 +3811,9 @@
   },
   "Hide App": {
     "Hide App": "הסתר/י אפליקציה"
+  },
+  "Hide bar on fullscreen": {
+    "Hide bar on fullscreen": ""
   },
   "Hide cursor on touch": {
     "Hide cursor on touch": "הסתרת הסמן במגע"
@@ -4373,9 +4370,6 @@
   "Keybinds": {
     "Keybinds": "קיצורי מקלדת"
   },
-  "Keyboard": {
-    "Keyboard": "מקלדת"
-  },
   "Keyboard layout": {
     "Keyboard layout": "פריסת מקלדת"
   },
@@ -4681,9 +4675,6 @@
   },
   "Log out": {
     "Log out": "התנתקות"
-  },
-  "Login": {
-    "Login": "התחברות"
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "מראה מסך ההתחברות ואימות"
@@ -7199,6 +7190,15 @@
   "Scale": {
     "Scale": "קנה מידה"
   },
+  "Scale battery level to charge limit": {
+    "Scale battery level to charge limit": ""
+  },
+  "Scale low and critical alert thresholds": {
+    "Scale low and critical alert thresholds": ""
+  },
+  "Scale the displayed battery level to the configured charge limit": {
+    "Scale the displayed battery level to the configured charge limit": ""
+  },
   "Scan": {
     "Scan": "סריקה"
   },
@@ -7315,9 +7315,6 @@
   },
   "Security": {
     "Security": "אבטחה"
-  },
-  "Security key": {
-    "Security key": "מפתח אבטחה"
   },
   "Security key (%1)": {
     "Security key (%1)": "מפתח אבטחה (%1)"
@@ -7795,6 +7792,9 @@
   },
   "Slanted": {
     "Slanted": "משופע"
+  },
+  "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": {
+    "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": ""
   },
   "Slideout": {
     "Slideout": "חלונית מחליקה"
@@ -8980,6 +8980,9 @@
   },
   "Use system PAM authentication": {
     "Use system PAM authentication": "השתמש/י באימות PAM של המערכת"
+  },
+  "Use the scaled battery level for alert thresholds and percentages": {
+    "Use the scaled battery level for alert thresholds and percentages": ""
   },
   "User": {
     "User": "משתמש"

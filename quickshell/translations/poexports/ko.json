@@ -845,9 +845,6 @@
   "Authenticate": {
     "Authenticate": "인증"
   },
-  "Authenticating...": {
-    "Authenticating...": "인증 중..."
-  },
   "Authentication": {
     "Authentication": "인증"
   },
@@ -3260,9 +3257,6 @@
   "Fine-tune the seed around the color wheel": {
     "Fine-tune the seed around the color wheel": ""
   },
-  "Fingerprint": {
-    "Fingerprint": "지문"
-  },
   "Fingerprint at login": {
     "Fingerprint at login": "로그인 시 지문 인증"
   },
@@ -3817,6 +3811,9 @@
   },
   "Hide App": {
     "Hide App": "앱 숨기기"
+  },
+  "Hide bar on fullscreen": {
+    "Hide bar on fullscreen": ""
   },
   "Hide cursor on touch": {
     "Hide cursor on touch": "터치 시 커서 숨기기"
@@ -4373,9 +4370,6 @@
   "Keybinds": {
     "Keybinds": "단축키"
   },
-  "Keyboard": {
-    "Keyboard": "키보드"
-  },
   "Keyboard layout": {
     "Keyboard layout": "키보드 레이아웃"
   },
@@ -4681,9 +4675,6 @@
   },
   "Log out": {
     "Log out": "로그아웃"
-  },
-  "Login": {
-    "Login": "로그인"
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "로그인 화면 모양 및 인증"
@@ -7199,6 +7190,15 @@
   "Scale": {
     "Scale": "배율"
   },
+  "Scale battery level to charge limit": {
+    "Scale battery level to charge limit": ""
+  },
+  "Scale low and critical alert thresholds": {
+    "Scale low and critical alert thresholds": ""
+  },
+  "Scale the displayed battery level to the configured charge limit": {
+    "Scale the displayed battery level to the configured charge limit": ""
+  },
   "Scan": {
     "Scan": "스캔"
   },
@@ -7315,9 +7315,6 @@
   },
   "Security": {
     "Security": "보안"
-  },
-  "Security key": {
-    "Security key": "보안 키"
   },
   "Security key (%1)": {
     "Security key (%1)": "보안 키 (%1)"
@@ -7795,6 +7792,9 @@
   },
   "Slanted": {
     "Slanted": "기울임"
+  },
+  "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": {
+    "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": ""
   },
   "Slideout": {
     "Slideout": "슬라이드아웃"
@@ -8980,6 +8980,9 @@
   },
   "Use system PAM authentication": {
     "Use system PAM authentication": "시스템 PAM 인증 사용"
+  },
+  "Use the scaled battery level for alert thresholds and percentages": {
+    "Use the scaled battery level for alert thresholds and percentages": ""
   },
   "User": {
     "User": "사용자"

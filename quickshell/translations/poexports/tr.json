@@ -845,9 +845,6 @@
   "Authenticate": {
     "Authenticate": "Kimlik Doğrula"
   },
-  "Authenticating...": {
-    "Authenticating...": ""
-  },
   "Authentication": {
     "Authentication": "Kimlik Doğrulama"
   },
@@ -1455,7 +1452,7 @@
     "Checking for updates...": "Güncelleme aranıyor..."
   },
   "Checking whether sudo authentication is needed...": {
-    "Checking whether sudo authentication is needed...": ""
+    "Checking whether sudo authentication is needed...": "Sudo doğrulaması gerekip gerekmediği kontrol ediliyor..."
   },
   "Checking...": {
     "Checking...": "Kontrol Ediliyor..."
@@ -1818,7 +1815,7 @@
     "Connecting to Device": "Cihaza Bağlanma"
   },
   "Connecting to clipboard service...": {
-    "Connecting to clipboard service...": ""
+    "Connecting to clipboard service...": "Pano hizmetine bağlanılıyor..."
   },
   "Connecting...": {
     "Connecting...": "Bağlanıyor..."
@@ -2394,7 +2391,7 @@
     "Disabling WiFi...": "WiFi kapatılıyor..."
   },
   "Disabling auto-login on startup...": {
-    "Disabling auto-login on startup...": ""
+    "Disabling auto-login on startup...": "Başlangıçta otomatik giriş devre dışı bırakılıyor..."
   },
   "Disabling cellular...": {
     "Disabling cellular...": ""
@@ -3260,9 +3257,6 @@
   "Fine-tune the seed around the color wheel": {
     "Fine-tune the seed around the color wheel": ""
   },
-  "Fingerprint": {
-    "Fingerprint": ""
-  },
   "Fingerprint at login": {
     "Fingerprint at login": ""
   },
@@ -3333,10 +3327,10 @@
     "Float": "Süzül"
   },
   "Float X": {
-    "Float X": ""
+    "Float X": "Yüzme X"
   },
   "Float Y": {
-    "Float Y": ""
+    "Float Y": "Yüzme Y"
   },
   "Float anchor": {
     "Float anchor": ""
@@ -3345,7 +3339,7 @@
     "Floating": "Yüzen"
   },
   "Floating Position": {
-    "Floating Position": ""
+    "Floating Position": "Yüzme Pozisyonu"
   },
   "Floating windows": {
     "Floating windows": ""
@@ -3818,6 +3812,9 @@
   "Hide App": {
     "Hide App": "Uygulamayı Gizle"
   },
+  "Hide bar on fullscreen": {
+    "Hide bar on fullscreen": ""
+  },
   "Hide cursor on touch": {
     "Hide cursor on touch": ""
   },
@@ -3969,7 +3966,7 @@
     "Hyprland conf mode": "Hyprland konf modu"
   },
   "Hyprland conf mode is read-only in Settings": {
-    "Hyprland conf mode is read-only in Settings": ""
+    "Hyprland conf mode is read-only in Settings": "Hyprland konf modu Ayarlar'da salt okunur"
   },
   "Hyprland config include missing": {
     "Hyprland config include missing": "Hyprland konfig'inde dux eklemesi yok"
@@ -4044,7 +4041,7 @@
     "Idle timeouts, power menu, custom actions": ""
   },
   "If autostart app icons don't appear in the system tray, generate a systemd override to ensure DMS starts before autostart apps": {
-    "If autostart app icons don't appear in the system tray, generate a systemd override to ensure DMS starts before autostart apps": ""
+    "If autostart app icons don't appear in the system tray, generate a systemd override to ensure DMS starts before autostart apps": "Eğer otomatik başlatma uygulama simgeleri sistem tepsisinde görünmüyorsa, Dux'ın otomatik başlatma uygulamalarından önce başlamasını sağlamak için bir systemd geçersiz kılma dosyası oluştur"
   },
   "Ignore Completely": {
     "Ignore Completely": "Tamamen yoksay"
@@ -4161,7 +4158,7 @@
     "Initial title": ""
   },
   "Initialised": {
-    "Initialised": ""
+    "Initialised": "Atanmış"
   },
   "Injected palettes": {
     "Injected palettes": ""
@@ -4372,9 +4369,6 @@
   },
   "Keybinds": {
     "Keybinds": "Kısayollar"
-  },
-  "Keyboard": {
-    "Keyboard": ""
   },
   "Keyboard layout": {
     "Keyboard layout": ""
@@ -4682,9 +4676,6 @@
   "Log out": {
     "Log out": ""
   },
-  "Login": {
-    "Login": "Oturum Aç"
-  },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": ""
   },
@@ -4818,7 +4809,7 @@
     "Match (%1)": "Eşle (%1)"
   },
   "Match Conditions": {
-    "Match Conditions": ""
+    "Match Conditions": "Koşulları Eşle"
   },
   "Match Criteria": {
     "Match Criteria": "Eşleşen Kriter"
@@ -5181,7 +5172,7 @@
     "Names": ""
   },
   "Native": {
-    "Native": ""
+    "Native": "Yerel"
   },
   "Natural scrolling": {
     "Natural scrolling": ""
@@ -5379,7 +5370,7 @@
     "No auto HDR": ""
   },
   "No autostart entries": {
-    "No autostart entries": ""
+    "No autostart entries": "Otomatik başlatma ögeleri yok"
   },
   "No battery": {
     "No battery": "Batarya yok"
@@ -5643,7 +5634,7 @@
     "No writable charge threshold file was found under /sys/class/power_supply.": ""
   },
   "Noise": {
-    "Noise": ""
+    "Noise": "Gürültü"
   },
   "Non-consuming": {
     "Non-consuming": ""
@@ -5922,7 +5913,7 @@
     "Optional location": "Opsiyonel konum"
   },
   "Optional state-based conditions applied to the first match.": {
-    "Optional state-based conditions applied to the first match.": ""
+    "Optional state-based conditions applied to the first match.": "İlk eşleşmeye uygulanan isteğe bağlı duruma dayalı koşullar."
   },
   "Optional; leave blank for open hotspot": {
     "Optional; leave blank for open hotspot": ""
@@ -6339,7 +6330,7 @@
     "Pointer speed": ""
   },
   "Polkit integration is disabled. User management requires Polkit to elevate privileges.": {
-    "Polkit integration is disabled. User management requires Polkit to elevate privileges.": ""
+    "Polkit integration is disabled. User management requires Polkit to elevate privileges.": "Polkit entegrasyonu devre dışı. Kullanıcı yönetimi için ayrıcalıkları yükseltmek amacıyla Polkit gerekiyor."
   },
   "Popout": {
     "Popout": "Açılır Pencere"
@@ -6414,7 +6405,7 @@
     "Power & sleep": ""
   },
   "Power Mode": {
-    "Power Mode": ""
+    "Power Mode": "Güç Modu"
   },
   "Power Profile Degradation": {
     "Power Profile Degradation": "Güç Profili Dejenerasyonu"
@@ -6852,7 +6843,7 @@
     "Remove greeter login access": "Karşılayıcıya giriş erişimini kaldır"
   },
   "Remove match": {
-    "Remove match": ""
+    "Remove match": "Eşi sil"
   },
   "Remove override": {
     "Remove override": ""
@@ -6933,7 +6924,7 @@
     "Requires night mode support": "Gece modu desteği gerektirir"
   },
   "Requires remembering the last user and session. Enable those options first.": {
-    "Requires remembering the last user and session. Enable those options first.": ""
+    "Requires remembering the last user and session. Enable those options first.": "Son kullanıcıyı ve oturumu hatırlamayı gerektirir. Önce bu seçenekleri etkinleştir."
   },
   "Requires restart": {
     "Requires restart": ""
@@ -7071,7 +7062,7 @@
     "Rules (%1)": "Kurallar (%1)"
   },
   "Rules found in your compositor config. These are read-only here, use Convert to DMS to make an editable copy.": {
-    "Rules found in your compositor config. These are read-only here, use Convert to DMS to make an editable copy.": ""
+    "Rules found in your compositor config. These are read-only here, use Convert to DMS to make an editable copy.": "Kompozitör konfigürasyonunuzda bulunan kurallar. Burada sadece okunabilir, düzenlenebilir bir kopya yapmak için Dux'a Dönüştür'ü kullanın."
   },
   "Run Again": {
     "Run Again": "Yeniden çalıştır"
@@ -7140,7 +7131,7 @@
     "Satellites": ""
   },
   "Saturation": {
-    "Saturation": ""
+    "Saturation": "Doygunluk"
   },
   "Save & Start": {
     "Save & Start": ""
@@ -7198,6 +7189,15 @@
   },
   "Scale": {
     "Scale": "Ölçek"
+  },
+  "Scale battery level to charge limit": {
+    "Scale battery level to charge limit": ""
+  },
+  "Scale low and critical alert thresholds": {
+    "Scale low and critical alert thresholds": ""
+  },
+  "Scale the displayed battery level to the configured charge limit": {
+    "Scale the displayed battery level to the configured charge limit": ""
   },
   "Scan": {
     "Scan": "Tara"
@@ -7315,9 +7315,6 @@
   },
   "Security": {
     "Security": "Güvenlik"
-  },
-  "Security key": {
-    "Security key": ""
   },
   "Security key (%1)": {
     "Security key (%1)": ""
@@ -7644,7 +7641,7 @@
     "Show mode chips": ""
   },
   "Show mount path": {
-    "Show mount path": ""
+    "Show mount path": "Bağlama yolunu göster"
   },
   "Show occupied only": {
     "Show occupied only": ""
@@ -7791,10 +7788,13 @@
     "Skip setup": "Kurulumu atla"
   },
   "Skip the greeter password after boot until you sign out. Lock screen unlock is unchanged. Takes effect on the next reboot after sync.": {
-    "Skip the greeter password after boot until you sign out. Lock screen unlock is unchanged. Takes effect on the next reboot after sync.": ""
+    "Skip the greeter password after boot until you sign out. Lock screen unlock is unchanged. Takes effect on the next reboot after sync.": "Oturumu kapatana kadar başlatma sonrası karşılayıcı şifresini atla. Kilit ekranı değişmedi. Eşitlemeden sonra bir sonraki yeniden başlatmada geçerli olur."
   },
   "Slanted": {
     "Slanted": ""
+  },
+  "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": {
+    "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": ""
   },
   "Slideout": {
     "Slideout": ""
@@ -7869,7 +7869,7 @@
     "Source color": ""
   },
   "Source: %1": {
-    "Source: %1": ""
+    "Source: %1": "Kaynak: %1"
   },
   "Sources for plugins and themes. Registries are git repositories with a plugins/ or themes/ directory.": {
     "Sources for plugins and themes. Registries are git repositories with a plugins/ or themes/ directory.": ""
@@ -8364,7 +8364,7 @@
     "The result is unknown. Refresh before trying again.": ""
   },
   "The rule applies to any window matching one of these.": {
-    "The rule applies to any window matching one of these.": ""
+    "The rule applies to any window matching one of these.": "Kural, bunlardan herhangi biriyle eşleşen herhangi bir pencereye uygulanır."
   },
   "The save result is unknown. Refresh and check the current bindings.": {
     "The save result is unknown. Refresh and check the current bindings.": ""
@@ -8981,6 +8981,9 @@
   "Use system PAM authentication": {
     "Use system PAM authentication": ""
   },
+  "Use the scaled battery level for alert thresholds and percentages": {
+    "Use the scaled battery level for alert thresholds and percentages": ""
+  },
   "User": {
     "User": "Kullanıcı"
   },
@@ -9396,7 +9399,7 @@
     "Workspaces up to the count are always shown and can be opened": ""
   },
   "Wrap the app command. %command% is replaced with the actual executable": {
-    "Wrap the app command. %command% is replaced with the actual executable": ""
+    "Wrap the app command. %command% is replaced with the actual executable": "Uygulama komutunu sarmala. %command%, gerçek çalıştırılabilir dosyayla değiştirilecek"
   },
   "Write:": {
     "Write:": "Yaz:"

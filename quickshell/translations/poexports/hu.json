@@ -237,7 +237,7 @@
     "%1: %2": "%1: %2"
   },
   "%1d ago": {
-    "%1d ago": ""
+    "%1d ago": "%1 nappal ezelőtt"
   },
   "%1h": {
     "%1h": "%1 ó"
@@ -246,7 +246,7 @@
     "%1h %2m": "%1ó %2p"
   },
   "%1h ago": {
-    "%1h ago": ""
+    "%1h ago": "%1 órával ezelőtt"
   },
   "%1m": {
     "%1m": "%1p"
@@ -270,7 +270,7 @@
     "+%1 conditions": "+%1 feltétel"
   },
   "1 hour before": {
-    "1 hour before": ""
+    "1 hour before": "1 órával előtte"
   },
   "1 notification": {
     "1 notification": "1 értesítés"
@@ -844,9 +844,6 @@
   },
   "Authenticate": {
     "Authenticate": "Hitelesítés"
-  },
-  "Authenticating...": {
-    "Authenticating...": "Hitelesítés…"
   },
   "Authentication": {
     "Authentication": "Hitelesítés"
@@ -1515,7 +1512,7 @@
     "Classes": "Osztályok"
   },
   "Classic": {
-    "Classic": ""
+    "Classic": "Klasszikus"
   },
   "Clear All": {
     "Clear All": "Összes törlése"
@@ -1698,7 +1695,7 @@
     "Columns": "Oszlopok"
   },
   "Comfortable": {
-    "Comfortable": ""
+    "Comfortable": "Kényelmes"
   },
   "Comma-separated list of layout names. Leave empty to use the system keyboard settings.": {
     "Comma-separated list of layout names. Leave empty to use the system keyboard settings.": "Vesszővel elválasztott kiosztásnevek listája. Hagyd üresen a rendszer billentyűzetbeállításainak használatához."
@@ -2283,7 +2280,7 @@
     "Deletes all stored screen time": "Törli az összes tárolt képernyőidőt"
   },
   "Dense": {
-    "Dense": ""
+    "Dense": "Sűrű"
   },
   "Dependencies & documentation": {
     "Dependencies & documentation": "Függőségek és dokumentáció"
@@ -2382,7 +2379,7 @@
     "Disabled": "Letiltva"
   },
   "Disabled by Auto": {
-    "Disabled by Auto": ""
+    "Disabled by Auto": "Az „Automatikus” beállítás letiltotta"
   },
   "Disabled by Click through": {
     "Disabled by Click through": "Az Átkattintás letiltotta"
@@ -2559,7 +2556,7 @@
     "Don't change": "Ne változtassa meg"
   },
   "Don't dim unfocused apps": {
-    "Don't dim unfocused apps": ""
+    "Don't dim unfocused apps": "Ne halványítsa el a nem fókuszban lévő alkalmazásokat"
   },
   "Door Open": {
     "Door Open": "Ajtó nyitva"
@@ -3081,7 +3078,7 @@
     "Failed to read theme file: %1": "Nem sikerült olvasni a témafájlt: %1"
   },
   "Failed to reboot to firmware setup": {
-    "Failed to reboot to firmware setup": ""
+    "Failed to reboot to firmware setup": "Nem sikerült újraindítani a firmware-beállításokba"
   },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": "Nem sikerült újratölteni a bővítményt: %1"
@@ -3260,9 +3257,6 @@
   "Fine-tune the seed around the color wheel": {
     "Fine-tune the seed around the color wheel": "Finomhangolja az alapszínt a színkörön"
   },
-  "Fingerprint": {
-    "Fingerprint": "Ujjlenyomat"
-  },
   "Fingerprint at login": {
     "Fingerprint at login": "Ujjlenyomat a bejelentkezéskor"
   },
@@ -3294,7 +3288,7 @@
     "Fires with any modifiers held": "Bármilyen módosítóbillentyű lenyomva tartása mellett aktiválódik"
   },
   "Firmware setup": {
-    "Firmware setup": ""
+    "Firmware setup": "Firmware-beállítások"
   },
   "First Time Setup": {
     "First Time Setup": "Első indítási beállítás"
@@ -3456,7 +3450,7 @@
     "For %1": "Itt: %1"
   },
   "For 1 hour": {
-    "For 1 hour": ""
+    "For 1 hour": "1 órára"
   },
   "For you": {
     "For you": "Neked ajánlott"
@@ -3817,6 +3811,9 @@
   },
   "Hide App": {
     "Hide App": "Alkalmazás elrejtése"
+  },
+  "Hide bar on fullscreen": {
+    "Hide bar on fullscreen": ""
   },
   "Hide cursor on touch": {
     "Hide cursor on touch": "Mutató elrejtése érintéskor"
@@ -4266,7 +4263,7 @@
     "Interface": "Felület"
   },
   "Interface density": {
-    "Interface density": ""
+    "Interface density": "Felület sűrűsége"
   },
   "Interface style": {
     "Interface style": "Felület stílusa"
@@ -4296,7 +4293,7 @@
     "Invalid wallpaper layout": "Érvénytelen háttérkép-elrendezés"
   },
   "Inverse Surface": {
-    "Inverse Surface": ""
+    "Inverse Surface": "Inverz felület"
   },
   "Iridescence": {
     "Iridescence": "Színjátszás"
@@ -4372,9 +4369,6 @@
   },
   "Keybinds": {
     "Keybinds": "Billentyűkombinációk"
-  },
-  "Keyboard": {
-    "Keyboard": "Billentyűzet"
   },
   "Keyboard layout": {
     "Keyboard layout": "Billentyűzetkiosztás"
@@ -4682,9 +4676,6 @@
   "Log out": {
     "Log out": "Kijelentkezés"
   },
-  "Login": {
-    "Login": "Bejelentkezés"
-  },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "Bejelentkezési képernyő megjelenése és hitelesítés"
   },
@@ -4749,7 +4740,7 @@
     "Managed by Nix": "A Nix által felügyelt"
   },
   "Managed by administrator policy": {
-    "Managed by administrator policy": ""
+    "Managed by administrator policy": "Rendszergazdai házirend által kezelve"
   },
   "Managed by the primary PAM source": {
     "Managed by the primary PAM source": "Az elsődleges PAM-forrás által felügyelt"
@@ -6693,7 +6684,7 @@
     "Read:": "Olvasás:"
   },
   "Readings": {
-    "Readings": ""
+    "Readings": "Mérések"
   },
   "Reads audio devices and volume": {
     "Reads audio devices and volume": "Olvassa a hangeszközöket és a hangerőt"
@@ -6726,13 +6717,13 @@
     "Reboot recommended": "Újraindítás javasolt"
   },
   "Reboot targets": {
-    "Reboot targets": ""
+    "Reboot targets": "Újraindítási célok"
   },
   "Reboot to %1": {
     "Reboot to %1": "Újraindítás ebbe: %1"
   },
   "Reboot to firmware setup": {
-    "Reboot to firmware setup": ""
+    "Reboot to firmware setup": "Újraindítás a firmware-beállításokba"
   },
   "Recent": {
     "Recent": "Legutóbbi"
@@ -7050,7 +7041,7 @@
     "Route Bluetooth headset controls to the active DMS media player": "Bluetooth-fejhallgató vezérlőinek irányítása az aktív DMS-médialejátszóhoz"
   },
   "Routes launcher, dash, control center and notification shortcuts. Bar widget clicks always open their own popout": {
-    "Routes launcher, dash, control center and notification shortcuts. Bar widget clicks always open their own popout": ""
+    "Routes launcher, dash, control center and notification shortcuts. Bar widget clicks always open their own popout": "Irányítja az indító, az áttekintő, a vezérlőközpont és az értesítések gyorsbillentyűit. A sáv widgetjeire kattintva mindig a saját felugró ablakuk nyílik meg"
   },
   "Rows": {
     "Rows": "Sorok"
@@ -7199,6 +7190,15 @@
   "Scale": {
     "Scale": "Skála"
   },
+  "Scale battery level to charge limit": {
+    "Scale battery level to charge limit": ""
+  },
+  "Scale low and critical alert thresholds": {
+    "Scale low and critical alert thresholds": ""
+  },
+  "Scale the displayed battery level to the configured charge limit": {
+    "Scale the displayed battery level to the configured charge limit": ""
+  },
   "Scan": {
     "Scan": "Szkennelés"
   },
@@ -7305,7 +7305,7 @@
     "Secondary Container": "Másodlagos konténer"
   },
   "Section dividers": {
-    "Section dividers": ""
+    "Section dividers": "Szakaszelválasztók"
   },
   "Sections": {
     "Sections": "Szakaszok"
@@ -7315,9 +7315,6 @@
   },
   "Security": {
     "Security": "Biztonság"
-  },
-  "Security key": {
-    "Security key": "Biztonsági kulcs"
   },
   "Security key (%1)": {
     "Security key (%1)": "Biztonsági kulcs (%1)"
@@ -7359,7 +7356,7 @@
     "Select Dock Launcher Logo": "Dokkindító logó kiválasztása"
   },
   "Select Dot Icon": {
-    "Select Dot Icon": ""
+    "Select Dot Icon": "Pont ikon kiválasztása"
   },
   "Select ICC Profile": {
     "Select ICC Profile": "ICC-profil kiválasztása"
@@ -7796,6 +7793,9 @@
   "Slanted": {
     "Slanted": "Ferde"
   },
+  "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": {
+    "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": ""
+  },
   "Slideout": {
     "Slideout": "Kicsúszó panel"
   },
@@ -7884,7 +7884,7 @@
     "Spacing": "Távolság"
   },
   "Spacious": {
-    "Spacious": ""
+    "Spacious": "Tágas"
   },
   "Speaker settings": {
     "Speaker settings": "Hangszóró-beállítások"
@@ -8103,7 +8103,7 @@
     "Switches to power saver at the low battery threshold": "Az akkumulátor töltöttségi szintjének alacsony küszöbértékének elérésekor energiatakarékos üzemmódba vált"
   },
   "Symbol": {
-    "Symbol": ""
+    "Symbol": "Szimbólum"
   },
   "Sync": {
     "Sync": "Szinkronizálás"
@@ -8289,7 +8289,7 @@
     "The Aqueous operation failed.": "Az Aqueous-művelet nem sikerült."
   },
   "The Control Center opens at the cursor instead of its widget": {
-    "The Control Center opens at the cursor instead of its widget": ""
+    "The Control Center opens at the cursor instead of its widget": "A Vezérlőközpont a mutatónál nyílik meg a widgetje helyett"
   },
   "The Default action only overrides priority": {
     "The Default action only overrides priority": "Az alapértelmezett művelet csak a prioritást bírálja felül"
@@ -8625,7 +8625,7 @@
     "Tools": "Eszközök"
   },
   "Tooltip": {
-    "Tooltip": ""
+    "Tooltip": "Buboréksúgó"
   },
   "Top": {
     "Top": "Felső"
@@ -8980,6 +8980,9 @@
   },
   "Use system PAM authentication": {
     "Use system PAM authentication": "A rendszer PAM-hitelesítésének használata"
+  },
+  "Use the scaled battery level for alert thresholds and percentages": {
+    "Use the scaled battery level for alert thresholds and percentages": ""
   },
   "User": {
     "User": "Felhasználó"
@@ -9528,10 +9531,10 @@
     "Normal": "Normál"
   },
   "duration, 2 to 4 form (2, 3, 4, 22, 23, ...) for languages that need one, %1 is a number; leave empty to reuse the plural": {
-    "%1 days": "",
-    "%1 hours": "",
-    "%1 minutes": "",
-    "%1 seconds": ""
+    "%1 days": "%1 nap",
+    "%1 hours": "%1 óra",
+    "%1 minutes": "%1 perc",
+    "%1 seconds": "%1 másodperc"
   },
   "e.g. /usr/bin/my-script --flag": {
     "e.g. /usr/bin/my-script --flag": "Például „/usr/bin/my-script --flag”"

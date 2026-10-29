@@ -845,9 +845,6 @@
   "Authenticate": {
     "Authenticate": "صادِق"
   },
-  "Authenticating...": {
-    "Authenticating...": "جاري المصادقة..."
-  },
   "Authentication": {
     "Authentication": "المصادقة"
   },
@@ -3260,9 +3257,6 @@
   "Fine-tune the seed around the color wheel": {
     "Fine-tune the seed around the color wheel": "ضبط دقيق للبذرة حول عجلة الألوان"
   },
-  "Fingerprint": {
-    "Fingerprint": "بصمة الإصبع"
-  },
   "Fingerprint at login": {
     "Fingerprint at login": "بصمة الإصبع عند تسجيل الدخول"
   },
@@ -3817,6 +3811,9 @@
   },
   "Hide App": {
     "Hide App": "إخفاء التطبيق"
+  },
+  "Hide bar on fullscreen": {
+    "Hide bar on fullscreen": ""
   },
   "Hide cursor on touch": {
     "Hide cursor on touch": "إخفاء المؤشر عند اللمس"
@@ -4373,9 +4370,6 @@
   "Keybinds": {
     "Keybinds": "اختصارات لوحة المفاتيح"
   },
-  "Keyboard": {
-    "Keyboard": "لوحة المفاتيح"
-  },
   "Keyboard layout": {
     "Keyboard layout": "تخطيط لوحة المفاتيح"
   },
@@ -4681,9 +4675,6 @@
   },
   "Log out": {
     "Log out": "تسجيل الخروج"
-  },
-  "Login": {
-    "Login": "تسجيل الدخول"
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "مظهر شاشة تسجيل الدخول والمصادقة"
@@ -7199,6 +7190,15 @@
   "Scale": {
     "Scale": "مقياس"
   },
+  "Scale battery level to charge limit": {
+    "Scale battery level to charge limit": ""
+  },
+  "Scale low and critical alert thresholds": {
+    "Scale low and critical alert thresholds": ""
+  },
+  "Scale the displayed battery level to the configured charge limit": {
+    "Scale the displayed battery level to the configured charge limit": ""
+  },
   "Scan": {
     "Scan": "فحص"
   },
@@ -7315,9 +7315,6 @@
   },
   "Security": {
     "Security": "الأمان"
-  },
-  "Security key": {
-    "Security key": "مفتاح الأمان"
   },
   "Security key (%1)": {
     "Security key (%1)": "مفتاح الأمان (%1)"
@@ -7795,6 +7792,9 @@
   },
   "Slanted": {
     "Slanted": "مائل"
+  },
+  "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": {
+    "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": ""
   },
   "Slideout": {
     "Slideout": "نافذة منزلقة"
@@ -8980,6 +8980,9 @@
   },
   "Use system PAM authentication": {
     "Use system PAM authentication": "استخدم مصادقة PAM الخاصة بالنظام"
+  },
+  "Use the scaled battery level for alert thresholds and percentages": {
+    "Use the scaled battery level for alert thresholds and percentages": ""
   },
   "User": {
     "User": "مستخدم"

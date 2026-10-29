@@ -845,9 +845,6 @@
   "Authenticate": {
     "Authenticate": "Подтвердить"
   },
-  "Authenticating...": {
-    "Authenticating...": "Аутентификация…"
-  },
   "Authentication": {
     "Authentication": "Аутентификация"
   },
@@ -3260,9 +3257,6 @@
   "Fine-tune the seed around the color wheel": {
     "Fine-tune the seed around the color wheel": "Уточните исходный цвет на цветовом круге"
   },
-  "Fingerprint": {
-    "Fingerprint": "Отпечаток пальца"
-  },
   "Fingerprint at login": {
     "Fingerprint at login": "Отпечаток пальца при входе"
   },
@@ -3817,6 +3811,9 @@
   },
   "Hide App": {
     "Hide App": "Скрыть приложение"
+  },
+  "Hide bar on fullscreen": {
+    "Hide bar on fullscreen": ""
   },
   "Hide cursor on touch": {
     "Hide cursor on touch": "Скрывать курсор при касании экрана"
@@ -4373,9 +4370,6 @@
   "Keybinds": {
     "Keybinds": "Сочетания клавиш"
   },
-  "Keyboard": {
-    "Keyboard": "Клавиатура"
-  },
   "Keyboard layout": {
     "Keyboard layout": "Раскладка клавиатуры"
   },
@@ -4681,9 +4675,6 @@
   },
   "Log out": {
     "Log out": "Выйти из системы"
-  },
-  "Login": {
-    "Login": "Вход в систему"
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "Оформление экрана входа и аутентификация"
@@ -7199,6 +7190,15 @@
   "Scale": {
     "Scale": "Масштаб"
   },
+  "Scale battery level to charge limit": {
+    "Scale battery level to charge limit": ""
+  },
+  "Scale low and critical alert thresholds": {
+    "Scale low and critical alert thresholds": ""
+  },
+  "Scale the displayed battery level to the configured charge limit": {
+    "Scale the displayed battery level to the configured charge limit": ""
+  },
   "Scan": {
     "Scan": "Сканировать"
   },
@@ -7315,9 +7315,6 @@
   },
   "Security": {
     "Security": "Безопасность"
-  },
-  "Security key": {
-    "Security key": "Ключ безопасности"
   },
   "Security key (%1)": {
     "Security key (%1)": "Ключ безопасности (%1)"
@@ -7795,6 +7792,9 @@
   },
   "Slanted": {
     "Slanted": "Наклонная"
+  },
+  "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": {
+    "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": ""
   },
   "Slideout": {
     "Slideout": "Выдвижная панель"
@@ -8980,6 +8980,9 @@
   },
   "Use system PAM authentication": {
     "Use system PAM authentication": "Использовать системную аутентификацию PAM"
+  },
+  "Use the scaled battery level for alert thresholds and percentages": {
+    "Use the scaled battery level for alert thresholds and percentages": ""
   },
   "User": {
     "User": "Пользователь"

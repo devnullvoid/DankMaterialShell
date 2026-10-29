@@ -845,9 +845,6 @@
   "Authenticate": {
     "Authenticate": "Xác thực"
   },
-  "Authenticating...": {
-    "Authenticating...": "Đang xác thực..."
-  },
   "Authentication": {
     "Authentication": "Xác thực"
   },
@@ -3260,9 +3257,6 @@
   "Fine-tune the seed around the color wheel": {
     "Fine-tune the seed around the color wheel": ""
   },
-  "Fingerprint": {
-    "Fingerprint": "Dấu vân tay"
-  },
   "Fingerprint at login": {
     "Fingerprint at login": "Dấu vân tay khi đăng nhập"
   },
@@ -3817,6 +3811,9 @@
   },
   "Hide App": {
     "Hide App": "Ẩn ứng dụng"
+  },
+  "Hide bar on fullscreen": {
+    "Hide bar on fullscreen": ""
   },
   "Hide cursor on touch": {
     "Hide cursor on touch": "Ẩn con trỏ khi chạm"
@@ -4373,9 +4370,6 @@
   "Keybinds": {
     "Keybinds": "Phím tắt"
   },
-  "Keyboard": {
-    "Keyboard": "Bàn phím"
-  },
   "Keyboard layout": {
     "Keyboard layout": "Bố cục bàn phím"
   },
@@ -4681,9 +4675,6 @@
   },
   "Log out": {
     "Log out": "Đăng xuất"
-  },
-  "Login": {
-    "Login": "Đăng nhập"
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "Giao diện và xác thực màn hình đăng nhập"
@@ -7199,6 +7190,15 @@
   "Scale": {
     "Scale": "Tỷ lệ"
   },
+  "Scale battery level to charge limit": {
+    "Scale battery level to charge limit": ""
+  },
+  "Scale low and critical alert thresholds": {
+    "Scale low and critical alert thresholds": ""
+  },
+  "Scale the displayed battery level to the configured charge limit": {
+    "Scale the displayed battery level to the configured charge limit": ""
+  },
   "Scan": {
     "Scan": "Quét"
   },
@@ -7315,9 +7315,6 @@
   },
   "Security": {
     "Security": "Bảo mật"
-  },
-  "Security key": {
-    "Security key": "Khóa bảo mật"
   },
   "Security key (%1)": {
     "Security key (%1)": "Khóa bảo mật ( %1 )"
@@ -7795,6 +7792,9 @@
   },
   "Slanted": {
     "Slanted": "Nghiêng"
+  },
+  "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": {
+    "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": ""
   },
   "Slideout": {
     "Slideout": "Slideout"
@@ -8980,6 +8980,9 @@
   },
   "Use system PAM authentication": {
     "Use system PAM authentication": "Sử dụng xác thực PAM hệ thống"
+  },
+  "Use the scaled battery level for alert thresholds and percentages": {
+    "Use the scaled battery level for alert thresholds and percentages": ""
   },
   "User": {
     "User": "Người dùng"

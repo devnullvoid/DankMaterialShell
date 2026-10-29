@@ -237,7 +237,7 @@
     "%1: %2": "%1: %2"
   },
   "%1d ago": {
-    "%1d ago": ""
+    "%1d ago": "%1 дн. тому"
   },
   "%1h": {
     "%1h": "%1 год"
@@ -246,7 +246,7 @@
     "%1h %2m": "%1г %2 хв"
   },
   "%1h ago": {
-    "%1h ago": ""
+    "%1h ago": "%1 год. тому"
   },
   "%1m": {
     "%1m": "%1 хв"
@@ -270,7 +270,7 @@
     "+%1 conditions": "+%1 умови"
   },
   "1 hour before": {
-    "1 hour before": ""
+    "1 hour before": "1 годину тому"
   },
   "1 notification": {
     "1 notification": "1 сповіщення"
@@ -844,9 +844,6 @@
   },
   "Authenticate": {
     "Authenticate": "Підтвердити особу"
-  },
-  "Authenticating...": {
-    "Authenticating...": "Автентифікація.."
   },
   "Authentication": {
     "Authentication": "Автентифікація"
@@ -1515,7 +1512,7 @@
     "Classes": "Класи"
   },
   "Classic": {
-    "Classic": ""
+    "Classic": "Класичний"
   },
   "Clear All": {
     "Clear All": "Очистити все"
@@ -1698,7 +1695,7 @@
     "Columns": "Стовпці"
   },
   "Comfortable": {
-    "Comfortable": ""
+    "Comfortable": "Комфортний"
   },
   "Comma-separated list of layout names. Leave empty to use the system keyboard settings.": {
     "Comma-separated list of layout names. Leave empty to use the system keyboard settings.": "Список назв розкладок, розділених комами. Залиште порожнім, щоб використовувати системні налаштування"
@@ -2283,7 +2280,7 @@
     "Deletes all stored screen time": "Видаляє весь збережений екранний час"
   },
   "Dense": {
-    "Dense": ""
+    "Dense": "Щільний"
   },
   "Dependencies & documentation": {
     "Dependencies & documentation": "Залежності та документація"
@@ -2382,7 +2379,7 @@
     "Disabled": "Вимкнено"
   },
   "Disabled by Auto": {
-    "Disabled by Auto": ""
+    "Disabled by Auto": "Вимкнено автоматично"
   },
   "Disabled by Click through": {
     "Disabled by Click through": "Вимкнено через «Пропускати кліки»"
@@ -2559,7 +2556,7 @@
     "Don't change": "Не змінювати"
   },
   "Don't dim unfocused apps": {
-    "Don't dim unfocused apps": ""
+    "Don't dim unfocused apps": "Не затемнювати неактивні програми"
   },
   "Door Open": {
     "Door Open": "Дверцята відкриті"
@@ -3081,7 +3078,7 @@
     "Failed to read theme file: %1": "Не вдалося прочитати файл теми: %1"
   },
   "Failed to reboot to firmware setup": {
-    "Failed to reboot to firmware setup": ""
+    "Failed to reboot to firmware setup": "Не вдалося перезавантажити для налаштування прошивки"
   },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": "Не вдалося перезавантажити розширення: %1"
@@ -3260,9 +3257,6 @@
   "Fine-tune the seed around the color wheel": {
     "Fine-tune the seed around the color wheel": "Точне налаштування початкового значення за колом кольорів"
   },
-  "Fingerprint": {
-    "Fingerprint": "Відбиток пальця"
-  },
   "Fingerprint at login": {
     "Fingerprint at login": "Відбиток пальця при вході"
   },
@@ -3294,7 +3288,7 @@
     "Fires with any modifiers held": "Спрацьовує при затисканні будь-яких модифікаторів"
   },
   "Firmware setup": {
-    "Firmware setup": ""
+    "Firmware setup": "Налаштування прошивки"
   },
   "First Time Setup": {
     "First Time Setup": "Перше налаштування"
@@ -3456,7 +3450,7 @@
     "For %1": "На %1"
   },
   "For 1 hour": {
-    "For 1 hour": ""
+    "For 1 hour": "Протягом 1 години"
   },
   "For you": {
     "For you": "Для вас"
@@ -3817,6 +3811,9 @@
   },
   "Hide App": {
     "Hide App": "Приховати програму"
+  },
+  "Hide bar on fullscreen": {
+    "Hide bar on fullscreen": ""
   },
   "Hide cursor on touch": {
     "Hide cursor on touch": "Приховувати курсор при дотику"
@@ -4266,7 +4263,7 @@
     "Interface": "Інтерфейс"
   },
   "Interface density": {
-    "Interface density": ""
+    "Interface density": "Щільність інтерфейсу"
   },
   "Interface style": {
     "Interface style": "Стиль інтерфейсу"
@@ -4296,7 +4293,7 @@
     "Invalid wallpaper layout": "Неправильний макет шпалер"
   },
   "Inverse Surface": {
-    "Inverse Surface": ""
+    "Inverse Surface": "Інверсна поверхня"
   },
   "Iridescence": {
     "Iridescence": "Переливчастість"
@@ -4372,9 +4369,6 @@
   },
   "Keybinds": {
     "Keybinds": "Гарячі клавіші"
-  },
-  "Keyboard": {
-    "Keyboard": "Клавіатура"
   },
   "Keyboard layout": {
     "Keyboard layout": "Розкладка клавіатури"
@@ -4682,9 +4676,6 @@
   "Log out": {
     "Log out": "Вийти"
   },
-  "Login": {
-    "Login": "Увійти"
-  },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "Зовнішній вигляд екрана входу та автентифікація"
   },
@@ -4749,7 +4740,7 @@
     "Managed by Nix": "Керується Nix"
   },
   "Managed by administrator policy": {
-    "Managed by administrator policy": ""
+    "Managed by administrator policy": "Керується політикою адміністратора"
   },
   "Managed by the primary PAM source": {
     "Managed by the primary PAM source": "Керується основним джерелом PAM"
@@ -6693,7 +6684,7 @@
     "Read:": "Читати:"
   },
   "Readings": {
-    "Readings": ""
+    "Readings": "Показники"
   },
   "Reads audio devices and volume": {
     "Reads audio devices and volume": "Читає пристрої аудіо та гучність"
@@ -6726,13 +6717,13 @@
     "Reboot recommended": "Рекомендовано перезавантаження"
   },
   "Reboot targets": {
-    "Reboot targets": ""
+    "Reboot targets": "Цілі перезавантаження"
   },
   "Reboot to %1": {
     "Reboot to %1": "Перезавантажити в %1"
   },
   "Reboot to firmware setup": {
-    "Reboot to firmware setup": ""
+    "Reboot to firmware setup": "Перезавантажити для налаштування прошивки"
   },
   "Recent": {
     "Recent": "Нещодавні"
@@ -7050,7 +7041,7 @@
     "Route Bluetooth headset controls to the active DMS media player": "Направити керування Bluetooth-гарнітурою до активного медіа-програвача DMS"
   },
   "Routes launcher, dash, control center and notification shortcuts. Bar widget clicks always open their own popout": {
-    "Routes launcher, dash, control center and notification shortcuts. Bar widget clicks always open their own popout": ""
+    "Routes launcher, dash, control center and notification shortcuts. Bar widget clicks always open their own popout": "Маршрути запускача, панелі керування, центру керування та ярликів сповіщень. Натискання на пристосунок панелі завжди відкривають власне спливаюче вікно"
   },
   "Rows": {
     "Rows": "Рядки"
@@ -7199,6 +7190,15 @@
   "Scale": {
     "Scale": "Масштаб"
   },
+  "Scale battery level to charge limit": {
+    "Scale battery level to charge limit": ""
+  },
+  "Scale low and critical alert thresholds": {
+    "Scale low and critical alert thresholds": ""
+  },
+  "Scale the displayed battery level to the configured charge limit": {
+    "Scale the displayed battery level to the configured charge limit": ""
+  },
   "Scan": {
     "Scan": "Сканувати"
   },
@@ -7305,7 +7305,7 @@
     "Secondary Container": "Другорядний контейнер"
   },
   "Section dividers": {
-    "Section dividers": ""
+    "Section dividers": "Розділювачі секцій"
   },
   "Sections": {
     "Sections": "Секції"
@@ -7315,9 +7315,6 @@
   },
   "Security": {
     "Security": "Безпека"
-  },
-  "Security key": {
-    "Security key": "Ключ безпеки"
   },
   "Security key (%1)": {
     "Security key (%1)": "Ключ безпеки (%1)"
@@ -7359,7 +7356,7 @@
     "Select Dock Launcher Logo": "Оберіть логотип запускача доку"
   },
   "Select Dot Icon": {
-    "Select Dot Icon": ""
+    "Select Dot Icon": "Вибрати іконку-крапку"
   },
   "Select ICC Profile": {
     "Select ICC Profile": "Вибрати ICC-профіль"
@@ -7796,6 +7793,9 @@
   "Slanted": {
     "Slanted": "Похило"
   },
+  "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": {
+    "Slide the bar away over fullscreen applications. Move the pointer to the screen edge to reveal it.": ""
+  },
   "Slideout": {
     "Slideout": "Висувна панель"
   },
@@ -7884,7 +7884,7 @@
     "Spacing": "Відступи"
   },
   "Spacious": {
-    "Spacious": ""
+    "Spacious": "Просторий"
   },
   "Speaker settings": {
     "Speaker settings": "Налаштування динаміків"
@@ -8103,7 +8103,7 @@
     "Switches to power saver at the low battery threshold": "Перемикається в режим енергозбереження при досягненні порогу низького заряду батареї"
   },
   "Symbol": {
-    "Symbol": ""
+    "Symbol": "Символ"
   },
   "Sync": {
     "Sync": "Синхронізація"
@@ -8289,7 +8289,7 @@
     "The Aqueous operation failed.": "Операція Aqueous не вдалася"
   },
   "The Control Center opens at the cursor instead of its widget": {
-    "The Control Center opens at the cursor instead of its widget": ""
+    "The Control Center opens at the cursor instead of its widget": "Центр керування відкривається біля курсора замість свого пристосунку"
   },
   "The Default action only overrides priority": {
     "The Default action only overrides priority": "Типова дія лише замінює пріоритет"
@@ -8625,7 +8625,7 @@
     "Tools": "Інструменти"
   },
   "Tooltip": {
-    "Tooltip": ""
+    "Tooltip": "Підказка"
   },
   "Top": {
     "Top": "Вгорі"
@@ -8980,6 +8980,9 @@
   },
   "Use system PAM authentication": {
     "Use system PAM authentication": "Використовувати системну PAM-автентифікацію"
+  },
+  "Use the scaled battery level for alert thresholds and percentages": {
+    "Use the scaled battery level for alert thresholds and percentages": ""
   },
   "User": {
     "User": "Користувач"
@@ -9528,10 +9531,10 @@
     "Normal": "Нормальний"
   },
   "duration, 2 to 4 form (2, 3, 4, 22, 23, ...) for languages that need one, %1 is a number; leave empty to reuse the plural": {
-    "%1 days": "",
-    "%1 hours": "",
-    "%1 minutes": "",
-    "%1 seconds": ""
+    "%1 days": "%1 днів",
+    "%1 hours": "%1 годин",
+    "%1 minutes": "%1 хвилин",
+    "%1 seconds": "%1 секунд"
   },
   "e.g. /usr/bin/my-script --flag": {
     "e.g. /usr/bin/my-script --flag": "напр. /usr/bin/my-script --flag"
