@@ -349,49 +349,56 @@ Item {
     Component {
         id: blurIslandRegionComp
 
-        // Region geometry is int; keep it a pixel inside the fill so its antialiased edge never shows raw blur.
+        // Region geometry is int; round inward so the region stays inside the antialiased fill.
         Region {
             readonly property real left: topBarMouseArea.x + islandLoader.x + topBarSlide.x + (barWindow.islandHost?.currentVisualX ?? 0)
             readonly property real top: topBarMouseArea.y + islandLoader.y + topBarSlide.y + (barWindow.islandHost?.currentVisualY ?? 0)
 
-            function inset(r) {
-                return r > 0 ? Math.ceil(r) + 1 : 0;
-            }
-
-            x: Math.ceil(left) + 1
-            y: Math.ceil(top) + 1
-            width: Math.max(0, Math.floor(left + (barWindow.islandHost?.currentVisualWidth ?? 0)) - 1 - x)
-            height: Math.max(0, Math.floor(top + (barWindow.islandHost?.currentVisualHeight ?? 0)) - 1 - y)
-            topLeftRadius: inset(barWindow.islandHost?.surface.surfaceMotion.currentTopLeftRadius ?? 0)
-            topRightRadius: inset(barWindow.islandHost?.surface.surfaceMotion.currentTopRightRadius ?? 0)
-            bottomLeftRadius: inset(barWindow.islandHost?.surface.surfaceMotion.currentBottomLeftRadius ?? 0)
-            bottomRightRadius: inset(barWindow.islandHost?.surface.surfaceMotion.currentBottomRightRadius ?? 0)
+            x: Math.ceil(left)
+            y: Math.ceil(top)
+            width: Math.max(0, Math.floor(left + (barWindow.islandHost?.currentVisualWidth ?? 0)) - x)
+            height: Math.max(0, Math.floor(top + (barWindow.islandHost?.currentVisualHeight ?? 0)) - y)
+            topLeftRadius: Math.ceil(barWindow.islandHost?.surface.surfaceMotion.currentTopLeftRadius ?? 0)
+            topRightRadius: Math.ceil(barWindow.islandHost?.surface.surfaceMotion.currentTopRightRadius ?? 0)
+            bottomLeftRadius: Math.ceil(barWindow.islandHost?.surface.surfaceMotion.currentBottomLeftRadius ?? 0)
+            bottomRightRadius: Math.ceil(barWindow.islandHost?.surface.surfaceMotion.currentBottomRightRadius ?? 0)
         }
     }
 
     Component {
         id: blurIslandJoinRegionComp
 
+        // Overlaps the island body by a pixel on the join side so the body's inward rounding leaves no unblurred seam.
         Region {
             id: joinRegion
 
             property Item corner
+            property bool trailing: false
 
-            readonly property real sx: topBarMouseArea.x + islandLoader.x + topBarSlide.x
-            readonly property real sy: topBarMouseArea.y + islandLoader.y + topBarSlide.y
+            readonly property real cx: topBarMouseArea.x + islandLoader.x + topBarSlide.x + corner.x
+            readonly property real cy: topBarMouseArea.y + islandLoader.y + topBarSlide.y + corner.y
+            readonly property bool vertical: barWindow.isVertical
+            readonly property real alongFrom: vertical ? cy : cx
+            readonly property real alongTo: vertical ? cy + corner.height : cx + corner.width
+            readonly property real crossFrom: vertical ? cx : cy
+            readonly property real crossTo: vertical ? cx + corner.width : cy + corner.height
+            readonly property int alongStart: trailing ? Math.floor(alongFrom) - 1 : Math.ceil(alongFrom)
+            readonly property int alongEnd: trailing ? Math.floor(alongTo) : Math.ceil(alongTo) + 1
+            readonly property int crossStart: Math.ceil(crossFrom)
+            readonly property int crossEnd: Math.floor(crossTo)
 
-            x: sx + corner.x
-            y: sy + corner.y
-            width: corner.width
-            height: corner.height
+            x: vertical ? crossStart : alongStart
+            y: vertical ? alongStart : crossStart
+            width: Math.max(0, vertical ? crossEnd - crossStart : alongEnd - alongStart)
+            height: Math.max(0, vertical ? alongEnd - alongStart : crossEnd - crossStart)
 
             Region {
                 intersection: Intersection.Subtract
                 shape: RegionShape.Ellipse
-                x: joinRegion.x + joinRegion.corner.discRect.x
-                y: joinRegion.y + joinRegion.corner.discRect.y
-                width: joinRegion.corner.discRect.width
-                height: joinRegion.corner.discRect.height
+                x: Math.round(joinRegion.cx + joinRegion.corner.discRect.x)
+                y: Math.round(joinRegion.cy + joinRegion.corner.discRect.y)
+                width: Math.round(joinRegion.corner.discRect.width)
+                height: Math.round(joinRegion.corner.discRect.height)
             }
         }
     }
@@ -399,6 +406,7 @@ Item {
     Component {
         id: blurSatelliteRegionComp
 
+        // Sweeps hang off the body's integer bounds; converting each rect on its own could open a seam between them.
         Region {
             id: satelliteRegion
 
@@ -410,45 +418,63 @@ Item {
             readonly property bool far: surface.crossFar
             readonly property int startR: Math.round(surface.alongStartRadius)
             readonly property int endR: Math.round(surface.alongEndRadius)
+            readonly property int alongStart: Math.ceil(horizontal ? sx : sy)
+            readonly property int along: Math.max(0, Math.floor(horizontal ? sx + surface.width : sy + surface.height) - alongStart)
+            readonly property int crossStart: Math.ceil(horizontal ? sy : sx)
+            readonly property int cross: Math.max(0, Math.floor(horizontal ? sy + surface.height : sx + surface.width) - crossStart)
+            readonly property int startAlongR: Math.round(surface.startAlongR)
+            readonly property int startCrossR: Math.round(surface.startCrossR)
+            readonly property int endAlongR: Math.round(surface.endAlongR)
+            readonly property int endCrossR: Math.round(surface.endCrossR)
+            readonly property rect startSweep: localRect(surface.startAttached ? 0 : -startAlongR, surface.startAttached ? cross : 0, startAlongR, startCrossR)
+            readonly property rect startDisc: localRect(surface.startAttached ? 0 : -startAlongR * 2, surface.startAttached ? cross : 0, startAlongR * 2, startCrossR * 2)
+            readonly property rect endSweep: localRect(surface.endAttached ? along - endAlongR : along, surface.endAttached ? cross : 0, endAlongR, endCrossR)
+            readonly property rect endDisc: localRect(surface.endAttached ? along - endAlongR * 2 : along, surface.endAttached ? cross : 0, endAlongR * 2, endCrossR * 2)
 
-            x: sx
-            y: sy
-            width: surface.width
-            height: surface.height
+            function localRect(cx, cy, cw, ch) {
+                if (horizontal)
+                    return far ? Qt.rect(alongStart + cx, crossStart + cross - cy - ch, cw, ch) : Qt.rect(alongStart + cx, crossStart + cy, cw, ch);
+                return far ? Qt.rect(crossStart + cross - cy - ch, alongStart + cx, ch, cw) : Qt.rect(crossStart + cy, alongStart + along - cx - cw, ch, cw);
+            }
+
+            x: horizontal ? alongStart : crossStart
+            y: horizontal ? crossStart : alongStart
+            width: horizontal ? along : cross
+            height: horizontal ? cross : along
             topLeftRadius: far ? startR : 0
             topRightRadius: horizontal ? (far ? endR : 0) : (far ? 0 : startR)
             bottomLeftRadius: horizontal ? (far ? 0 : startR) : (far ? endR : 0)
             bottomRightRadius: far ? 0 : endR
 
             Region {
-                x: satelliteRegion.sx + satelliteRegion.surface.startSweepRect.x
-                y: satelliteRegion.sy + satelliteRegion.surface.startSweepRect.y
-                width: satelliteRegion.surface.startSweepRect.width
-                height: satelliteRegion.surface.startSweepRect.height
+                x: satelliteRegion.startSweep.x
+                y: satelliteRegion.startSweep.y
+                width: satelliteRegion.startSweep.width
+                height: satelliteRegion.startSweep.height
 
                 Region {
                     intersection: Intersection.Subtract
                     shape: RegionShape.Ellipse
-                    x: satelliteRegion.sx + satelliteRegion.surface.startSweepDisc.x
-                    y: satelliteRegion.sy + satelliteRegion.surface.startSweepDisc.y
-                    width: satelliteRegion.surface.startSweepDisc.width
-                    height: satelliteRegion.surface.startSweepDisc.height
+                    x: satelliteRegion.startDisc.x
+                    y: satelliteRegion.startDisc.y
+                    width: satelliteRegion.startDisc.width
+                    height: satelliteRegion.startDisc.height
                 }
             }
 
             Region {
-                x: satelliteRegion.sx + satelliteRegion.surface.endSweepRect.x
-                y: satelliteRegion.sy + satelliteRegion.surface.endSweepRect.y
-                width: satelliteRegion.surface.endSweepRect.width
-                height: satelliteRegion.surface.endSweepRect.height
+                x: satelliteRegion.endSweep.x
+                y: satelliteRegion.endSweep.y
+                width: satelliteRegion.endSweep.width
+                height: satelliteRegion.endSweep.height
 
                 Region {
                     intersection: Intersection.Subtract
                     shape: RegionShape.Ellipse
-                    x: satelliteRegion.sx + satelliteRegion.surface.endSweepDisc.x
-                    y: satelliteRegion.sy + satelliteRegion.surface.endSweepDisc.y
-                    width: satelliteRegion.surface.endSweepDisc.width
-                    height: satelliteRegion.surface.endSweepDisc.height
+                    x: satelliteRegion.endDisc.x
+                    y: satelliteRegion.endDisc.y
+                    width: satelliteRegion.endDisc.width
+                    height: satelliteRegion.endDisc.height
                 }
             }
         }
@@ -520,9 +546,11 @@ Item {
                 const islandSub = blurIslandRegionComp.createObject(region);
                 if (islandSub)
                     subRegions.push(islandSub);
-                for (const corner of barWindow.islandHost.notch ? barWindow.islandHost.surface.joinCorners : []) {
+                const joinCorners = barWindow.islandHost.notch ? barWindow.islandHost.surface.joinCorners : [];
+                for (let i = 0; i < joinCorners.length; i++) {
                     const sub = blurIslandJoinRegionComp.createObject(region, {
-                        corner: corner
+                        corner: joinCorners[i],
+                        trailing: i === 1
                     });
                     if (sub)
                         subRegions.push(sub);

@@ -164,11 +164,11 @@ PanelWindow {
         readonly property real left: body.x + body.currentVisualX
         readonly property real top: body.y + body.currentVisualY
 
-        x: Math.ceil(left) + 1
-        y: Math.ceil(top) + 1
-        width: Math.max(0, Math.floor(left + body.currentVisualWidth) - 1 - x)
-        height: Math.max(0, Math.floor(top + body.currentVisualHeight) - 1 - y)
-        radius: body.currentSurfaceRadius > 0 ? Math.ceil(body.currentSurfaceRadius) + 1 : 0
+        x: Math.ceil(left)
+        y: Math.ceil(top)
+        width: Math.max(0, Math.floor(left + body.currentVisualWidth) - x)
+        height: Math.max(0, Math.floor(top + body.currentVisualHeight) - y)
+        radius: Math.ceil(body.currentSurfaceRadius)
     }
 
     // All four edges are anchored so the margins alone place and size the surface, letting a lift grow it past the output.
