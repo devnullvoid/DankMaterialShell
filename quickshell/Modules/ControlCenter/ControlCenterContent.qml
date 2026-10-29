@@ -52,7 +52,6 @@ FocusScope {
     readonly property real targetImplicitHeight: CcMetrics.sheetPadding * 2 + (widgetGrid.dragging ? heldGridHeight : gridTargetHeight)
     readonly property bool contentOverflows: targetImplicitHeight > (host.availableHeight ?? Infinity)
     property Item detailReturnFocus: null
-    property var pageHistory: []
     // One string so Discard and undo can compare and restore the whole session state at once.
     readonly property string editState: JSON.stringify({
         "widgets": SettingsData.controlCenterWidgets || [],
@@ -113,9 +112,7 @@ FocusScope {
     function navigateTo(section) {
         if (section === host.expandedSection)
             return;
-        if (host.expandedSection)
-            pageHistory = pageHistory.concat([host.expandedSection]);
-        else if (detailBand.shownSection === "")
+        if (!host.expandedSection && detailBand.shownSection === "")
             detailReturnFocus = root.Window.window?.activeFocusItem ?? null;
         host.expandedSection = section;
     }
@@ -123,12 +120,6 @@ FocusScope {
     function goBack() {
         if (detailBand.dismissTransient())
             return;
-        if (pageHistory.length > 0) {
-            const previous = pageHistory[pageHistory.length - 1];
-            pageHistory = pageHistory.slice(0, -1);
-            host.expandedSection = previous;
-            return;
-        }
         host.collapseAll();
     }
 
@@ -338,14 +329,7 @@ FocusScope {
         onActivated: root.undoEdit()
     }
 
-    readonly property string expandedSection: host.expandedSection ?? ""
     readonly property bool editMode: host.editMode
-
-    onExpandedSectionChanged: {
-        if (expandedSection !== "")
-            return;
-        pageHistory = [];
-    }
 
     onEditModeChanged: {
         if (editMode) {
