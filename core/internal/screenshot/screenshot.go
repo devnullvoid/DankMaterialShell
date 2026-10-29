@@ -49,6 +49,28 @@ func (o *WaylandOutput) effectiveScale() float64 {
 	return scale
 }
 
+// Hyprland renders screencopy frames in the output's logical orientation since
+// 901881c9f (v0.57.0); wlroots and niri still hand back the native framebuffer.
+// !TODO: drop the version fallback once every distro ships hyprland >= 0.57
+func (o *WaylandOutput) frameInLogicalOrientation(frameW, frameH int) bool {
+	switch o.transform {
+	case TransformNormal:
+		return true
+	case Transform90, Transform270, TransformFlipped90, TransformFlipped270:
+		if o.width != o.height {
+			return frameW == int(o.height) && frameH == int(o.width)
+		}
+	}
+	return DetectCompositor() == CompositorHyprland && hyprlandVersionAtLeast(0, 57)
+}
+
+func (o *WaylandOutput) untransformFrame(buf *ShmBuffer) (*ShmBuffer, error) {
+	if o.frameInLogicalOrientation(buf.Width, buf.Height) {
+		return buf, nil
+	}
+	return buf.ApplyTransform(InverseTransform(o.transform))
+}
+
 func (o *WaylandOutput) bounds() Region {
 	x, y, w, h := o.x, o.y, o.width, o.height
 	if DetectCompositor() == CompositorHyprland {
@@ -677,12 +699,7 @@ func (s *Screenshoter) captureWholeOutput(output *WaylandOutput) (*CaptureResult
 		result.YInverted = false
 	}
 
-	if output.transform == TransformNormal {
-		return result, nil
-	}
-
-	invTransform := InverseTransform(output.transform)
-	transformed, err := result.Buffer.ApplyTransform(invTransform)
+	transformed, err := output.untransformFrame(result.Buffer)
 	if err != nil {
 		result.Buffer.Close()
 		return nil, fmt.Errorf("apply transform: %w", err)

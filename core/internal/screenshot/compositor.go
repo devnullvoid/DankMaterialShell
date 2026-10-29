@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"sync"
 
 	"github.com/duxlabs-dev/dux-go/wayland/client"
 	"github.com/duxlabs-dev/dux-shell/core/internal/proto/wlr_output_management"
@@ -149,6 +150,31 @@ func GetHyprlandMonitorScale(name string) float64 {
 		}
 	}
 	return 0
+}
+
+// !TODO: remove with the frameInLogicalOrientation version fallback
+var hyprlandVersion = sync.OnceValues(func() (int, int) {
+	output, err := exec.Command("hyprctl", "-j", "version").Output()
+	if err != nil {
+		return 0, 0
+	}
+	var info struct {
+		Version string `json:"version"`
+	}
+	if err := json.Unmarshal(output, &info); err != nil {
+		return 0, 0
+	}
+	var major, minor int
+	fmt.Sscanf(info.Version, "%d.%d", &major, &minor)
+	return major, minor
+})
+
+func hyprlandVersionAtLeast(major, minor int) bool {
+	haveMajor, haveMinor := hyprlandVersion()
+	if haveMajor != major {
+		return haveMajor > major
+	}
+	return haveMinor >= minor
 }
 
 func getHyprlandFocusedMonitor() string {

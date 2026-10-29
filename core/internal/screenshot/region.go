@@ -609,15 +609,12 @@ func (r *RegionSelector) preCaptureOutput(output *WaylandOutput, pc *PreCapture,
 			pc.yInverted = false
 		}
 
-		if output.transform != TransformNormal {
-			invTransform := InverseTransform(output.transform)
-			transformed, err := capturedBuf.ApplyTransform(invTransform)
-			if err != nil {
-				log.Error("apply transform failed", "err", err)
-			} else if transformed != capturedBuf {
-				capturedBuf.Close()
-				capturedBuf = transformed
-			}
+		transformed, err := output.untransformFrame(capturedBuf)
+		if err != nil {
+			log.Error("apply transform failed", "err", err)
+		} else if transformed != capturedBuf {
+			capturedBuf.Close()
+			capturedBuf = transformed
 		}
 
 		if withCursor {
