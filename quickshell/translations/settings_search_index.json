@@ -10149,6 +10149,14 @@
     "optionFile": "IslandOptions.qml"
   },
   {
+    "section": "barWidgetOption:ClockOptions.qml:4",
+    "label": "Click action",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "ClockOptions.qml"
+  },
+  {
     "section": "barWidgetOption:IslandOptions.qml:12",
     "label": "Clipboard",
     "tabIndex": 22,
@@ -10323,6 +10331,14 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "AppsDockOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:ClockOptions.qml:5",
+    "label": "Custom command",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "ClockOptions.qml"
   },
   {
     "section": "barWidgetOption:IslandOptions.qml:14",
@@ -11061,7 +11077,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:ClockOptions.qml:4",
+    "section": "barWidgetOption:ClockOptions.qml:6",
     "label": "Time & weather",
     "tabIndex": 22,
     "keywords": [],

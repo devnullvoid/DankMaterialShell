@@ -132,7 +132,9 @@ var DEFAULTS = {
     clock: {
         clockCompactMode: false,
         clockDateOrder: "timeFirst",
-        clockNotificationBadge: false
+        clockNotificationBadge: false,
+        clockClickAction: "dash",
+        clockClickCommand: ""
     },
     music: {
         mediaStyle: "controls",

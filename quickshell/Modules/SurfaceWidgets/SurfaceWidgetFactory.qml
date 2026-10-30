@@ -1,9 +1,11 @@
 pragma ComponentBehavior: Bound
 import QtQuick
+import Quickshell
 import Quickshell.Services.SystemTray
 import qs.Common
 import qs.Services
 import qs.Modules.DBar.Widgets
+import qs.Modules.DDash
 import "../DBar/WidgetModel.js" as WidgetModel
 
 Item {
@@ -393,15 +395,32 @@ Item {
             }
 
             onClockClicked: {
+                const action = SettingsData.widgetOption("clock", clockWidget.widgetData, "clockClickAction");
+                if (action === "none")
+                    return;
+                if (action === "settings") {
+                    PopoutService.focusOrToggleSettingsWithTab("time_weather");
+                    return;
+                }
+                if (action === "command") {
+                    const command = SettingsData.widgetOption("clock", clockWidget.widgetData, "clockClickCommand");
+                    if (command)
+                        Quickshell.execDetached(["sh", "-c", command]);
+                    return;
+                }
+                // requestTab would still show a disabled Overview as a detail page.
+                const tabId = DashRegistry.isSelectable(DashRegistry.overviewId) ? DashRegistry.overviewId : DashRegistry.defaultTabId;
+                if (!tabId)
+                    return;
                 const section = root.getWidgetSection(parent) || "center";
                 root.openWidgetPopout({
                     loader: PopoutService.dankDashPopoutLoader,
                     widgetItem: clockWidget,
                     section,
                     useCenterSection: true,
-                    triggerSource: root._dashTriggerSource(section, "overview"),
+                    triggerSource: root._dashTriggerSource(section, tabId),
                     islandActivity: "home",
-                    prepare: popout => popout.requestTab("overview"),
+                    prepare: popout => popout.requestTab(tabId),
                     mode: "click",
                     setTriggerScreen: true
                 });
