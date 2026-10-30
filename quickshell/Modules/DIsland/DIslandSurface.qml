@@ -627,6 +627,7 @@ Item {
 
         HomeExpanded {
             controller: root.controller
+            onWindowRequested: windowName => root.openAfterCollapse(windowName)
             resizeGeometry: root.resizeGeometry
         }
     }
@@ -645,6 +646,7 @@ Item {
 
         MediaExpanded {
             controller: root.controller
+            onWindowRequested: windowName => root.openAfterCollapse(windowName)
             resizeGeometry: root.resizeGeometry
         }
     }
@@ -734,6 +736,7 @@ Item {
 
         WallpaperExpanded {
             controller: root.controller
+            onWindowRequested: windowName => root.openAfterCollapse(windowName)
             resizeGeometry: root.resizeGeometry
             effectiveScreen: root.effectiveScreen
         }
@@ -755,6 +758,7 @@ Item {
 
         WeatherExpanded {
             controller: root.controller
+            onWindowRequested: windowName => root.openAfterCollapse(windowName)
             resizeGeometry: root.resizeGeometry
         }
     }
@@ -775,6 +779,7 @@ Item {
 
         WellbeingExpanded {
             controller: root.controller
+            onWindowRequested: windowName => root.openAfterCollapse(windowName)
             resizeGeometry: root.resizeGeometry
         }
     }
@@ -845,6 +850,7 @@ Item {
 
         NotificationCenterExpanded {
             controller: root.controller
+            onWindowRequested: windowName => root.openAfterCollapse(windowName)
             resizeGeometry: root.resizeGeometry
         }
     }

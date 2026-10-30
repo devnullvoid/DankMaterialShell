@@ -22,11 +22,15 @@ FocusScope {
     readonly property var tab: tabLoader.item
     readonly property real tabHeight: tab?.implicitHeight ?? 0
     readonly property real contentHeight: DashMetrics.panelHeightFor(entryId, tabHeight)
-    readonly property bool handleHeader: !root.editMode
+    readonly property bool tabsShown: root.controller.dashTabsShownFor(root.activityId)
+    readonly property real chromeHeight: DashMetrics.islandChromeHeight(tabsShown ? (tabBarLoader.item?.implicitHeight ?? Theme.navigationHeight) : 0)
+    readonly property bool handleHeader: !root.editMode && !root.tabsShown
     readonly property real pillOverhang: editMode ? DashMetrics.islandPillOverhang : 0
     readonly property int panelColumns: DashMetrics.panelColumnsFor(entryId)
     readonly property int contentRows: DashMetrics.rowsForHeight(tabHeight)
     readonly property int panelRows: Math.max(DashMetrics.panelFloorRowsFor(entryId), contentRows)
+
+    signal windowRequested(string windowName)
 
     readonly property QtObject resizeHost: QtObject {
         readonly property real renderedAlignedX: root.resizeGeometry?.renderedX ?? 0
@@ -72,7 +76,13 @@ FocusScope {
     function focusFace() {
         pageActions.clearFocus();
         sheetHandle.focusTarget.focus = false;
+        if (tabBarLoader.item)
+            tabBarLoader.item.focus = false;
         tabLoader.focus = false;
+        if (root.controller.dashNavigationFocused && tabBarLoader.item && !root.editMode) {
+            tabBarLoader.item.forceActiveFocus(Qt.OtherFocusReason);
+            return true;
+        }
         root.forceActiveFocus(Qt.OtherFocusReason);
         if (!root.editMode)
             root.tab?.restoreFocus?.();
@@ -80,10 +90,11 @@ FocusScope {
     }
 
     function reportHeight() {
-        root.controller.setDashboardContentHeight(root.activityId, root.contentHeight + DashMetrics.islandHandleChromeHeight);
+        root.controller.setDashboardContentHeight(root.activityId, root.contentHeight + root.chromeHeight);
     }
 
     onContentHeightChanged: reportHeight()
+    onChromeHeightChanged: reportHeight()
     onLiveChanged: {
         if (live)
             return;
@@ -97,7 +108,7 @@ FocusScope {
             focusFace();
     }
     onEditModeChanged: {
-        root.controller.setEditing(root.activityId, editMode, DashMetrics.islandEditRoom);
+        root.controller.setEditing(root.activityId, editMode, Math.max(0, DashMetrics.islandEditChromeHeight - root.chromeHeight));
         if (!editMode)
             panelResizer.cancel();
         Qt.callLater(() => {
@@ -119,8 +130,8 @@ FocusScope {
         tabItem: root.tab
         contentScope: tabLoader
         contentTarget: root.tab?.focusTarget ?? null
-        headerTargets: root.editMode ? pageActions.focusTargets : [sheetHandle.focusTarget]
-        onTabCycleRequested: direction => root.controller.cycleDashTab(direction)
+        headerTargets: root.editMode ? pageActions.focusTargets : [tabBarLoader.item, sheetHandle.focusTarget]
+        onTabCycleRequested: direction => root.controller.cycleDashTab(direction, tabBarLoader.item?.activeFocus ?? false)
         onEditModeRequested: on => root.editMode = on
         onOptionsDismissRequested: tabOptions.dismiss()
         onCloseRequested: root.controller.requestCollapse()
@@ -133,11 +144,41 @@ FocusScope {
             top: parent.top
             left: parent.left
             right: parent.right
-            topMargin: root.editMode ? DashMetrics.islandEditHeaderInset : 0
+            topMargin: root.editMode ? DashMetrics.islandEditHeaderInset : root.tabsShown ? DashMetrics.contentPadding : 0
             leftMargin: DashMetrics.contentPadding
             rightMargin: DashMetrics.contentPadding
         }
-        height: root.handleHeader ? DashMetrics.islandHandleHeight : DashMetrics.editHeaderHeight
+        height: root.editMode ? DashMetrics.editHeaderHeight : root.tabsShown ? (tabBarLoader.item?.implicitHeight ?? Theme.navigationHeight) : DashMetrics.islandHandleHeight
+
+        Loader {
+            id: tabBarLoader
+            anchors.fill: parent
+            active: root.tabsShown
+            visible: !root.editMode
+
+            sourceComponent: DNavigationBar {
+                id: tabBar
+
+                editable: true
+                tabHighlights: true
+                evenlySpaced: SettingsData.dashTabsEvenlySpaced
+                currentIndex: root.controller.dashTabIds.indexOf(root.entryId)
+                nextFocusTarget: root.tab?.focusTarget ?? null
+                previousFocusTarget: root.tab?.focusTarget ?? null
+                model: root.controller.dashTabBarModel
+                onEditRequested: root.editMode = true
+                onActivated: index => {
+                    const id = root.controller.dashTabIds[index];
+                    if (id === undefined || id === root.entryId)
+                        return;
+                    if (DashRegistry.isAction(id)) {
+                        root.windowRequested(id);
+                        return;
+                    }
+                    root.controller.requestDashTab(id, tabBar.activeFocus);
+                }
+            }
+        }
 
         DashSheetHandle {
             id: sheetHandle
@@ -170,7 +211,7 @@ FocusScope {
         showScrollBar: false
         anchors {
             top: header.bottom
-            topMargin: root.editMode ? DashMetrics.contentPadding : 0
+            topMargin: root.editMode ? DashMetrics.contentPadding : root.tabsShown ? DashMetrics.contentGap : 0
             left: parent.left
             right: parent.right
             bottom: parent.bottom
@@ -190,6 +231,10 @@ FocusScope {
             asynchronous: true
             visible: status === Loader.Ready
             sourceComponent: root.tabComponent
+            onActiveFocusChanged: {
+                if (activeFocus)
+                    root.controller.dashNavigationFocused = false;
+            }
             onLoaded: {
                 root.reportHeight();
                 if (root.live)

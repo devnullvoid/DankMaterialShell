@@ -175,6 +175,15 @@ SettingsCard {
     }
 
     SettingsToggleRow {
+        settingKey: root.keyPrefix + "DashTabs"
+        tags: ["island", "dashboard", "dash", "tabs", "navigation"]
+        text: I18n.tr("Dashboard tabs", "island settings: dashboard tab bar toggle")
+        description: I18n.tr("Shows the dashboard tab bar instead of the sheet handle", "island settings: dashboard tab bar toggle description")
+        checked: root.store.setting("islandDashTabs")
+        onToggled: checked => root.store.apply("islandDashTabs", checked)
+    }
+
+    SettingsToggleRow {
         settingKey: root.keyPrefix + "MediaClockVisible"
         tags: ["island", "media", "clock", "compact", "time"]
         visible: !root.isDot

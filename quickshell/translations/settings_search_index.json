@@ -3573,6 +3573,31 @@
     "conditionKey": "islandEnabled"
   },
   {
+    "section": "islandDashTabs",
+    "label": "Dashboard tabs",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "dash",
+      "dashboard",
+      "general",
+      "handle",
+      "island",
+      "navigation",
+      "panel",
+      "sheet",
+      "shows",
+      "statusbar",
+      "tabs",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "description": "Shows the dashboard tab bar instead of the sheet handle",
+    "conditionKey": "islandEnabled"
+  },
+  {
     "section": "barDisplay",
     "label": "Displays",
     "tabIndex": 3,
@@ -10108,7 +10133,7 @@
     "optionFile": "PrivacyOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:28",
+    "section": "barWidgetOption:IslandOptions.qml:29",
     "label": "Charging",
     "tabIndex": 22,
     "keywords": [],
@@ -10116,7 +10141,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:30",
+    "section": "barWidgetOption:IslandOptions.qml:31",
     "label": "Clear badge on open",
     "tabIndex": 22,
     "keywords": [],
@@ -10308,6 +10333,14 @@
     "optionFile": "IslandOptions.qml"
   },
   {
+    "section": "barWidgetOption:IslandOptions.qml:22",
+    "label": "Dashboard tabs",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
     "section": "barWidgetOption:SystemMonitorOptions.qml:7",
     "label": "Disk usage format",
     "tabIndex": 22,
@@ -10332,7 +10365,7 @@
     "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:29",
+    "section": "barWidgetOption:IslandOptions.qml:30",
     "label": "Expand by default",
     "tabIndex": 22,
     "keywords": [],
@@ -10524,7 +10557,7 @@
     "optionFile": "ControlCenterOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:22",
+    "section": "barWidgetOption:IslandOptions.qml:23",
     "label": "Keep clock with media",
     "tabIndex": 22,
     "keywords": [],
@@ -10556,7 +10589,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:23",
+    "section": "barWidgetOption:IslandOptions.qml:24",
     "label": "Lyrics",
     "tabIndex": 22,
     "keywords": [],
@@ -10644,7 +10677,7 @@
     "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:31",
+    "section": "barWidgetOption:IslandOptions.qml:32",
     "label": "Motion",
     "tabIndex": 22,
     "keywords": [],
@@ -10692,7 +10725,7 @@
     "optionFile": "ClockOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:25",
+    "section": "barWidgetOption:IslandOptions.qml:26",
     "label": "Notifications",
     "tabIndex": 22,
     "keywords": [],
@@ -10972,7 +11005,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:33",
+    "section": "barWidgetOption:IslandOptions.qml:34",
     "label": "Spring damping",
     "tabIndex": 22,
     "keywords": [],
@@ -10980,7 +11013,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:34",
+    "section": "barWidgetOption:IslandOptions.qml:35",
     "label": "Spring mass",
     "tabIndex": 22,
     "keywords": [],
@@ -10988,7 +11021,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:32",
+    "section": "barWidgetOption:IslandOptions.qml:33",
     "label": "Spring stiffness",
     "tabIndex": 22,
     "keywords": [],
@@ -11020,7 +11053,7 @@
     "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:24",
+    "section": "barWidgetOption:IslandOptions.qml:25",
     "label": "Switch to media when playback starts",
     "tabIndex": 22,
     "keywords": [],
@@ -11076,7 +11109,7 @@
     "optionFile": "SystemTrayOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:27",
+    "section": "barWidgetOption:IslandOptions.qml:28",
     "label": "Use standard OSDs",
     "tabIndex": 22,
     "keywords": [],
@@ -11084,7 +11117,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:26",
+    "section": "barWidgetOption:IslandOptions.qml:27",
     "label": "Use standard popups",
     "tabIndex": 22,
     "keywords": [],
@@ -17958,6 +17991,31 @@
       "topbar"
     ],
     "parentLabel": "Bar",
+    "conditionKey": "dotEnabled"
+  },
+  {
+    "section": "dotDashTabs",
+    "label": "Dashboard tabs",
+    "tabIndex": 65,
+    "category": "Dot",
+    "keywords": [
+      "bar",
+      "dash",
+      "dashboard",
+      "dot",
+      "handle",
+      "island",
+      "navigation",
+      "panel",
+      "sheet",
+      "shows",
+      "statusbar",
+      "tabs",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "description": "Shows the dashboard tab bar instead of the sheet handle",
     "conditionKey": "dotEnabled"
   },
   {

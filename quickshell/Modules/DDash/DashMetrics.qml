@@ -26,7 +26,6 @@ Singleton {
     // Card pills overhang their card by half their height and must stay inside the pages clip.
     readonly property real islandPillOverhang: PopoutMetrics.chromeButtonSize / 2
     readonly property real islandEditChromeHeight: islandEditHeaderInset + editHeaderHeight + contentPadding + islandPillOverhang + islandEditBottomInset
-    readonly property real islandEditRoom: islandEditChromeHeight - islandHandleChromeHeight
     readonly property real spinnerSize: Theme.iconButtonSize
     readonly property real triggerWidth: CcMetrics.triggerWidth
     readonly property int transitionDuration: CcMetrics.transitionDuration
@@ -35,6 +34,10 @@ Singleton {
     readonly property int openReadyDeadline: 250
     readonly property int overlayZ: CcMetrics.overlayZ
     readonly property bool animationsEnabled: CcMetrics.animationsEnabled
+
+    function islandChromeHeight(tabBarHeight) {
+        return tabBarHeight > 0 ? contentPadding * 2 + tabBarHeight + contentGap : islandHandleChromeHeight;
+    }
 
     function widthFor(weekNumbers, screenWidth, columns = gridColumns) {
         // The floor is sized at comfortable spacing, so it carries the density offsets.

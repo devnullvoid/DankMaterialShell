@@ -36,6 +36,7 @@ var ISLAND_DEFAULTS = {
     islandHoverCloseDelay: 150,
     islandPalette: "default",
     islandHighContrast: false,
+    islandDashTabs: false,
     islandMediaClockVisible: true,
     islandMediaLyrics: false,
     islandMediaAutoSwitch: false,
