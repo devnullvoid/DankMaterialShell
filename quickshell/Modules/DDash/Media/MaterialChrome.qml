@@ -132,7 +132,10 @@ MediaChromeBase {
             anchors.bottom: seekBlock.visible ? seekBlock.top : parent.bottom
             anchors.bottomMargin: seekBlock.visible ? Theme.spacingM : 0
             active: root.player.lyricsOpen && root.player.live
-            onLoaded: item.forceActiveFocus(Qt.PopupFocusReason)
+            onLoaded: {
+                if (root.player.ownsFocus())
+                    item.forceActiveFocus(Qt.PopupFocusReason);
+            }
             sourceComponent: LyricsOverlay {
                 player: root.player
             }

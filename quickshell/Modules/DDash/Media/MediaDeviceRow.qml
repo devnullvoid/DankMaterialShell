@@ -13,6 +13,7 @@ SettingsRow {
     required property var node
     property bool selected: false
     property bool playing: false
+    readonly property color insetColor: Theme.blend(MediaAccentService.accentContainer, Theme.surface, 0.7)
 
     signal activated
 
@@ -27,8 +28,8 @@ SettingsRow {
     clickable: true
     paddingH: Theme.spacingL
     paddingV: Theme.spacingL
-    rowColor: selected ? Theme.selectedContainer : Theme.chipSurface
-    titleColor: selected ? Theme.onSelectedContainer : Theme.surfaceText
+    rowColor: selected ? MediaAccentService.accentContainer : Theme.chipSurface
+    titleColor: selected ? MediaAccentService.onAccentContainer : Theme.surfaceText
     subtitleColor: titleColor
     topRadius: Theme.cornerRadiusLIncreased
     bottomRadius: Theme.cornerRadiusLIncreased
@@ -39,13 +40,13 @@ SettingsRow {
         width: Theme.iconButtonSize
         height: width
         radius: Theme.fullRadius(width, height)
-        color: root.selected ? Theme.onPrimary : Theme.chipSurfaceNested
+        color: root.selected ? root.insetColor : Theme.chipSurfaceNested
 
         DIcon {
             anchors.centerIn: parent
             name: AudioService.sinkIcon(root.node)
             size: Theme.iconSizeMedium
-            color: root.selected ? Theme.onSelectedContainer : Theme.onSurfaceVariant
+            color: root.selected ? root.titleColor : Theme.onSurfaceVariant
         }
     }
 
@@ -58,6 +59,7 @@ SettingsRow {
             spacing: Theme.spacingS
 
             DActionButton {
+                focusRingColor: MediaAccentService.focusRing
                 buttonSize: Theme.iconButtonSize
                 iconName: volumeSlider.volumeIcon
                 iconColor: root.titleColor
@@ -73,10 +75,10 @@ SettingsRow {
                 volume: root.node?.audio?.volume ?? 0
                 muted: root.node?.audio?.muted ?? false
                 maximumVolume: AudioService.getMaxVolumePercent(root.node)
-                fillColor: Theme.onSelectedContainer
-                fillTextColor: Theme.selectedContainer
-                trackColor: Theme.onPrimary
-                trackTextColor: Theme.onSelectedContainer
+                fillColor: root.titleColor
+                fillTextColor: root.rowColor
+                trackColor: root.insetColor
+                trackTextColor: root.titleColor
                 Accessible.name: I18n.tr("Volume") + ": " + root.title
                 onVolumeChangedByUser: volume => {
                     const audio = root.node?.audio;

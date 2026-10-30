@@ -154,6 +154,7 @@ Card {
 
             DSeekbar {
                 id: seekbar
+                focusRingColor: MediaAccentService.focusRing
                 anchors.fill: parent
                 activePlayer: root.activePlayer
                 stableLength: MprisController.activePlayerStableLength

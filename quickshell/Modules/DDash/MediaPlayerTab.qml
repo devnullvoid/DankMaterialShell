@@ -174,6 +174,15 @@ Item {
             lyricsOpen = true;
     }
 
+    // A plain Item's activeFocus stays false while a child holds focus.
+    function ownsFocus() {
+        for (let item = Window.activeFocusItem; item; item = item.parent) {
+            if (item === root)
+                return true;
+        }
+        return false;
+    }
+
     function toggleLyrics(opener) {
         if (!lyricsEnabled)
             return;

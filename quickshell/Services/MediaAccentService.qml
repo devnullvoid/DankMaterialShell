@@ -65,6 +65,8 @@ Singleton {
 
     readonly property color accentTrack: Theme.withAlpha(accent, 0.28)
     readonly property color accentSubtle: Theme.withAlpha(accent, 0.55)
+    // A ring colour the user changed from primary wins over the accent.
+    readonly property color focusRing: Qt.colorEqual(Theme.focusRingColor, Theme.primary) ? accent : Theme.focusRingColor
 
     readonly property string artUrl: TrackArtService.resolvedArtUrl
     property var _accent: _pickAccent(TrackArtService.artwork.colors)

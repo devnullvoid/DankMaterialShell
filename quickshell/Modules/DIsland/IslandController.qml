@@ -150,6 +150,38 @@ QtObject {
         return activityId;
     }
 
+    function dashActivityFor(entryId) {
+        switch (entryId) {
+        case DashRegistry.overviewId:
+            return "home";
+        case "notifications":
+            return "notificationcenter";
+        case "media":
+            return mediaAvailable ? "media" : "";
+        case "weather":
+        case "wellbeing":
+        case "wallpaper":
+            return entryId;
+        }
+        return "";
+    }
+
+    function requestDashTab(entryId) {
+        if (entryId === "notifications")
+            return requestNotificationCenter(false);
+        const activityId = dashActivityFor(entryId);
+        return activityId !== "" && requestActivity(activityId, true, true);
+    }
+
+    function cycleDashTab(direction) {
+        const ids = DashRegistry.visibleTabIds.filter(id => dashActivityFor(id) !== "");
+        if (ids.length === 0)
+            return false;
+        const pos = ids.indexOf(dashEntryIdFor(activeActivity));
+        const next = ids[pos < 0 ? (direction > 0 ? 0 : ids.length - 1) : (pos + direction + ids.length) % ids.length];
+        return next === dashEntryIdFor(activeActivity) || requestDashTab(next);
+    }
+
     function dashboardWidthFor(activityId) {
         return Math.min(dashboardAvailableWidth, DashMetrics.widthFor(SettingsData.showWeekNumber, undefined, DashMetrics.panelColumnsFor(dashEntryIdFor(activityId))));
     }

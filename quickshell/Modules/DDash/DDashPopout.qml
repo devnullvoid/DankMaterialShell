@@ -8,7 +8,6 @@ import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modules.ControlCenter.Widgets
 import qs.Modules.DDash.Overview
-import "../../DCommon/Common/FocusNavigation.js" as FocusNavigation
 
 DPopout {
     id: root
@@ -313,15 +312,8 @@ DPopout {
                 onCanceled: DashMetrics.panelPreview = null
             }
 
-            function headerFocusTargets() {
-                const targets = root.editMode ? pageActions.focusTargets : [tabBar, pageTitle.focusTarget];
-                return targets.filter(item => item.visible && item.enabled);
-            }
-
             function focusNavigation(backwards) {
-                const targets = headerFocusTargets();
-                const target = backwards ? targets[targets.length - 1] : targets[0];
-                target?.forceActiveFocus(backwards ? Qt.BacktabFocusReason : Qt.TabFocusReason);
+                keyboard.focusHeader(backwards);
             }
 
             function focusInitial() {
@@ -337,39 +329,6 @@ DPopout {
                 mainContainer.forceActiveFocus(Qt.OtherFocusReason);
                 if (!root.editMode)
                     pages.currentItem?.restoreFocus?.();
-            }
-
-            function contentEntryFor(key) {
-                switch (key) {
-                case Qt.Key_Down:
-                case Qt.Key_Right:
-                    return "forwards";
-                case Qt.Key_Up:
-                case Qt.Key_Left:
-                    return "backwards";
-                }
-                return "";
-            }
-
-            function enterContent(backwards) {
-                const target = backwards ? (pages.currentItem?.previousFocusTarget ?? pages.focusTarget) : pages.focusTarget;
-                FocusNavigation.focusItem(target, backwards);
-            }
-
-            function cycleRegion(backwards) {
-                if (pages.currentHost?.activeFocus) {
-                    if (pages.currentItem?.cycleFocus?.(backwards) === true)
-                        return;
-                    focusNavigation(backwards);
-                    return;
-                }
-                const targets = headerFocusTargets();
-                const inHeader = targets.some(FocusNavigation.containsFocus);
-                if (inHeader && FocusNavigation.moveFocus(targets, backwards))
-                    return;
-                if (inHeader && pages.currentItem?.cycleFocus?.(backwards) === true)
-                    return;
-                enterContent(backwards);
             }
 
             function resetScroll() {
@@ -410,159 +369,34 @@ DPopout {
                 focusInitial();
             }
 
-            Keys.onPressed: function (event) {
-                if (pageActions.menuOpen)
-                    return;
-                if (tabOptions.shown) {
-                    if (event.key !== Qt.Key_Escape)
-                        return;
-                    tabOptions.dismiss();
-                    event.accepted = true;
-                    return;
+            Keys.onPressed: event => event.accepted = keyboard.handleKeyEvent(event)
+
+            DashKeyboard {
+                id: keyboard
+
+                active: root.shouldBeVisible
+                editable: root.activeTabId !== ""
+                editMode: root.editMode
+                optionsShown: tabOptions.shown
+                menuOpen: pageActions.menuOpen
+                tabItem: pages.currentItem
+                contentScope: pages.currentHost
+                contentTarget: pages.focusTarget
+                headerTargets: root.editMode ? pageActions.focusTargets : [tabBar, pageTitle.focusTarget]
+                headerEdge: root.verticalNavigation ? (root.navigationEdge === SettingsData.Right ? "right" : "left") : (root.navigationEdge === SettingsData.Bottom ? "down" : "up")
+                onTabCycleRequested: direction => {
+                    root.cycleTab(direction);
+                    if (!mainContainer.navigationFocused)
+                        mainContainer.focusInitial();
                 }
-
-                const current = pages.currentItem;
-                if (current && typeof current.handleKeyEvent === "function" && current.handleKeyEvent(event) === true) {
-                    event.accepted = true;
-                    return;
+                onEditModeRequested: on => root.editMode = on
+                onOptionsDismissRequested: tabOptions.dismiss()
+                onCloseRequested: {
+                    if (root.detailTabId !== "")
+                        root.closeDetail();
+                    else
+                        root.dashVisible = false;
                 }
-
-                const entry = contentEntryFor(event.key);
-                if (entry !== "" && !pages.currentHost?.activeFocus) {
-                    enterContent(entry === "backwards");
-                    event.accepted = true;
-                    return;
-                }
-
-                if (event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab) {
-                    if (root.editMode) {
-                        mainContainer.focusNavigation(event.key === Qt.Key_Backtab || !!(event.modifiers & Qt.ShiftModifier));
-                        event.accepted = true;
-                        return;
-                    }
-                    if (current?.blocksTabNavigation)
-                        return;
-                    root.cycleTab(event.key === Qt.Key_Backtab || (event.modifiers & Qt.ShiftModifier) ? -1 : 1);
-                    event.accepted = true;
-                    return;
-                }
-                if (event.key !== Qt.Key_Escape)
-                    return;
-                if (root.editMode) {
-                    root.editMode = false;
-                    event.accepted = true;
-                    return;
-                }
-                if (root.detailTabId !== "") {
-                    root.closeDetail();
-                    event.accepted = true;
-                    return;
-                }
-                root.dashVisible = false;
-                event.accepted = true;
-            }
-
-            Shortcut {
-                sequence: "Tab"
-                enabled: root.shouldBeVisible && !tabOptions.shown && !pageActions.menuOpen && !root.editMode && !pages.currentItem?.blocksTabNavigation
-                context: Qt.WindowShortcut
-                onActivated: {
-                    root.cycleTab(1);
-                    mainContainer.focusInitial();
-                }
-            }
-
-            Shortcut {
-                sequence: "Shift+Tab"
-                enabled: root.shouldBeVisible && !tabOptions.shown && !pageActions.menuOpen && !root.editMode && !pages.currentItem?.blocksTabNavigation
-                context: Qt.WindowShortcut
-                onActivated: {
-                    root.cycleTab(-1);
-                    mainContainer.focusInitial();
-                }
-            }
-
-            Shortcut {
-                sequence: "Ctrl+Tab"
-                enabled: root.shouldBeVisible && !tabOptions.shown && !pageActions.menuOpen
-                context: Qt.WindowShortcut
-                onActivated: {
-                    root.cycleTab(1);
-                    mainContainer.focusInitial();
-                }
-            }
-
-            Shortcut {
-                sequence: "Ctrl+Shift+Tab"
-                enabled: root.shouldBeVisible && !tabOptions.shown && !pageActions.menuOpen
-                context: Qt.WindowShortcut
-                onActivated: {
-                    root.cycleTab(-1);
-                    mainContainer.focusInitial();
-                }
-            }
-
-            Shortcut {
-                sequences: ["F2", "Ctrl+E"]
-                enabled: root.shouldBeVisible && root.activeTabId !== "" && !root.editMode && !tabOptions.shown && !pageActions.menuOpen && !pages.currentItem?.blocksTabNavigation
-                context: Qt.WindowShortcut
-                onActivated: root.editMode = true
-            }
-
-            Shortcut {
-                sequence: "F6"
-                enabled: root.shouldBeVisible && !tabOptions.shown && !pageActions.menuOpen && !root.editMode && !pages.currentItem?.blocksTabNavigation
-                context: Qt.WindowShortcut
-                onActivated: mainContainer.cycleRegion(false)
-            }
-
-            Shortcut {
-                sequence: "Shift+F6"
-                enabled: root.shouldBeVisible && !tabOptions.shown && !pageActions.menuOpen && !root.editMode && !pages.currentItem?.blocksTabNavigation
-                context: Qt.WindowShortcut
-                onActivated: mainContainer.cycleRegion(true)
-            }
-
-            Shortcut {
-                sequence: "Alt+Tab"
-                enabled: root.shouldBeVisible && !tabOptions.shown && !pageActions.menuOpen && !root.editMode && !pages.currentItem?.blocksTabNavigation
-                context: Qt.WindowShortcut
-                onActivated: pages.currentItem?.cycleCardFocus?.(false)
-            }
-
-            Shortcut {
-                sequence: "Alt+Shift+Tab"
-                enabled: root.shouldBeVisible && !tabOptions.shown && !pageActions.menuOpen && !root.editMode && !pages.currentItem?.blocksTabNavigation
-                context: Qt.WindowShortcut
-                onActivated: pages.currentItem?.cycleCardFocus?.(true)
-            }
-
-            Shortcut {
-                sequences: ["Alt+Left", "Alt+H"]
-                enabled: root.shouldBeVisible && !tabOptions.shown && !pageActions.menuOpen && !root.editMode && !pages.currentItem?.blocksTabNavigation
-                context: Qt.WindowShortcut
-                onActivated: pages.currentItem?.moveCardFocus?.("left")
-            }
-
-            Shortcut {
-                sequences: ["Alt+Right", "Alt+L"]
-                enabled: root.shouldBeVisible && !tabOptions.shown && !pageActions.menuOpen && !root.editMode && !pages.currentItem?.blocksTabNavigation
-                context: Qt.WindowShortcut
-                onActivated: pages.currentItem?.moveCardFocus?.("right")
-            }
-
-            Shortcut {
-                sequences: ["Alt+Up", "Alt+K"]
-                enabled: root.shouldBeVisible && !tabOptions.shown && !pageActions.menuOpen && !root.editMode && !pages.currentItem?.blocksTabNavigation
-                context: Qt.WindowShortcut
-                onActivated: pages.currentItem?.moveCardFocus?.("up")
-            }
-
-            Shortcut {
-                sequences: ["Alt+Down", "Alt+J"]
-                enabled: root.shouldBeVisible && !tabOptions.shown && !pageActions.menuOpen && !root.editMode && !pages.currentItem?.blocksTabNavigation
-                context: Qt.WindowShortcut
-                onActivated: pages.currentItem?.moveCardFocus?.("down")
             }
 
             DashOptionsSheet {
@@ -634,6 +468,7 @@ DPopout {
                             onEditRequested: root.editMode = true
                             visible: root.showTabs && !root.editMode
                             orientation: root.verticalNavigation ? Qt.Vertical : Qt.Horizontal
+                            tabHighlights: true
                             currentIndex: root.currentTabIndex
                             nextFocusTarget: pageActions.focusTargets[0] ?? pages.focusTarget
                             previousFocusTarget: pages.currentItem?.previousFocusTarget ?? pages.focusTarget

@@ -44,6 +44,7 @@ Item {
 
         DActionButton {
             id: volumeButton
+            focusRingColor: MediaAccentService.focusRing
 
             readonly property string panelId: "volume"
 
@@ -65,6 +66,7 @@ Item {
 
     DButton {
         id: deviceChip
+        focusRingColor: MediaAccentService.focusRing
 
         readonly property string panelId: "devices"
 
@@ -87,6 +89,7 @@ Item {
 
     DActionButton {
         id: deviceIcon
+        focusRingColor: MediaAccentService.focusRing
 
         readonly property string panelId: "devices"
 

@@ -32,7 +32,10 @@ Item {
     Loader {
         anchors.fill: parent
         active: root.showLyrics && root.player.lyricsOpen && root.player.live
-        onLoaded: item.forceActiveFocus(Qt.PopupFocusReason)
+        onLoaded: {
+            if (root.player.ownsFocus())
+                item.forceActiveFocus(Qt.PopupFocusReason);
+        }
 
         sourceComponent: LyricsOverlay {
             player: root.player

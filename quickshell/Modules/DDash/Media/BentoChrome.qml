@@ -75,7 +75,17 @@ MediaChromeBase {
             Rectangle {
                 id: viewTogglePill
 
-                readonly property bool keyboardFocused: viewToggle.activeFocus && (root.Window.activeFocusItem?.visualFocus ?? false)
+                // Tab can focus a segment while the group itself has none.
+                readonly property bool keyboardFocused: {
+                    const item = root.Window.activeFocusItem;
+                    if (!(item?.visualFocus ?? false))
+                        return false;
+                    for (let p = item; p; p = p.parent) {
+                        if (p === viewToggle)
+                            return true;
+                    }
+                    return false;
+                }
                 readonly property bool revealed: artHover.hovered || keyboardFocused
 
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -102,6 +112,7 @@ MediaChromeBase {
                 DButtonGroup {
                     id: viewToggle
 
+                    focusRingColor: MediaAccentService.focusRing
                     anchors.centerIn: parent
                     size: "small"
                     checkEnabled: false
@@ -219,7 +230,10 @@ MediaChromeBase {
             width: parent.width
             height: parent.height - controls.y
             active: root.lyricsColumn && root.player.live
-            onLoaded: item.forceActiveFocus(Qt.PopupFocusReason)
+            onLoaded: {
+                if (root.player.ownsFocus())
+                    item.forceActiveFocus(Qt.PopupFocusReason);
+            }
 
             sourceComponent: LyricsOverlay {
                 player: root.player
@@ -397,6 +411,7 @@ MediaChromeBase {
 
                 DButton {
                     id: playerButton
+                    focusRingColor: MediaAccentService.focusRing
 
                     readonly property string panelId: "players"
 

@@ -68,22 +68,15 @@ FocusScope {
     clip: true
     LayoutMirroring.enabled: I18n.isRtl
     LayoutMirroring.childrenInherit: true
-    KeyNavigation.tab: !root.editMode && !tabOptions.shown && !pageActions.menuOpen ? root.tab?.focusTarget ?? null : null
 
     function focusFace() {
         pageActions.clearFocus();
-        const target = root.tab?.focusTarget ?? root;
-        if (typeof target.requestFocus === "function") {
-            target.requestFocus(false, Qt.OtherFocusReason);
-            return true;
-        }
-        target.forceActiveFocus(Qt.OtherFocusReason);
+        sheetHandle.focusTarget.focus = false;
+        tabLoader.focus = false;
+        root.forceActiveFocus(Qt.OtherFocusReason);
+        if (!root.editMode)
+            root.tab?.restoreFocus?.();
         return true;
-    }
-
-    function focusHeader(backwards) {
-        const targets = root.editMode ? pageActions.focusTargets : [sheetHandle.focusTarget];
-        targets[backwards ? targets.length - 1 : 0]?.forceActiveFocus(backwards ? Qt.BacktabFocusReason : Qt.TabFocusReason);
     }
 
     function reportHeight() {
@@ -98,44 +91,39 @@ FocusScope {
         pageActions.closeMenu();
         tabOptions.dismiss();
     }
+    // A switched-to face stays disabled until its fade is halfway, so take focus then.
+    onEnabledChanged: {
+        if (enabled && live && root.controller.keyboardDismissRequested && !activeFocus)
+            focusFace();
+    }
     onEditModeChanged: {
         root.controller.setEditing(root.activityId, editMode, DashMetrics.islandEditRoom);
-        if (!editMode) {
+        if (!editMode)
             panelResizer.cancel();
-            return;
-        }
         Qt.callLater(() => {
-            if (!root.live || !root.editMode)
-                return;
-            pageActions.clearFocus();
-            sheetHandle.focusTarget.focus = false;
-            tabLoader.focus = false;
-            root.forceActiveFocus(Qt.OtherFocusReason);
+            if (root.live)
+                root.focusFace();
         });
     }
 
-    Keys.onPressed: event => {
-        if (tabOptions.shown || pageActions.menuOpen)
-            return;
-        if (root.editMode && (event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab)) {
-            root.focusHeader(event.key === Qt.Key_Backtab || !!(event.modifiers & Qt.ShiftModifier));
-            event.accepted = true;
-            return;
-        }
-        if (root.tab?.handleKeyEvent?.(event) === true) {
-            event.accepted = true;
-            return;
-        }
-        if (!root.editMode && (event.key === Qt.Key_F2 || (event.key === Qt.Key_E && (event.modifiers & Qt.ControlModifier)))) {
-            root.editMode = true;
-            event.accepted = true;
-            return;
-        }
-        if (event.key !== Qt.Key_Escape || !root.editMode)
-            return;
-        root.editMode = false;
-        root.focusFace();
-        event.accepted = true;
+    Keys.onPressed: event => event.accepted = keyboard.handleKeyEvent(event)
+
+    DashKeyboard {
+        id: keyboard
+
+        active: root.live
+        editable: root.entryId !== ""
+        editMode: root.editMode
+        optionsShown: tabOptions.shown
+        menuOpen: pageActions.menuOpen
+        tabItem: root.tab
+        contentScope: tabLoader
+        contentTarget: root.tab?.focusTarget ?? null
+        headerTargets: root.editMode ? pageActions.focusTargets : [sheetHandle.focusTarget]
+        onTabCycleRequested: direction => root.controller.cycleDashTab(direction)
+        onEditModeRequested: on => root.editMode = on
+        onOptionsDismissRequested: tabOptions.dismiss()
+        onCloseRequested: root.controller.requestCollapse()
     }
 
     Item {
@@ -172,10 +160,7 @@ FocusScope {
             editMode: root.editMode
             panelResizable: true
             onOptionsRequested: tabOptions.presentFor(root.entryId)
-            onFinished: {
-                root.editMode = false;
-                root.focusFace();
-            }
+            onFinished: root.editMode = false
         }
     }
 
@@ -217,7 +202,7 @@ FocusScope {
         target: root.tab
         ignoreUnknownSignals: true
         function onNavFocusRequested(backwards) {
-            root.focusHeader(backwards);
+            keyboard.focusHeader(backwards);
         }
     }
 

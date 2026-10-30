@@ -358,6 +358,7 @@ FocusScope {
 
         DButton {
             id: followButton
+            focusRingColor: MediaAccentService.focusRing
             objectName: "followPlayback"
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
@@ -431,6 +432,7 @@ FocusScope {
             }
 
             DButton {
+                focusRingColor: MediaAccentService.focusRing
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: I18n.tr("Retry")
                 visible: root.controller.state === "error"
